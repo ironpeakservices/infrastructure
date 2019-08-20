@@ -6,3 +6,10 @@ module "scaleway" {
     ssh_public_key_path     = "${var.ssh_public_key_path}"
     ssh_private_key_path    = "${var.ssh_private_key_path}"
 }
+
+module "cloudflare" {
+    source                  = "./modules/cloudflare"
+    
+    cloudflare_email        = "${var.cloudflare_email}"
+    cloudflare_token        = "${var.cloudflare_token}"
+}
