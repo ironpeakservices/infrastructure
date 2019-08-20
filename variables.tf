@@ -15,5 +15,9 @@ variable "cloudflare_email" {
 }
 
 variable "cloudflare_token" {
+
+}
+
+variable "github_token" {
     
 }

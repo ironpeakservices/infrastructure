@@ -13,3 +13,10 @@ module "cloudflare" {
     cloudflare_email        = "${var.cloudflare_email}"
     cloudflare_token        = "${var.cloudflare_token}"
 }
+
+module "github" {
+    source                  = "./modules/github"
+
+    github_token            = "${var.github_token}"
+    github_organization     = "${var.github_organization}"
+}
