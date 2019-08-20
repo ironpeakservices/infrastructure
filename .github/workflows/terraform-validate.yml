@@ -1,0 +1,32 @@
+name: Terraform Validator
+on: [pull_request]
+
+jobs:
+  on-pull-request:
+    name: On Pull Request
+    runs-on: ubuntu-latest
+    steps:
+    - name: Filter to PR Opened
+      uses: actions/bin/filter@master
+      with:
+        args: "action 'opened|synchronize'"
+    
+    - name: Terraform - Format
+      uses: hashicorp/terraform-github-actions/fmt@v0.3.5
+      env:
+        TF_ACTION_WORKING_DIR: "."
+
+    - name: Terraform - Init
+      uses: hashicorp/terraform-github-actions/init@v0.3.5
+      env:
+        TF_ACTION_WORKING_DIR: "."
+
+    - name: Terraform - Validate
+      uses: hashicorp/terraform-github-actions/validate@v0.3.5
+      env:
+        TF_ACTION_WORKING_DIR: "."
+
+    - name: Terraform - Plan
+      uses: hashicorp/terraform-github-actions/plan@v0.3.5
+      env:
+        TF_ACTION_WORKING_DIR: "."
