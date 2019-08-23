@@ -1,12 +1,17 @@
-variable "region" {
-  default = "ams1"
-}
-
 variable "organization" {
-  default = "7e4b03e9-8d86-4a69-8001-309889fffbeb"
 }
 
 variable "api_token" {
+}
+
+variable "ssh_private_key_path" {
+}
+
+variable "ssh_public_key_path" {
+}
+
+variable "region" {
+  default = "ams1"
 }
 
 variable "manager_instance_type" {
@@ -26,13 +31,5 @@ variable "docker_api_ip" {
 }
 
 variable "ssh_port" {
-  default = "2234"
-}
-
-variable "ssh_private_key_path" {
-  default = "ssh.priv"
-}
-
-variable "ssh_public_key_path" {
-  default = "ssh.pub"
+  default = "22"
 }

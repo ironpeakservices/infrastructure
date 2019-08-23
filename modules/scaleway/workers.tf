@@ -51,6 +51,16 @@ resource "scaleway_server" "swarm_worker" {
     destination = "/etc/ssh/sshd_config"
   }
 
+  provisioner "remote-exec" {
+    inline = [
+      "systemctl daemon-reload",
+      "systemctl restart docker",
+      "systemctl restart ssh",
+      "docker swarm join --token ${data.external.swarm_tokens.result.worker} ${scaleway_server.swarm_manager.0.private_ip}:2377",
+    ]
+  }
+
+
   # drain worker on destroy
   provisioner "remote-exec" {
     when = "destroy"
@@ -95,5 +105,16 @@ resource "scaleway_server" "swarm_worker" {
       host = "${scaleway_ip.swarm_manager_ip.0.ip}"
     }
   }
+  depends_on = ["scaleway_server.swarm_manager"]
+}
+
+data "external" "swarm_tokens" {
+  program = ["${path.module}/scripts/fetch-tokens.sh"]
+
+  query = {
+    host = "${scaleway_ip.swarm_manager_ip.0.ip}"
+    sshkeypath = "${var.ssh_private_key_path}"
+  }
+
   depends_on = ["scaleway_server.swarm_manager"]
 }

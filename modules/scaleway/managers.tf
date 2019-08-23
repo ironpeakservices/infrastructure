@@ -61,6 +61,9 @@ resource "scaleway_server" "swarm_manager" {
 
   provisioner "remote-exec" {
     inline = [
+      "systemctl daemon-reload",
+      "systemctl restart docker",
+      "systemctl restart ssh",
       "docker swarm init --advertise-addr ${self.private_ip}",
     ]
   }
