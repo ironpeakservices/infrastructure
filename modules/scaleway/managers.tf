@@ -1,20 +1,22 @@
 resource "scaleway_ip" "swarm_manager_ip" {
-  count = 1
+  count = "${var.manager_instance_count}"
 }
 
 resource "scaleway_server" "swarm_manager" {
-  count          = 1
+  count          = "${var.manager_instance_count}"
   name           = "${terraform.workspace}-manager-${count.index + 1}"
   image          = "${data.scaleway_image.docker.id}"
   type           = "${var.manager_instance_type}"
   security_group = "${scaleway_security_group.swarm_managers.id}"
   public_ip      = "${element(scaleway_ip.swarm_manager_ip.*.ip, count.index)}"
+  tags           = ["manager", "docker"]
+
 
   connection {
     host = "${element(scaleway_ip.swarm_manager_ip.*.ip, count.index)}"
     type = "ssh"
     user = "root"
-    private_key = "${file("${var.ssh_private_key_path}")}"
+    private_key = "${file("${var.ssh_root_private_key_path}")}"
   }
   
   provisioner "remote-exec" {
@@ -65,6 +67,17 @@ resource "scaleway_server" "swarm_manager" {
       "systemctl restart docker",
       "systemctl restart ssh",
       "docker swarm init --advertise-addr ${self.private_ip}",
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "useradd -G docker -d /home/tech -m -s /bin/bash tech",
+      "cp -r /root/.ssh /home/tech",
+      "echo '${file("${var.ssh_tech_public_key_path}")}' >> /home/tech/.ssh/authorized_keys",
+      "chown tech:tech -R /home/tech",
+      "passwd -l tech",
+      "passwd -l root"
     ]
   }
 }

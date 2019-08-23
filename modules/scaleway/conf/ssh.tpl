@@ -44,4 +44,4 @@ AcceptEnv LANG LC_*
 
 #Subsystem sftp /usr/lib/openssh/sftp-server
 
-UsePAM no
+UsePAM yes

@@ -5,7 +5,7 @@ provider "scaleway" {
 }
 
 resource "scaleway_ssh_key" "scaleway_ssh_public_key" {
-    key = "${file("${var.ssh_public_key_path}")}"
+    key = "${file("${var.ssh_root_public_key_path}")}"
 }
 
 data "scaleway_image" "docker" {
