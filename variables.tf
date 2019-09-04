@@ -14,13 +14,13 @@ variable "ssh_tech_public_key_path" {
 }
 
 variable "cloudflare_email" {
-
 }
 
 variable "cloudflare_token" {
-
 }
 
 variable "github_token" {
-    
+}
+
+variable "github_org" {
 }
