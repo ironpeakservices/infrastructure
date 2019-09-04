@@ -2,11 +2,16 @@
 module "scaleway" {
     source                  = "./modules/scaleway"
 
-    api_token               = "${var.api_token}"
-    ssh_public_key_path     = "${var.ssh_public_key_path}"
-    ssh_private_key_path    = "${var.ssh_private_key_path}"
+    organization                 = "${var.scaleway_org}"
+    api_token                    = "${var.scaleway_token}"
+
+    ssh_root_public_key_path     = "${var.ssh_public_key_path}"
+    ssh_root_private_key_path    = "${var.ssh_private_key_path}"
+
+    ssh_tech_public_key_path     = "${var.ssh_tech_public_key_path}"
 }
 
+/*
 module "cloudflare" {
     source                  = "./modules/cloudflare"
     
@@ -20,3 +25,4 @@ module "github" {
     github_token            = "${var.github_token}"
     github_organization     = "${var.github_organization}"
 }
+*/

@@ -1,8 +1,10 @@
 resource "scaleway_security_group" "swarm_managers" {
   name                    = "swarm_managers"
   description             = "Whitelist HTTP(S) and SSH traffic"
+
   inbound_default_policy  = "drop"
   outbound_default_policy = "accept"
+  stateful                = true
 }
 
 resource "scaleway_security_group_rule" "ssh_accept" {
@@ -82,6 +84,7 @@ resource "scaleway_security_group" "swarm_workers" {
 
   inbound_default_policy  = "drop"
   outbound_default_policy = "accept"
+  stateful                = true
 }
 
 resource "scaleway_security_group_rule" "ssh_accept_workers" {
@@ -114,8 +117,6 @@ resource "scaleway_security_group_rule" "https_accept_workers" {
   port      = 443
 }
 
-/*
- * only for swarm managers
 resource "scaleway_security_group_rule" "swarm_tcp_2377_accept_workers" {
   security_group = "${scaleway_security_group.swarm_workers.id}"
 
@@ -125,7 +126,6 @@ resource "scaleway_security_group_rule" "swarm_tcp_2377_accept_workers" {
   protocol  = "TCP"
   port      = 2377
 }
-*/
 
 resource "scaleway_security_group_rule" "swarm_tcp_7946_accept_workers" {
   security_group = "${scaleway_security_group.swarm_workers.id}"
