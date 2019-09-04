@@ -6,6 +6,7 @@ ExecStart=/usr/bin/dockerd \
   --tlscacert=/certs/ca.pem \
   --tlscert=/certs/swarm-cert.pem \
   --tlskey=/certs/swarm-priv-key.pem \
+  --no-new-privileges \
   --storage-driver=overlay2 \
   --dns 1.1.1.1 --dns 1.0.0.1 \
   --log-driver json-file \
