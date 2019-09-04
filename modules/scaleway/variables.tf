@@ -4,6 +4,7 @@ variable "organization" {
 variable "api_token" {
 }
 
+
 variable "ssh_root_private_key_path" {
 }
 

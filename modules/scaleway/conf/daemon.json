@@ -1,0 +1,31 @@
+{
+    "dns": ["1.1.1.1", "1.0.0.1"],
+    
+    "disable-legacy-registry": true,
+    
+    "icc": false,
+    
+    "live-restore": true,
+     
+    "log-driver": "json-file",
+     "log-opts": {
+		"max-size": "10m",
+		"max-file":"10"
+    },
+    
+	"storage-driver": "overlay2",
+    
+    "userland-proxy": false,
+    
+    "userns-remap": "container:container",
+
+    "no-new-privileges": false,
+
+	"default-runtime": "runc",
+
+    "tls": true,
+	"tlsverify": true,
+	"tlscacert": "/etc/docker/certs/ca.pem",
+	"tlscert": "/etc/docker/certs/swarm-cert.pem",
+	"tlskey": "/etc/docker/certs/swarm-priv-key.pem"
+}
