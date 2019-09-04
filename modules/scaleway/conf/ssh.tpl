@@ -18,7 +18,7 @@ SyslogFacility AUTH
 LogLevel INFO
 
 LoginGraceTime 120
-PermitRootLogin no
+PermitRootLogin without-password
 StrictModes yes
 
 RSAAuthentication yes
@@ -44,4 +44,4 @@ AcceptEnv LANG LC_*
 
 #Subsystem sftp /usr/lib/openssh/sftp-server
 
-UsePAM no
+UsePAM yes

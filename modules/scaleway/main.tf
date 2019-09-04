@@ -4,6 +4,10 @@ provider "scaleway" {
   token         = "${var.api_token}"
 }
 
+resource "scaleway_ssh_key" "scaleway_ssh_public_key" {
+    key = "${file("${var.ssh_root_public_key_path}")}"
+}
+
 data "scaleway_image" "docker" {
   architecture = "x86_64"
   name         = "Docker"
@@ -13,7 +17,7 @@ data "template_file" "docker_conf" {
   template = "${file("${path.module}/conf/docker.tpl")}"
 
   vars = {
-    ip = "${var.docker_api_ip}"
+    //ip = "${var.docker_api_ip}"
   }
 }
 
@@ -23,8 +27,4 @@ data "template_file" "ssh_conf" {
   vars = {
     port = "${var.ssh_port}"
   }
-}
-
-resource "scaleway_ssh_key" "scaleway_ssh_public_key" {
-    key = "${file("${var.ssh_public_key_path}")}"
 }
