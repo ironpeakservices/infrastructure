@@ -64,6 +64,10 @@ resource "scaleway_server" "swarm_worker" {
 
   provisioner "remote-exec" {
     inline = [
+      "chmod 400 /etc/docker/certs/*",
+
+      "echo 'DOCKER_CONTENT_TRUST=1' | sudo tee -a /etc/environment",
+
       "passwd -l root",
 
       "useradd --groups docker --home-dir /home/tech --create-home --shell /bin/bash tech",

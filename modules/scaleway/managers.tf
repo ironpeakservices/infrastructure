@@ -32,7 +32,7 @@ resource "scaleway_server" "swarm_manager" {
   provisioner "local-exec" {
     command = "chmod +x ${path.module}/scripts/tlsgen-node.sh && ${path.module}/scripts/tlsgen-node.sh ${self.private_ip} ${self.public_ip}"
   }
-  
+
   provisioner "file" {
     source = "./certs/ca.pem"
     destination = "/etc/docker/certs/ca.pem"
@@ -70,6 +70,10 @@ resource "scaleway_server" "swarm_manager" {
 
   provisioner "remote-exec" {
     inline = [
+      "chmod 400 /etc/docker/certs/*",
+
+      "echo 'DOCKER_CONTENT_TRUST=1' | sudo tee -a /etc/environment",
+
       "passwd -l root",
 
       "useradd --groups docker --home-dir /home/tech --create-home --shell /bin/bash tech",

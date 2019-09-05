@@ -21,9 +21,13 @@
 
     "userns-remap": "container:container",
 
-    "no-new-privileges": false,
+    "no-new-privileges": true,
 
 	"default-runtime": "runc",
+
+    "content-trust": {
+        "mode": "permissive"
+    },
 
     "tls": true,
 	"tlsverify": true,
