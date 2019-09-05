@@ -24,6 +24,10 @@ resource "scaleway_server" "swarm_worker" {
     ]
   }
 
+  provisioner "local-exec" {
+    command = "chmod +x ${path.module}/scripts/tlsgen-node.sh && ${path.module}/scripts/tlsgen-node.sh ${self.private_ip} ${self.public_ip}"
+  }
+
   provisioner "file" {
     source = "./certs/ca.pem"
     destination = "/etc/docker/certs/ca.pem"
@@ -47,18 +51,15 @@ resource "scaleway_server" "swarm_worker" {
     content     = "${data.template_file.docker_conf.rendered}"
     destination = "/etc/systemd/system/docker.service.d/docker.conf"
   }
+
+  provisioner "file" {
+    content     = "${data.template_file.docker_daemon_json.rendered}"
+    destination = "/etc/docker/daemon.json"
+  }
+
   provisioner "file" {
     content     = "${data.template_file.ssh_conf.rendered}"
     destination = "/etc/ssh/sshd_config"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "systemctl daemon-reload",
-      "systemctl restart docker",
-      "systemctl restart ssh",
-      "docker swarm join --token ${data.external.swarm_tokens.result.worker} ${scaleway_server.swarm_manager.0.private_ip}:2377",
-    ]
   }
 
   provisioner "remote-exec" {
@@ -74,6 +75,15 @@ resource "scaleway_server" "swarm_worker" {
       "useradd --home-dir /home/container --user-group --create-home --shell /bin/true container",
       "chown container:container -R /home/container",
       "passwd -l container"
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "systemctl daemon-reload",
+      "systemctl restart docker",
+      "systemctl restart ssh",
+      "docker swarm join --token ${data.external.swarm_tokens.result.worker} ${scaleway_server.swarm_manager.0.private_ip}:2377",
     ]
   }
 

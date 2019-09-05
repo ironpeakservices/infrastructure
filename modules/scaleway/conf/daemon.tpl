@@ -1,22 +1,24 @@
 {
+	"hosts": ["unix://var/run/docker.sock", "tcp://0.0.0.0:2376"],
+
     "dns": ["1.1.1.1", "1.0.0.1"],
-    
+
     "disable-legacy-registry": true,
-    
+
     "icc": false,
-    
-    "live-restore": true,
-     
+
+    "live-restore": false,
+
     "log-driver": "json-file",
      "log-opts": {
 		"max-size": "10m",
 		"max-file":"10"
     },
-    
+
 	"storage-driver": "overlay2",
-    
+
     "userland-proxy": false,
-    
+
     "userns-remap": "container:container",
 
     "no-new-privileges": false,

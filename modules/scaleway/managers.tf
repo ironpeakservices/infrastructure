@@ -32,6 +32,7 @@ resource "scaleway_server" "swarm_manager" {
   provisioner "local-exec" {
     command = "chmod +x ${path.module}/scripts/tlsgen-node.sh && ${path.module}/scripts/tlsgen-node.sh ${self.private_ip} ${self.public_ip}"
   }
+  
   provisioner "file" {
     source = "./certs/ca.pem"
     destination = "/etc/docker/certs/ca.pem"
@@ -58,22 +59,13 @@ resource "scaleway_server" "swarm_manager" {
   }
 
   provisioner "file" {
-    source      = "${path.module}/conf/daemon.json"
+    content      = "${data.template_file.docker_daemon_json.rendered}"
     destination = "/etc/docker/daemon.json"
   }
 
   provisioner "file" {
     content     = "${data.template_file.ssh_conf.rendered}"
     destination = "/etc/ssh/sshd_config"
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "systemctl daemon-reload",
-      "systemctl restart docker",
-      "systemctl restart ssh",
-      "docker swarm init --advertise-addr ${self.private_ip}",
-    ]
   }
 
   provisioner "remote-exec" {
@@ -89,6 +81,15 @@ resource "scaleway_server" "swarm_manager" {
       "useradd --home-dir /home/container --user-group --create-home --shell /bin/true container",
       "chown container:container -R /home/container",
       "passwd -l container"
+    ]
+  }
+
+  provisioner "remote-exec" {
+    inline = [
+      "systemctl daemon-reload",
+      "systemctl restart docker",
+      "systemctl restart ssh",
+      "docker swarm init --advertise-addr ${self.private_ip}",
     ]
   }
 
