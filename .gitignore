@@ -1,4 +1,4 @@
 *.tfstate
 *.tfstate.backup
 certs/
-secrets.tfvars
+*.tfvars
