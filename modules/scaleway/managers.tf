@@ -16,7 +16,7 @@ resource "scaleway_server" "swarm_manager" {
     host = "${element(scaleway_ip.swarm_manager_ip.*.ip, count.index)}"
     type = "ssh"
     user = "root"
-    private_key = "${file("${var.ssh_root_private_key_path}")}"
+    private_key = "${var.ssh_root_private_key}"
   }
   
   provisioner "remote-exec" {
@@ -78,7 +78,7 @@ resource "scaleway_server" "swarm_manager" {
 
       "useradd --groups docker --home-dir /home/tech --create-home --shell /bin/bash tech",
       "mkdir /home/tech/.ssh/",
-      "echo '${file("${var.ssh_tech_public_key_path}")}' > /home/tech/.ssh/authorized_keys",
+      "echo '${var.ssh_tech_public_key}' > /home/tech/.ssh/authorized_keys",
       "chown tech:tech -R /home/tech",
       "passwd -l tech",
       
