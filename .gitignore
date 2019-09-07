@@ -2,3 +2,4 @@
 *.tfstate.backup
 certs/
 *.tfvars
+.terraform/
