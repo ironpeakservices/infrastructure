@@ -19,10 +19,15 @@ jobs:
       uses: hashicorp/terraform-github-actions/validate@v0.3.5
       env:
         TF_ACTION_WORKING_DIR: "."
-      with:
-        args: .
 
     - name: Terraform - Plan
       uses: hashicorp/terraform-github-actions/plan@v0.3.5
       env:
         TF_ACTION_WORKING_DIR: "."
+        TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
+        TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_cloudflare_token }}
+        TF_VAR_github_org: ${{ secrets.TF_VAR_github_org }}
+        TF_VAR_github_token: ${{ secrets.TF_VAR_github_token }}
+        TF_VAR_scaleway_org: ${{ secrets. TF_VAR_scaleway_org }}
+        TF_VAR_scaleway_token: ${{ secrets.TF_VAR_scaleway_token }}
+
