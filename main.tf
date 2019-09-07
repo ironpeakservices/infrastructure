@@ -11,7 +11,6 @@ module "scaleway" {
     ssh_tech_public_key     = "${var.ssh_tech_public_key}"
 }
 
-/*
 module "cloudflare" {
     source                  = "./modules/cloudflare"
     
@@ -23,6 +22,5 @@ module "github" {
     source                  = "./modules/github"
 
     github_token            = "${var.github_token}"
-    github_organization     = "${var.github_organization}"
+    github_organization     = "${var.github_org}"
 }
-*/
