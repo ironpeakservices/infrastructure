@@ -1,14 +1,17 @@
-name: PR Check
-on: [pull_request]
+name: Deploy
+on:
+  push:
+    branches:
+    - master
 
 jobs:
-  on-pull-request:
+  deploy:
     name: Terraform
     runs-on: ubuntu-latest
     steps:
     
     - name: Checkout code
-      uses: actions/checkout@master
+      uses: actions/checkout@v1.0.0
 
     - name: Terraform - Init
       uses: hashicorp/terraform-github-actions/init@v0.3.7
@@ -32,5 +35,19 @@ jobs:
         TF_VAR_scaleway_token: ${{ secrets.TF_VAR_scaleway_token }}
         TF_VAR_ssh_root_public_key: ${{ secrets.TF_VAR_ssh_root_public_key }}
         TF_VAR_ssh_root_private_key: ${{ secrets.TF_VAR_ssh_root_private_key }}
-        TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}     
+        TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}
+
+    - name: Terraform - Apply
+      uses: hashicorp/terraform-github-actions/apply@v0.3.7
+      env:
+        TF_ACTION_WORKING_DIR: "."
+        TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
+        TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_cloudflare_token }}
+        TF_VAR_github_org: ${{ secrets.TF_VAR_github_org }}
+        TF_VAR_github_token: ${{ secrets.TF_VAR_github_token }}
+        TF_VAR_scaleway_org: ${{ secrets. TF_VAR_scaleway_org }}
+        TF_VAR_scaleway_token: ${{ secrets.TF_VAR_scaleway_token }}
+        TF_VAR_ssh_root_public_key: ${{ secrets.TF_VAR_ssh_root_public_key }}
+        TF_VAR_ssh_root_private_key: ${{ secrets.TF_VAR_ssh_root_private_key }}
+        TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}   
 
