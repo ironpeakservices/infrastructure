@@ -12,13 +12,9 @@ jobs:
 
     - name: Terraform - Init
       uses: hashicorp/terraform-github-actions/init@v0.3.7
-      env:
-        TF_ACTION_WORKING_DIR: "."
 
     - name: Terraform - Validate
       uses: hashicorp/terraform-github-actions/validate@v0.3.7
-      env:
-        TF_ACTION_WORKING_DIR: "."
 
     - name: Terraform - Plan
       uses: hashicorp/terraform-github-actions/plan@v0.3.7
@@ -33,4 +29,3 @@ jobs:
         TF_VAR_ssh_root_public_key: ${{ secrets.TF_VAR_ssh_root_public_key }}
         TF_VAR_ssh_root_private_key: ${{ secrets.TF_VAR_ssh_root_private_key }}
         TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}     
-
