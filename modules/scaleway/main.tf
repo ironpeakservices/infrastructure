@@ -9,7 +9,7 @@ resource "scaleway_ssh_key" "scaleway_ssh_public_key" {
 }
 
 data "scaleway_image" "docker" {
-  architecture = "x86_64"
+  architecture = "${var.node_arch}"
   name         = "Docker"
 }
 

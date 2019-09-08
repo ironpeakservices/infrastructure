@@ -5,6 +5,6 @@ resource "github_branch_protection" "ironpeak--be_master" {
   require_signed_commits = false
 
   required_status_checks {
-    strict         = true
+    strict = true
   }
 }

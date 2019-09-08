@@ -52,7 +52,6 @@ resource "scaleway_server" "swarm_manager" {
     ]
   }
 
-
   provisioner "file" {
     content     = "${data.template_file.docker_conf.rendered}"
     destination = "/etc/systemd/system/docker.service.d/docker.conf"
