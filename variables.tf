@@ -1,3 +1,9 @@
+variable "state_access_key" {
+}
+
+variable "state_secret_key" {
+}
+
 variable "scaleway_token" {
 }
 

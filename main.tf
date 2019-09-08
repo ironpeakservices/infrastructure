@@ -1,3 +1,13 @@
+terraform {
+    backend "s3" {
+        access_key  = "${var.state_access_key}"
+        secret_key  = "${var.state_secret_key}"
+        endpoint    = "https://s3.wasabisys.com"
+        bucket      = "ironpeak-tf-state"
+        key         = "terraform.tfstate"
+        region      = "eu-central-1"
+    }
+}
 
 module "scaleway" {
     source                  = "./modules/scaleway"
