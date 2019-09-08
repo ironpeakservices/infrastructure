@@ -1,13 +1,13 @@
-name: Terraform Validator
+name: PR Check
 on: [pull_request]
 
 jobs:
   on-pull-request:
-    name: On Pull Request
+    name: Terraform
     runs-on: ubuntu-latest
     steps:
     
-    - name: checkout
+    - name: Checkout code
       uses: actions/checkout@master
 
     - name: Terraform - Init
