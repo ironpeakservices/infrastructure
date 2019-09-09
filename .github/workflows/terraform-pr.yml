@@ -11,7 +11,16 @@ jobs:
       uses: actions/checkout@master
       
     - name: Decrypt secrets
-      run: openssl enc -aes-256-cbc -salt -in terraform.tfstate.enc -out terraform.tfstate -d -pass env:STATE_PASSWORD
+      run: |
+        if [ -f "terraform.tfstate" ]; then
+          echo "State found in repo!"
+          exit 1
+        fi
+        if [ ! -f "terraform.tfstate.enc" ]; then
+          echo "No state found, starting fresh (!)"
+          exit 0
+        fi
+        openssl enc -aes-256-cbc -salt -in terraform.tfstate.enc -out terraform.tfstate -d -pass env:STATE_PASSWORD
       env:
         STATE_PASSWORD: ${{ secrets.TF_STATE_SECRET }}
 
