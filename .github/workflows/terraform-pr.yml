@@ -11,7 +11,6 @@ jobs:
       uses: actions/checkout@master
       
     - name: Decrypt secrets
-      uses: actions/bin/sh@master
       run: openssl enc -aes-256-cbc -salt -in terraform.tfstate.enc -out terraform.tfstate -d -pass env:STATE_PASSWORD
       env:
         STATE_PASSWORD: ${{ secrets.TF_STATE_SECRET }}
