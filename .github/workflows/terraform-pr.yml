@@ -9,6 +9,12 @@ jobs:
     
     - name: Checkout code
       uses: actions/checkout@master
+      
+    - name: Decrypt secrets
+      uses: actions/bin/sh@master
+      args: openssl enc -aes-256-cbc -salt -in terraform.tfstate.enc -out terraform.tfstate -d -pass env:STATE_PASSWORD
+      env:
+        STATE_PASSWORD: ${{ secrets.TF_STATE_SECRET }}
 
     - name: Terraform - Init
       uses: hashicorp/terraform-github-actions/init@v0.3.7
