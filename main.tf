@@ -1,23 +1,3 @@
-terraform {
-  backend "s3" {}
-}
-
-data "terraform_remote_state" "state" {
-  backend = "s3"
-  config {
-        skip_requesting_account_id  = true
-        skip_credentials_validation = true
-        skip_get_ec2_platforms      = true
-        skip_metadata_api_check     = true
-        access_key  = "${var.state_access_key}"
-        secret_key  = "${var.state_secret_key}"
-        endpoint    = "https://s3.wasabisys.com"
-        bucket      = "ironpeak-tf-state"
-        key         = "terraform.tfstate"
-        region      = "eu-central-1"
-    }
-}
-
 module "scaleway" {
     source                  = "./modules/scaleway"
 
