@@ -4,13 +4,13 @@ variable "organization" {
 variable "api_token" {
 }
 
-variable "ssh_root_private_key_path" {
+variable "ssh_root_private_key" {
 }
 
-variable "ssh_root_public_key_path" {
+variable "ssh_root_public_key" {
 }
 
-variable "ssh_tech_public_key_path" {
+variable "ssh_tech_public_key" {
 }
 
 variable "region" {
@@ -43,4 +43,8 @@ variable "ssh_port" {
 
 variable "private_subnet" {
   default = "10.0.0.0/8"
+}
+
+variable "node_arch" {
+  default = "x86_64"
 }
