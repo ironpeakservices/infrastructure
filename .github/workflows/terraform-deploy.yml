@@ -14,17 +14,19 @@ jobs:
       uses: actions/checkout@v1.0.0
 
     - name: Decrypt secrets
-      run: |
-        if [ -f "terraform.tfstate" ]; then
-          echo "State found in repo!"
-          exit 1
-        fi
-        if [ ! -f "terraform.tfstate.enc" ]; then
-          echo "No state found, starting fresh (!)"
-          exit 0
-        fi
-        openssl enc -aes-256-cbc -salt -in terraform.tfstate.enc -out terraform.tfstate -d -pass env:STATE_PASSWORD
-        rm terraform.tfstate.enc
+      uses: actions/bin/sh@master
+      with:
+        args: |
+          if [ -f "terraform.tfstate" ]; then
+            echo "State found in repo!"
+            exit 1
+          fi
+          if [ ! -f "terraform.tfstate.enc" ]; then
+            echo "No state found, starting fresh (!)"
+            exit 0
+          fi
+          openssl enc -aes-256-cbc -salt -in terraform.tfstate.enc -out terraform.tfstate -d -pass env:STATE_PASSWORD
+          rm terraform.tfstate.enc
       env:
         STATE_PASSWORD: ${{ secrets.TF_STATE_SECRET }}
 
@@ -63,24 +65,28 @@ jobs:
         TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}
 
     - name: Re-encrypt secrets
-      run: |
-        if [ ! -f "terraform.tfstate" ]; then
-          echo "State not found in repo after apply!"
-          exit 1
-        fi
-        openssl enc -aes-256-cbc -salt -in terraform.tfstate -out terraform.tfstate.enc -pass env:STATE_PASSWORD
-        rm terraform.tfstate
+      uses: actions/bin/sh@master
+      with:
+        args: |
+          if [ ! -f "terraform.tfstate" ]; then
+            echo "State not found in repo after apply!"
+            exit 1
+          fi
+          openssl enc -aes-256-cbc -salt -in terraform.tfstate -out terraform.tfstate.enc -pass env:STATE_PASSWORD
+          rm terraform.tfstate
       env:
         STATE_PASSWORD: ${{ secrets.TF_STATE_SECRET }}
 
     - name: Git commit new state
-      run: |
-        if [ ! -f "terraform.tfstate.enc" ]; then
-          echo "State not found in repo after apply!"
-          exit 1
-        fi
-        git add terraform.tfstate.enc
-        git commit -m "chore(state): update state"
-        git push
+      uses: actions/bin/sh@master
+      with:
+        args: |
+          if [ ! -f "terraform.tfstate.enc" ]; then
+            echo "State not found in repo after apply!"
+            exit 1
+          fi
+          git add terraform.tfstate.enc
+          git commit -m "chore(state): update state"
+          git push
 
 
