@@ -1,13 +1,3 @@
-resource "cloudflare_record" "A_ironpeak--be_168f1fc179f7ed3a6d313a177364c43b" {
-  domain   = "ironpeak.be"
-  name     = "home.ironpeak.be"
-  priority = "0"
-  proxied  = false
-  ttl      = "1"
-  type     = "A"
-  value    = "94.224.89.89"
-}
-
 resource "cloudflare_record" "A_ironpeak--services_e469584fda2002ffaf88ffa02c3fbac0" {
   domain   = "ironpeak.services"
   name     = "ironpeak.services"
@@ -31,16 +21,6 @@ resource "cloudflare_record" "CNAME_ironpeak--be_4a025073d0c88466a5c8e370ce158b0
 resource "cloudflare_record" "CNAME_ironpeak--be_991601d72e65af2522b6de4965605a1a" {
   domain   = "ironpeak.be"
   name     = "www.ironpeak.be"
-  priority = "0"
-  proxied  = false
-  ttl      = "1"
-  type     = "A"
-  value    = "94.224.89.89"
-}
-
-resource "cloudflare_record" "CNAME_ironpeak--be_a226e8c58cf13ee0e113f5f7406ef29c" {
-  domain   = "ironpeak.be"
-  name     = "plex.ironpeak.be"
   priority = "0"
   proxied  = false
   ttl      = "1"
