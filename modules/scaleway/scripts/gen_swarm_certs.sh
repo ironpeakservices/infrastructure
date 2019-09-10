@@ -1,4 +1,5 @@
-#!/usr/bin/env bash 
+#!/bin/sh
+
 generate_CA () {
   type openssl >/dev/null 2>&1 || { echo >&2 "OpenSSL is required on your local machine to generate the CA."; exit 1; } && \
   openssl genrsa -out certs/ca-key.pem 2048 && \

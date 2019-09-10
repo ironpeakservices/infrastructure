@@ -80,7 +80,7 @@ jobs:
           exit 1
         fi
         git add terraform.tfstate.enc
-        git commit -m "chore(state): added new state"
+        git commit -m "chore(state): update state"
         git push
 
 

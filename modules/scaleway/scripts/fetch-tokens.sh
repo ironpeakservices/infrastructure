@@ -1,6 +1,4 @@
-#!/usr/bin/env bash
-
-#!/usr/bin/env bash
+#!/bin/sh
 
 # Processing JSON in shell scripts
 # https://www.terraform.io/docs/providers/external/data_source.html#processing-json-in-shell-scripts
