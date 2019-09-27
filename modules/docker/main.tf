@@ -27,7 +27,7 @@ data "external" "swarm_tokens" {
 // ----
 
 module "node" {
-    source = "./modules/node"
+    source = "../modules/node"
 
     organization            = "${var.scaleway_organization}"
     api_token               = "${var.scaleway_api_token}"
