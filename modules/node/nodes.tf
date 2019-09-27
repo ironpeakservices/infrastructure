@@ -42,7 +42,11 @@ resource "scaleway_server" "instance" {
 
       "systemctl daemon-reload",
       "systemctl restart ssh",
+    ]
+  }
 
+  provisioner "remote-exec" {
+    inline = [
       for cmd in var.commands:
       cmd
     ]
