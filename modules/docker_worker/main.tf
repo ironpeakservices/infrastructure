@@ -1,5 +1,5 @@
 module "docker" {
-    source = "../modules/docker"
+    source = "./modules/docker"
 
     is_master            = false
     
