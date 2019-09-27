@@ -45,3 +45,8 @@ variable "tags" {
   type    = "list"
   default = []
 }
+
+variable "commands" {
+  type    = "list"
+  default = []
+}
