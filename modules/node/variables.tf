@@ -1,7 +1,7 @@
-variable "organization" {
+variable "scaleway_organization" {
 }
 
-variable "api_token" {
+variable "scaleway_api_token" {
 }
 
 variable "ssh_root_private_key" {
@@ -13,7 +13,7 @@ variable "ssh_root_public_key" {
 variable "ssh_tech_public_key" {
 }
 
-variable "region" {
+variable "scaleway_region" {
   default = "ams1"
 }
 
@@ -23,14 +23,6 @@ variable "manager_instance_type" {
 
 variable "worker_instance_type" {
   default = "DEV1-S"
-}
-
-variable "worker_instance_count" {
-  default = 1
-}
-
-variable "manager_instance_count" {
-  default = 1
 }
 
 variable "ssh_port" {
@@ -43,4 +35,13 @@ variable "private_subnet" {
 
 variable "node_arch" {
   default = "x86_64"
+}
+
+variable "instance_count" {
+  default = 1
+}
+
+variable "tags" {
+  type    = "list"
+  default = []
 }
