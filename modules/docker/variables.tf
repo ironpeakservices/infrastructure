@@ -13,7 +13,6 @@ variable "docker_api_ip" {
 }
 
 variable "is_master" {
-    type    = "bool"
     default = false
 }
 
