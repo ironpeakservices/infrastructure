@@ -36,9 +36,7 @@ module "node" {
     ssh_tech_public_key     = "${var.ssh_tech_public_key}"
     instance_count          = "${var.instance_count}"
     tags                    = var.tags
-    commands                = var.is_master
-        ? ["docker swarm init --advertise-addr ${self.private_ip}"]
-        : ["docker swarm join --token ${data.external.swarm_tokens.result.worker} ${scaleway_server.swarm_manager.0.private_ip}:2377",]
+    commands                = var.is_master ? ["docker swarm init --advertise-addr ${self.private_ip}"] : ["docker swarm join --token ${data.external.swarm_tokens.result.worker} ${scaleway_server.swarm_manager.0.private_ip}:2377",]
 
     # create the directory to
     provisioner "remote-exec" {
