@@ -9,6 +9,5 @@ variable "scaleway_organization" {}
 variable "scaleway_api_token" {}
 
 variable "worker_instance_count" {
-    type    = "number"
     default = 1
 }

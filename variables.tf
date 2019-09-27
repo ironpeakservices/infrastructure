@@ -11,12 +11,10 @@ variable "ssh_tech_public_key" {}
 // ---
 
 variable swarm_master_count {
-    type    = "number"
     default = 1
 }
 
 variable swarm_worker_count {
-    type    = "number"
     default = 1
 }
 

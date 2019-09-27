@@ -18,7 +18,6 @@ variable "is_master" {
 }
 
 variable "instance_count" {
-  type    = "number"
   default = 1
 }
 
