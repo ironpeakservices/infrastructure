@@ -33,10 +33,6 @@ variable "manager_instance_count" {
   default = 1
 }
 
-variable "docker_api_ip" {
-  default = "127.0.0.1"
-}
-
 variable "ssh_port" {
   default = "22"
 }
