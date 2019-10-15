@@ -50,11 +50,6 @@ variable "tags" {
   default = []
 }
 
-variable "commands" {
-  type    = "list"
-  default = []
-}
-
 variable "open_tcp_ports" {
   type  = "list"
   default = [22]

@@ -28,3 +28,7 @@ variable "tags" {
 variable "ssh_port" {
   default = 22
 }
+
+variable "swarm_advertise_port" {
+  default = 2377
+}

@@ -17,11 +17,12 @@ data "external" "swarm_tokens" {
     program = ["${path.module}/scripts/fetch-tokens.sh"]
 
     query = {
-        host = "${scaleway_instance_ip.node_ip.0.ip}"
+        host = "${module.node.0.public_ip}"
+        user = "root"
         sshkeypath = "${var.ssh_root_private_key}"
     }
 
-    depends_on = ["scaleway_instance_server.instance"]
+    //depends_on = ["scaleway_instance_server.instance"]
 }
 
 // ----
@@ -29,11 +30,9 @@ data "external" "swarm_tokens" {
 locals {
   instanceTcpPorts = ["${var.ssh_port}", 80, 433, 7946]
   instanceUdpPorts = [7946, 4789]
-  instance_commands= ["docker swarm join --token ${data.external.swarm_tokens.result.worker} ${scaleway_instance_server.instance.0.private_ip}:2377",]
 
-  managerTcpPorts  = ["${var.ssh_port}", 80, 433, 7946, 2377]
+  managerTcpPorts  = ["${var.ssh_port}", 80, 433, 7946, "${var.swarm_advertise_port}"]
   managerUdpPorts  = [7946, 4789]
-  manager_commands = ["docker swarm init --advertise-addr ${scaleway_instance_server.instance.0.public_ip}"]
 }
 
 module "node" {
@@ -47,7 +46,6 @@ module "node" {
     instance_count          = "${var.instance_count}"
     tags                    = var.tags
     ssh_port                = "${var.ssh_port}"
-    commands                = var.is_master ? local.manager_commands : local.instance_commands
     open_tcp_ports          = var.is_master ? local.managerTcpPorts  : local.instanceTcpPorts
     open_udp_ports          = var.is_master ? local.managerUdpPorts  : local.instanceUdpPorts
 }
@@ -55,13 +53,13 @@ module "node" {
 resource "null_resource" "swarm_cluster" {
     # Changes to any instance of the cluster requires re-provisioning
     triggers = {
-        server_ids = "${join(",", scaleway_instance_server.instance.*.id)}"
+        server_ids = "${join(",", module.node.*.instance_id)}"
     }
 
     # Bootstrap script can run on any instance of the cluster
     # So we just choose the first in this case
     connection {
-        host = "${element(scaleway_instance_server.instance.*.public_ip, 0)}"
+        host = "${module.node.public_ip}"
         type = "ssh"
         user = "root"
         private_key = "${var.ssh_root_private_key}"
@@ -85,7 +83,7 @@ resource "null_resource" "swarm_cluster" {
 
     # generate the required swarm certificate & key
     provisioner "local-exec" {
-        command = "chmod +x ${path.module}/scripts/tlsgen-node.sh && ${path.module}/scripts/tlsgen-node.sh ${self.private_ip} ${self.public_ip}"
+        command = "chmod +x ${path.module}/scripts/tlsgen-node.sh && ${path.module}/scripts/tlsgen-node.sh ${module.node.private_ip} ${module.node.public_ip}"
     }
 
     # install docker swarm ca cert
@@ -96,13 +94,13 @@ resource "null_resource" "swarm_cluster" {
 
     # install docker swarm private key
     provisioner "file" {
-        source = "./certs/${self.private_ip}/server-key.pem"
+        source = "./certs/${module.node.private_ip}/server-key.pem"
         destination = "/etc/docker/certs/swarm-priv-key.pem"
     }
 
     # install docker swarm cert
     provisioner "file" {
-        source = "./certs/${self.private_ip}/server-cert.pem"
+        source = "./certs/${module.node.private_ip}/server-cert.pem"
         destination = "/etc/docker/certs/swarm-cert.pem"
     }
 
@@ -168,20 +166,24 @@ resource "null_resource" "swarm_cluster" {
         ]
     }
 
+    provisioner "remote-exec" {
+        inline = var.is_master ? ["docker swarm init --advertise-addr ${module.node.*.private_ip}:${var.swarm_advertise_port}"] : ["docker swarm join --token ${data.external.swarm_tokens.result.worker} ${module.node.0.private_ip}:2377",]
+    }
+
     # drain worker on destroy
     provisioner "remote-exec" {
         when = "destroy"
 
         inline = [
-        "docker node update --availability drain ${self.name}",
+            "docker node update --availability drain",
         ]
 
         on_failure = "continue"
 
         connection {
-        type = "ssh"
-        user = "root"
-        host = "${scaleway_ip.swarm_manager_ip.0.ip}"
+            type = "ssh"
+            user = "root"
+            host = "${module.node.public_ip}"
         }
     }
 
@@ -190,10 +192,16 @@ resource "null_resource" "swarm_cluster" {
         when = "destroy"
 
         inline = [
-        "docker swarm leave",
+            "docker swarm leave",
         ]
 
         on_failure = "continue"
+
+        connection {
+            type = "ssh"
+            user = "root"
+            host = "${module.node.public_ip}"
+        }
     }
 
     # remove node on destroy
@@ -201,15 +209,15 @@ resource "null_resource" "swarm_cluster" {
         when = "destroy"
 
         inline = [
-        "docker node rm --force ${self.name}",
+            "docker node rm --force",
         ]
 
         on_failure = "continue"
 
         connection {
-        type = "ssh"
-        user = "root"
-        host = "${scaleway_ip.swarm_manager_ip.0.ip}"
+            type = "ssh"
+            user = "root"
+            host = "${module.node.public_ip}"
         }
     }
 

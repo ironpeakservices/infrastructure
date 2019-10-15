@@ -21,13 +21,12 @@ resource "scaleway_instance_server" "instance" {
   type           = "${var.manager_instance_type}"
 
   security_group_id  = "${scaleway_instance_security_group.node_rules.id}"
-  public_ip          = "${element(scaleway_ip.swarm_manager_ip.*.ip, count.index)}"
-  placement_group_id = "${availability_group.availability_group.id}"
+  placement_group_id = "${scaleway_instance_placement_group.availability_group.id}"
   tags               = var.tags
 
   # how to connect to scaleway instance
   connection {
-    host = "${element(scaleway_ip.node_ip.*.ip, count.index)}"
+    host = "${element(scaleway_instance_ip.node_ip.*.ip, count.index)}"
     type = "ssh"
     user = "root"
     private_key = "${var.ssh_root_private_key}"
@@ -53,13 +52,6 @@ resource "scaleway_instance_server" "instance" {
 
       "systemctl daemon-reload",
       "systemctl restart ssh",
-    ]
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      for cmd in var.commands:
-      cmd
     ]
   }
 
