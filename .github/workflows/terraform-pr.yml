@@ -13,6 +13,7 @@ jobs:
     - name: Decrypt secrets
       env:
         STATE_PASSWORD: ${{ secrets.TF_STATE_SECRET }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         if [ -f "terraform.tfstate" ]; then
           echo "State found in repo!"
