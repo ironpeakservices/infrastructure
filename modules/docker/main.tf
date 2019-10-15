@@ -167,7 +167,7 @@ resource "null_resource" "swarm_cluster" {
     }
 
     provisioner "remote-exec" {
-        inline = var.is_master ? ["docker swarm init --advertise-addr ${module.node.*.private_ip}:${var.swarm_advertise_port}"] : ["docker swarm join --token ${data.external.swarm_tokens.result.worker} ${module.node.0.private_ip}:2377",]
+        inline = var.is_master ? ["docker swarm init --advertise-addr ${module.node.private_ip}:${var.swarm_advertise_port}"] : ["docker swarm join --token ${data.external.swarm_tokens.result.worker} ${module.node.0.private_ip}:2377",]
     }
 
     # drain worker on destroy
