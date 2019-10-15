@@ -1,5 +1,5 @@
 provider "cloudflare" {
-    version = "~> 1.18.1"
+    version = "~> 2.0"
 }
 
 provider "external" {
