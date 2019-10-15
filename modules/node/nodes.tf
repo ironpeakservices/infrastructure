@@ -10,7 +10,7 @@ resource "scaleway_server" "instance" {
   name           = "${terraform.workspace}-manager-${count.index + 1}"
   image          = "${data.scaleway_image.docker.id}"
   type           = "${var.manager_instance_type}"
-  security_group = "${scaleway_security_group.swarm_manager.id}"
+  security_group = "${scaleway_instance_security_group.node_rules.id}"
   public_ip      = "${element(scaleway_ip.swarm_manager_ip.*.ip, count.index)}"
   tags           = var.tags
 

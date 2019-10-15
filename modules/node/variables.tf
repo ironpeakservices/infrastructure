@@ -14,7 +14,11 @@ variable "ssh_tech_public_key" {
 }
 
 variable "scaleway_region" {
-  default = "ams1"
+  default = "nl-ams"
+}
+
+variable "scaleway_zone" {
+  default = "nl-ams-1"
 }
 
 variable "manager_instance_type" {
@@ -48,5 +52,15 @@ variable "tags" {
 
 variable "commands" {
   type    = "list"
+  default = []
+}
+
+variable "open_tcp_ports" {
+  type  = "list"
+  default = [22]
+}
+
+variable "open_udp_ports" {
+  type  = "list"
   default = []
 }

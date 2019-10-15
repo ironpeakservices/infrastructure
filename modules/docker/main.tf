@@ -26,17 +26,27 @@ data "external" "swarm_tokens" {
 
 // ----
 
+locals {
+  instanceTcpPorts = ["${var.ssh_port}", 80, 433, 7946]
+  instanceUdpPorts = [7946, 4789]
+
+  managerTcpPorts  = ["${var.ssh_port}", 80, 433, 7946, 2377]
+  managerUdpPorts  = [7946, 4789]
+}
+
 module "node" {
     source = "../node"
 
-    organization            = "${var.scaleway_organization}"
-    api_token               = "${var.scaleway_api_token}"
+    scaleway_organization   = "${var.scaleway_organization}"
+    scaleway_api_token      = "${var.scaleway_api_token}"
     ssh_root_private_key    = "${var.ssh_root_private_key}"
     ssh_root_public_key     = "${var.ssh_root_public_key}"
     ssh_tech_public_key     = "${var.ssh_tech_public_key}"
     instance_count          = "${var.instance_count}"
     tags                    = var.tags
     commands                = var.is_master ? ["docker swarm init --advertise-addr ${self.private_ip}"] : ["docker swarm join --token ${data.external.swarm_tokens.result.worker} ${scaleway_server.swarm_manager.0.private_ip}:2377",]
+    open_tcp_ports          = var.is_master ? managerTcpPorts : instanceTcpPorts
+    open_udp_ports          = var.is_master ? managerUdpPorts : instanceUdpPorts
 
     # create the directory to
     provisioner "remote-exec" {
