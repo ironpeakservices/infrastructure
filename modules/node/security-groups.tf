@@ -4,7 +4,6 @@ resource "scaleway_instance_security_group" "node_rules" {
 
   inbound_default_policy  = "drop"
   outbound_default_policy = "accept"
-  stateful                = true
 
   dynamic "inbound_rule" {
     for_each = local.open_tcp_ports
