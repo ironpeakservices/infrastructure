@@ -1,6 +1,9 @@
 locals {
-  tcpPorts = ["${var.ssh_port}", 80, 433, 2377, 7946]
-  udpPorts = [7946, 4789]
+  instanceTcpPorts = ["${var.ssh_port}", 80, 433, 7946]
+  instanceUdpPorts = [7946, 4789]
+
+  managerTcpPorts  = ["${var.ssh_port}", 80, 433, 2377, 7946]
+  managerUdpPorts  = [7946, 4789]
 }
 
 resource "scaleway_security_group" "swarm_instance" {
@@ -22,6 +25,33 @@ resource "scaleway_security_group" "swarm_instance" {
 
   dynamic "inbound_rule" {
     for_each = local.udpPorts
+    content {
+      action    = "accept"
+      port      = inbound_rule.value
+      protocol  = "UDP"
+    }
+  }
+}
+
+resource "scaleway_security_group" "swarm_manager" {
+  name        = "swarm_managers"
+  description = "Allow SSH, HTTP(S) and internal Swarm traffic"
+
+  inbound_default_policy  = "drop"
+  outbound_default_policy = "accept"
+  stateful                = true
+
+  dynamic "inbound_rule" {
+    for_each = local.managerTcpPorts
+    content {
+      action    = "accept"
+      port      = inbound_rule.value
+      protocol  = "TCP"
+    }
+  }
+
+  dynamic "inbound_rule" {
+    for_each = local.managerUdpPorts
     content {
       action    = "accept"
       port      = inbound_rule.value
