@@ -1,7 +1,7 @@
 provider "scaleway" {
-  region        = "${var.scaleway_region}"
-  organization  = "${var.scaleway_organization}"
-  token         = "${var.scaleway_api_token}"
+  region           = "${var.scaleway_region}"
+  organization_id  = "${var.scaleway_organization}"
+  secret_key       = "${var.scaleway_api_token}"
 }
 
 resource "scaleway_ssh_key" "scaleway_ssh_public_key" {

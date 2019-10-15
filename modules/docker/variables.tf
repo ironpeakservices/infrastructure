@@ -24,3 +24,7 @@ variable "tags" {
   type    = "list"
   default = [ "docker" ]
 }
+
+variable "ssh_port" {
+  default = 22
+}

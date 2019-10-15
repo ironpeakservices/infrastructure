@@ -17,11 +17,11 @@ data "external" "swarm_tokens" {
     program = ["${path.module}/scripts/fetch-tokens.sh"]
 
     query = {
-        host = "${scaleway_ip.swarm_manager_ip.0.ip}"
+        host = "${scaleway_instance_ip.node_ip.0.ip}"
         sshkeypath = "${var.ssh_root_private_key}"
     }
 
-    depends_on = ["scaleway_server.swarm_manager"]
+    depends_on = ["scaleway_instance_server.instance"]
 }
 
 // ----
@@ -29,11 +29,11 @@ data "external" "swarm_tokens" {
 locals {
   instanceTcpPorts = ["${var.ssh_port}", 80, 433, 7946]
   instanceUdpPorts = [7946, 4789]
-  instance_commands= ["docker swarm join --token ${data.external.swarm_tokens.result.worker} ${scaleway_server.swarm_manager.0.private_ip}:2377",]
-  
+  instance_commands= ["docker swarm join --token ${data.external.swarm_tokens.result.worker} ${scaleway_instance_server.instance.0.private_ip}:2377",]
+
   managerTcpPorts  = ["${var.ssh_port}", 80, 433, 7946, 2377]
   managerUdpPorts  = [7946, 4789]
-  manager_commands = ["docker swarm init --advertise-addr ${self.private_ip}"]
+  manager_commands = ["docker swarm init --advertise-addr ${scaleway_instance_server.instance.0.public_ip}"]
 }
 
 module "node" {
@@ -46,9 +46,26 @@ module "node" {
     ssh_tech_public_key     = "${var.ssh_tech_public_key}"
     instance_count          = "${var.instance_count}"
     tags                    = var.tags
-    commands                = var.is_master ? manager_commands : instance_commands
-    open_tcp_ports          = var.is_master ? managerTcpPorts : instanceTcpPorts
-    open_udp_ports          = var.is_master ? managerUdpPorts : instanceUdpPorts
+    ssh_port                = "${var.ssh_port}"
+    commands                = var.is_master ? local.manager_commands : local.instance_commands
+    open_tcp_ports          = var.is_master ? local.managerTcpPorts  : local.instanceTcpPorts
+    open_udp_ports          = var.is_master ? local.managerUdpPorts  : local.instanceUdpPorts
+}
+
+resource "null_resource" "swarm_cluster" {
+    # Changes to any instance of the cluster requires re-provisioning
+    triggers = {
+        server_ids = "${join(",", scaleway_instance_server.instance.*.id)}"
+    }
+
+    # Bootstrap script can run on any instance of the cluster
+    # So we just choose the first in this case
+    connection {
+        host = "${element(scaleway_instance_server.instance.*.public_ip, 0)}"
+        type = "ssh"
+        user = "root"
+        private_key = "${var.ssh_root_private_key}"
+    }
 
     # create the directory to
     provisioner "remote-exec" {

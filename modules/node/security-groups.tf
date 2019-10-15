@@ -6,7 +6,7 @@ resource "scaleway_instance_security_group" "node_rules" {
   outbound_default_policy = "accept"
 
   dynamic "inbound_rule" {
-    for_each = local.open_tcp_ports
+    for_each = var.open_tcp_ports
     content {
       action    = "accept"
       port      = inbound_rule.value
@@ -15,7 +15,7 @@ resource "scaleway_instance_security_group" "node_rules" {
   }
 
   dynamic "inbound_rule" {
-    for_each = local.open_udp_ports
+    for_each = var.open_udp_ports
     content {
       action    = "accept"
       port      = inbound_rule.value

@@ -1,5 +1,5 @@
 # public ip address for scaleway instance
-resource "scaleway_ip" "node_ip" {
+resource "scaleway_instance_ip" "node_ip" {
   count = "${var.instance_count}"
 }
 
