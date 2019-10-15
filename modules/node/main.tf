@@ -5,8 +5,8 @@ provider "scaleway" {
 }
 
 resource "scaleway_account_ssh_key" "cicd_root_key" {
-    name = "CI/CD Root public key"
-    key = "${var.ssh_root_public_key}"
+    name       = "CI/CD Root public key"
+    public_key = "${var.ssh_root_public_key}"
 }
 
 data "scaleway_image" "docker" {
