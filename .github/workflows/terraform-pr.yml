@@ -51,3 +51,6 @@ jobs:
         TF_VAR_ssh_root_public_key: ${{ secrets.TF_VAR_ssh_root_public_key }}
         TF_VAR_ssh_root_private_key: ${{ secrets.TF_VAR_ssh_root_private_key }}
         TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}     
+
+    - name: Cleanup secrets
+      run: terraform.tfstate
