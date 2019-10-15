@@ -29,9 +29,11 @@ data "external" "swarm_tokens" {
 locals {
   instanceTcpPorts = ["${var.ssh_port}", 80, 433, 7946]
   instanceUdpPorts = [7946, 4789]
-
+  instance_commands= ["docker swarm join --token ${data.external.swarm_tokens.result.worker} ${scaleway_server.swarm_manager.0.private_ip}:2377",]
+  
   managerTcpPorts  = ["${var.ssh_port}", 80, 433, 7946, 2377]
   managerUdpPorts  = [7946, 4789]
+  manager_commands = ["docker swarm init --advertise-addr ${self.private_ip}"]
 }
 
 module "node" {
@@ -44,7 +46,7 @@ module "node" {
     ssh_tech_public_key     = "${var.ssh_tech_public_key}"
     instance_count          = "${var.instance_count}"
     tags                    = var.tags
-    commands                = var.is_master ? ["docker swarm init --advertise-addr ${self.private_ip}"] : ["docker swarm join --token ${data.external.swarm_tokens.result.worker} ${scaleway_server.swarm_manager.0.private_ip}:2377",]
+    commands                = var.is_master ? manager_commands : instance_commands
     open_tcp_ports          = var.is_master ? managerTcpPorts : instanceTcpPorts
     open_udp_ports          = var.is_master ? managerUdpPorts : instanceUdpPorts
 

@@ -3,6 +3,14 @@ resource "scaleway_ip" "node_ip" {
   count = "${var.instance_count}"
 }
 
+resource "scaleway_instance_placement_group" "availability_group" {
+  name = "swarm_nodes"
+  policy_type    = "max_availability"
+  policy_mode    = "optional"
+  // zone = provider zone
+  // organization_id = provider organization_id
+}
+
 # scaleway instance
 resource "scaleway_instance_server" "instance" {
 
@@ -11,11 +19,11 @@ resource "scaleway_instance_server" "instance" {
   name           = "${terraform.workspace}-manager-${count.index + 1}"
   image          = "${data.scaleway_image.docker.id}"
   type           = "${var.manager_instance_type}"
-  security_group = "${scaleway_instance_security_group.node_rules.id}"
-  public_ip      = "${element(scaleway_ip.swarm_manager_ip.*.ip, count.index)}"
-  tags           = var.tags
-  policy_type    = "max_availability"
-  policy_mode    = "optional"
+
+  security_group_id  = "${scaleway_instance_security_group.node_rules.id}"
+  public_ip          = "${element(scaleway_ip.swarm_manager_ip.*.ip, count.index)}"
+  placement_group_id = "${availability_group.availability_group.id}"
+  tags               = var.tags
 
   # how to connect to scaleway instance
   connection {
