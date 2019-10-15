@@ -53,7 +53,7 @@ module "node" {
 resource "null_resource" "swarm_cluster" {
     # Changes to any instance of the cluster requires re-provisioning
     triggers = {
-        server_ids = "${join(",", module.node.*.instance_id)}"
+        server_ids = "${join(",", module.node.instance_id.*)}"
     }
 
     # Bootstrap script can run on any instance of the cluster
