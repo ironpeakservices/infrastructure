@@ -23,6 +23,10 @@ jobs:
           exit 0
         fi
         openssl enc -d -aes-256-cbc -md sha512 -salt -in terraform.tfstate.enc -out terraform.tfstate -pass env:STATE_PASSWORD
+        if [ ! -f terraform.tfstate ]; then
+          echo "Decryption failed"
+          exit 1
+        fi
 
     - name: Terraform - Init
       uses: hashicorp/terraform-github-actions/init@v0.4.4
