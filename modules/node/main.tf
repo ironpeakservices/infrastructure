@@ -1,4 +1,5 @@
 provider "scaleway" {
+  version          = "~> 1.11.0"
   region           = "${var.scaleway_region}"
   organization_id  = "${var.scaleway_organization}"
   secret_key       = "${var.scaleway_api_token}"
