@@ -11,6 +11,8 @@ jobs:
       uses: actions/checkout@master
       
     - name: Decrypt secrets
+      env:
+        STATE_PASSWORD: ${{ secrets.TF_STATE_SECRET }}
       run: |
         if [ -f "terraform.tfstate" ]; then
           echo "State found in repo!"
@@ -20,9 +22,7 @@ jobs:
           echo "No state found, starting fresh (!)"
           exit 0
         fi
-        openssl enc -aes-256-cbc -salt -in terraform.tfstate.enc -out terraform.tfstate -d -pass env:STATE_PASSWORD
-      env:
-        STATE_PASSWORD: ${{ secrets.TF_STATE_SECRET }}
+        openssl enc -d -aes-256-cbc -md sha512 -salt -in terraform.tfstate.enc -out terraform.tfstate -pass env:STATE_PASSWORD
 
     - name: Terraform - Init
       uses: hashicorp/terraform-github-actions/init@v0.4.4
