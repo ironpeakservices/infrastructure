@@ -4,7 +4,8 @@ provider "scaleway" {
   secret_key       = "${var.scaleway_api_token}"
 }
 
-resource "scaleway_ssh_key" "scaleway_ssh_public_key" {
+resource "scaleway_account_ssh_key" "cicd_root_key" {
+    name = "CI/CD Root public key"
     key = "${var.ssh_root_public_key}"
 }
 
