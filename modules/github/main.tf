@@ -1,4 +1,4 @@
 provider "github" {
-    secret_key      = "${var.github_token}"
-    organization_id = "${var.github_organization}"
+    token        = "${var.github_token}"
+    organization = "${var.github_organization}"
 }

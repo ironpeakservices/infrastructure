@@ -26,7 +26,7 @@ module "docker_worker" {
     worker_instance_count  = "${var.swarm_worker_count}"
 }
 
-/*
+
 module "cloudflare" {
     source                  = "./modules/cloudflare"
     
@@ -40,4 +40,3 @@ module "github" {
     github_token            = "${var.github_token}"
     github_organization     = "${var.github_org}"
 }
-*/
