@@ -1,8 +1,8 @@
 provider "cloudflare" {
     version = "~> 2.0"
-      email   = "foo"//${var.cloudflare_email}"
-  api_key = "bar"//"${var.cloudflare_token}"
-  api_token = "meh"
+    email   = "${var.cloudflare_email}"
+    api_key = "${var.cloudflare_token}"
+    // api_token = ""
 }
 
 provider "external" {
@@ -11,6 +11,9 @@ provider "external" {
 
 provider "github" {
     version = "~> 2.2.1"
+    token        = "${var.github_token}"
+    organization = "${var.github_organization}"
+    // individual = false
 }
 
 provider "scaleway" {
