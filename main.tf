@@ -1,4 +1,4 @@
-module "docker_master" {
+module "_docker_master" {
     source                  = "./modules/docker_master"
 
     scaleway_organization   = "${var.scaleway_org}"
@@ -12,7 +12,7 @@ module "docker_master" {
     manager_instance_count  = "${var.swarm_master_count}"
 }
 
-module "docker_worker" {
+module "_docker_worker" {
     source                  = "./modules/docker_worker"
 
     scaleway_organization   = "${var.scaleway_org}"
@@ -27,14 +27,14 @@ module "docker_worker" {
 }
 
 
-module "cloudflare" {
+module "_cloudflare" {
     source                  = "./modules/cloudflare"
     
     cloudflare_email        = "${var.cloudflare_email}"
     cloudflare_token        = "${var.cloudflare_token}"
 }
 
-module "github" {
+module "_github" {
     source                  = "./modules/github"
 
     github_token            = "${var.github_token}"
