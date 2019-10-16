@@ -41,6 +41,7 @@ jobs:
       with:
         args: -state=terraform.tfstate
       env:
+        TF_LOG: DEBUG
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
         TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_cloudflare_token }}
