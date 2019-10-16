@@ -14,30 +14,35 @@ jobs:
       uses: actions/checkout@v1.0.0
 
     - name: Decrypt secrets
-      uses: actions/bin/sh@master
-      with:
-        args: |
-          if [ -f "terraform.tfstate" ]; then
-            echo "State found in repo!"
-            exit 1
-          fi
-          if [ ! -f "terraform.tfstate.enc" ]; then
-            echo "No state found, starting fresh (!)"
-            exit 0
-          fi
-          openssl enc -aes-256-cbc -salt -in terraform.tfstate.enc -out terraform.tfstate -d -pass env:STATE_PASSWORD
-          rm terraform.tfstate.enc
       env:
         STATE_PASSWORD: ${{ secrets.TF_STATE_SECRET }}
+      run: |
+        if [ -f "terraform.tfstate" ]; then
+          echo "State found in repo!"
+          exit 1
+        fi
+        if [ ! -f "terraform.tfstate.enc" ]; then
+          echo "No state found, starting fresh (!)"
+          exit 0
+        fi
+        openssl enc -d -aes-256-cbc -md sha512 -salt -in terraform.tfstate.enc -out terraform.tfstate -pass env:STATE_PASSWORD
+        if [ ! -f terraform.tfstate ]; then
+          echo "Decryption failed"
+          exit 1
+        fi
 
     - name: Terraform - Init
       uses: hashicorp/terraform-github-actions/init@v0.4.4
 
     - name: Terraform - Validate
       uses: hashicorp/terraform-github-actions/validate@v0.4.4
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   
     - name: Terraform - Plan
       uses: hashicorp/terraform-github-actions/plan@v0.4.4
+      with:
+        args: -state=terraform.tfstate
       env:
         TF_ACTION_COMMENT: false
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
@@ -52,6 +57,8 @@ jobs:
 
     - name: Terraform - Apply
       uses: hashicorp/terraform-github-actions/apply@v0.4.4
+      with:
+        args: -state=terraform.tfstate
       env:
         TF_ACTION_COMMENT: false
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
