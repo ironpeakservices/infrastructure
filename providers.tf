@@ -11,7 +11,7 @@ provider "github" {
 }
 
 provider "scaleway" {
-    version = "~> 2.0"
+    version = "~> 1.11.0"
 }
 
 provider "template" {
