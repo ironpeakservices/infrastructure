@@ -37,7 +37,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Terraform - Plan
-      uses: hashicorp/terraform-github-actions/plan@v0.4.2
+      uses: hashicorp/terraform-github-actions/plan@v0.4.4
       with:
         args: -state=terraform.tfstate
       env:
