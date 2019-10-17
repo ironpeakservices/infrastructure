@@ -1,5 +1,5 @@
 
 provider "cloudflare" {
   email   = "${var.cloudflare_email}"
-  token   = "${var.cloudflare_token}"
+  api_key = "${var.cloudflare_token}"
 }
