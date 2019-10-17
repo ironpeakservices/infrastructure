@@ -7,6 +7,7 @@ variable "ssh_tech_public_key" {}
 variable "scaleway_organization" {}
 
 variable "scaleway_api_token" {}
+variable "scaleway_access_token" {}
 
 variable "docker_api_ip" {
   default = "127.0.0.1"

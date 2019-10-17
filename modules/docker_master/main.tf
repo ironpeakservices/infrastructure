@@ -6,6 +6,7 @@ module "docker" {
 
     scaleway_organization = "${var.scaleway_organization}"
     scaleway_api_token    = "${var.scaleway_api_token}"
+    scaleway_access_token = "${var.scaleway_access_token}"
     
     ssh_root_private_key = "${var.ssh_root_private_key}"
     ssh_root_public_key  = "${var.ssh_root_public_key}"

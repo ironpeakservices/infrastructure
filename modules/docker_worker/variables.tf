@@ -7,6 +7,7 @@ variable "ssh_tech_public_key" {}
 variable "scaleway_organization" {}
 
 variable "scaleway_api_token" {}
+variable "scaleway_access_token" {}
 
 variable "worker_instance_count" {
     default = 1

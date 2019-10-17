@@ -1,6 +1,7 @@
 provider "scaleway" {
   region           = "${var.scaleway_region}"
   organization_id  = "${var.scaleway_organization}"
+  access_key       = "${var.scaleway_access_token}"
   secret_key       = "${var.scaleway_api_token}"
 }
 

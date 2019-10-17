@@ -3,6 +3,7 @@ module "docker_master" {
 
     scaleway_organization   = "${var.scaleway_org}"
     scaleway_api_token      = "${var.scaleway_token}"
+    scaleway_access_token   = "${var.scaleway_access_token}"
 
     ssh_root_public_key     = "${var.ssh_root_public_key}"
     ssh_root_private_key    = "${var.ssh_root_private_key}"
@@ -17,6 +18,7 @@ module "docker_worker" {
 
     scaleway_organization   = "${var.scaleway_org}"
     scaleway_api_token      = "${var.scaleway_token}"
+    scaleway_access_token   = "${var.scaleway_access_token}"
 
     ssh_root_public_key     = "${var.ssh_root_public_key}"
     ssh_root_private_key    = "${var.ssh_root_private_key}"

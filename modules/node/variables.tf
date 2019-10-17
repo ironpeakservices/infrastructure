@@ -1,17 +1,13 @@
-variable "scaleway_organization" {
-}
+variable "scaleway_organization" {}
 
-variable "scaleway_api_token" {
-}
+variable "scaleway_api_token" {}
+variable "scaleway_access_token" {}
 
-variable "ssh_root_private_key" {
-}
+variable "ssh_root_private_key" {}
 
-variable "ssh_root_public_key" {
-}
+variable "ssh_root_public_key" {}
 
-variable "ssh_tech_public_key" {
-}
+variable "ssh_tech_public_key" {}
 
 variable "scaleway_region" {
   default = "nl-ams"
