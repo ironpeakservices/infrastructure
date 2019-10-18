@@ -21,8 +21,6 @@ variable swarm_worker_count {
 
 // ---
 
-variable "cloudflare_email" {}
-
 variable "cloudflare_token" {}
 
 // ---
