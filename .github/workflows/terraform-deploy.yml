@@ -45,15 +45,17 @@ jobs:
         args: -state=terraform.tfstate
       env:
         TF_ACTION_COMMENT: false
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
         TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_cloudflare_token }}
         TF_VAR_github_org: ${{ secrets.TF_VAR_github_org }}
         TF_VAR_github_token: ${{ secrets.TF_VAR_github_token }}
         TF_VAR_scaleway_org: ${{ secrets. TF_VAR_scaleway_org }}
         TF_VAR_scaleway_token: ${{ secrets.TF_VAR_scaleway_token }}
+        TF_VAR_scaleway_accesstoken: ${{ secrets.TF_VAR_scaleway_accesstoken }}
         TF_VAR_ssh_root_public_key: ${{ secrets.TF_VAR_ssh_root_public_key }}
         TF_VAR_ssh_root_private_key: ${{ secrets.TF_VAR_ssh_root_private_key }}
-        TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}
+        TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }} 
 
     - name: Terraform - Apply
       uses: hashicorp/terraform-github-actions/apply@v0.4.5
@@ -61,15 +63,17 @@ jobs:
         args: -state=terraform.tfstate
       env:
         TF_ACTION_COMMENT: false
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
         TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_cloudflare_token }}
         TF_VAR_github_org: ${{ secrets.TF_VAR_github_org }}
         TF_VAR_github_token: ${{ secrets.TF_VAR_github_token }}
         TF_VAR_scaleway_org: ${{ secrets. TF_VAR_scaleway_org }}
         TF_VAR_scaleway_token: ${{ secrets.TF_VAR_scaleway_token }}
+        TF_VAR_scaleway_accesstoken: ${{ secrets.TF_VAR_scaleway_accesstoken }}
         TF_VAR_ssh_root_public_key: ${{ secrets.TF_VAR_ssh_root_public_key }}
         TF_VAR_ssh_root_private_key: ${{ secrets.TF_VAR_ssh_root_private_key }}
-        TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}
+        TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }} 
 
     - name: Re-encrypt secrets
       uses: actions/bin/sh@master
