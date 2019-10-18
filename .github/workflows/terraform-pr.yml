@@ -29,15 +29,15 @@ jobs:
         fi
 
     - name: Terraform - Init
-      uses: hashicorp/terraform-github-actions/init@v0.4.4
+      uses: hashicorp/terraform-github-actions/init@v0.4.5
 
     - name: Terraform - Validate
-      uses: hashicorp/terraform-github-actions/validate@v0.4.4
+      uses: hashicorp/terraform-github-actions/validate@v0.4.5
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Terraform - Plan
-      uses: hashicorp/terraform-github-actions/plan@v0.4.4
+      uses: hashicorp/terraform-github-actions/plan@v0.4.5
       with:
         args: -state=terraform.tfstate
       env:
