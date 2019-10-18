@@ -1,5 +1,5 @@
 variable "scaleway_token" {}
-variable "scaleway_access_token" {}
+variable "scaleway_accesstoken" {}
 
 variable "scaleway_org" {}
 

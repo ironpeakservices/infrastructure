@@ -38,8 +38,8 @@ jobs:
 
     - name: Terraform - Plan
       uses: hashicorp/terraform-github-actions/plan@v0.4.5
-#      with:
-#        args: -state=terraform.tfstate
+      with:
+        args: -state=terraform.tfstate
       env:
         TF_LOG: TRACE
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
