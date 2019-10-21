@@ -51,6 +51,7 @@ module "node" {
     open_udp_ports          = var.is_master ? local.managerUdpPorts  : local.instanceUdpPorts
 }
 
+/*
 resource "null_resource" "swarm_cluster" {
     # Changes to any instance of the cluster requires re-provisioning
     triggers = {
@@ -223,3 +224,4 @@ resource "null_resource" "swarm_cluster" {
     }
 
 }
+*/
