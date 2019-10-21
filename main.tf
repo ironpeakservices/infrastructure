@@ -12,7 +12,7 @@ module "docker_master" {
 
     manager_instance_count  = "${var.swarm_master_count}"
 }
-
+/*
 module "docker_worker" {
     source                  = "./modules/docker_worker"
 
@@ -28,7 +28,7 @@ module "docker_worker" {
     worker_instance_count  = "${var.swarm_worker_count}"
 }
 
-/*
+
 module "cloudflare" {
     source                  = "./modules/cloudflare"
     cloudflare_token        = "${var.cloudflare_token}"
