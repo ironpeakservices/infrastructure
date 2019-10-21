@@ -38,8 +38,6 @@ jobs:
 
     - name: Terraform - Plan
       uses: hashicorp/terraform-github-actions/plan@v0.4.6
-      with:
-        args: -state=terraform.tfstate
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_cloudflare_token }}
