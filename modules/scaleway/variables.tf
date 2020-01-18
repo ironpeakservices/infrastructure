@@ -11,7 +11,7 @@ variable "ssh_root_public_key" {}
 variable "ssh_tech_public_key" {}
 
 variable "region" {
-  default = "fr-par-1"
+  default = "nl-ams"
 }
 
 variable "manager_instance_type" {
