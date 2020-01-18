@@ -27,6 +27,13 @@ jobs:
     - name: Terraform - Init
       uses: hashicorp/terraform-github-actions/init@v0.3.7
 
+      - name: Terraform - Lint
+        uses: reviewdog/action-tflint@master
+        with:
+          github_token: ${{ secrets.github_token }}
+          reporter: github-pr-review
+          flags: "--deep"
+
     - name: Terraform - Validate
       uses: hashicorp/terraform-github-actions/validate@v0.3.7
 
