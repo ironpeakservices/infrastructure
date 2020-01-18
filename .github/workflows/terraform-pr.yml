@@ -25,7 +25,9 @@ jobs:
         STATE_PASSWORD: ${{ secrets.TF_STATE_SECRET }}
 
     - name: Terraform - Init
-      uses: hashicorp/terraform-github-actions/init@v0.6.4
+      uses: hashicorp/terraform-github-actions@v0.6.4
+      with:
+        tf_actions_subcommand: "init"
 
     - name: Terraform - Lint
       uses: reviewdog/action-tflint@v1.1.1
@@ -35,10 +37,15 @@ jobs:
         flags: "--deep"
 
     - name: Terraform - Validate
-      uses: hashicorp/terraform-github-actions/validate@v0.6.4
+      uses: hashicorp/terraform-github-actions@v0.6.4
+      with:
+        tf_actions_subcommand: "validate"
+
 
     - name: Terraform - Plan
-      uses: hashicorp/terraform-github-actions/plan@v0.6.4
+      uses: hashicorp/terraform-github-actions@v0.6.4
+      with:
+        tf_actions_subcommand: "plan"
       env:
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
         TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_cloudflare_token }}
