@@ -1,3 +1,7 @@
+terraform {
+    required_version = ">= v0.12.19"
+}
+
 provider "cloudflare" {
     version = "~> 2.3"
 }
