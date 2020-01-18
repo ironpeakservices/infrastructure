@@ -4,3 +4,7 @@ update_configs:
 - package_manager: "terraform"
   directory: "/"
   update_schedule: "daily"
+
+- package_manager: "github_actions"
+  directory: ".github/"
+  update_schedule: "daily"

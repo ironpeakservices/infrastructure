@@ -29,13 +29,13 @@ jobs:
         STATE_PASSWORD: ${{ secrets.TF_STATE_SECRET }}
 
     - name: Terraform - Init
-      uses: hashicorp/terraform-github-actions/init@v0.3.7
+      uses: hashicorp/terraform-github-actions/init@v0.6.4
 
     - name: Terraform - Validate
-      uses: hashicorp/terraform-github-actions/validate@v0.3.7
+      uses: hashicorp/terraform-github-actions/validate@v0.6.4
   
     - name: Terraform - Plan
-      uses: hashicorp/terraform-github-actions/plan@v0.3.7
+      uses: hashicorp/terraform-github-actions/plan@v0.6.4
       env:
         TF_ACTION_COMMENT: false
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
@@ -49,7 +49,7 @@ jobs:
         TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}
 
     - name: Terraform - Apply
-      uses: hashicorp/terraform-github-actions/apply@v0.3.7
+      uses: hashicorp/terraform-github-actions/apply@v0.6.4
       env:
         TF_ACTION_COMMENT: false
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
