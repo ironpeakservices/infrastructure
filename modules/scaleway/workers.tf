@@ -1,21 +1,21 @@
-resource "scaleway_ip" "swarm_worker_ip" {
-  count = "${var.worker_instance_count}"
+resource "scaleway_instance_ip" "swarm_worker_ip" {
+  count = var.worker_instance_count
 }
 
-resource "scaleway_server" "swarm_worker" {
-  count          = "${var.worker_instance_count}"
+resource "scaleway_instance_server" "swarm_worker" {
+  count          = var.worker_instance_count
   name           = "${terraform.workspace}-worker-${count.index + 1}"
-  image          = "${data.scaleway_image.docker.id}"
-  type           = "${var.worker_instance_type}"
-  security_group = "${scaleway_security_group.swarm_workers.id}"
-  public_ip      = "${element(scaleway_ip.swarm_worker_ip.*.ip, count.index)}"
+  image          = data.scaleway_image.docker.id
+  type           = var.worker_instance_type
+  security_group_id  = scaleway_instance_security_group.swarm_workers.id
+  ip_id          = scaleway_instance_ip.swarm_worker_ip[count.index].id
   tags           = ["manager", "docker"]
 
   connection {
     type = "ssh"
-    host = "${element(scaleway_ip.swarm_worker_ip.*.ip, count.index)}"
+    host = self.public_ip
     user = "root"
-    private_key = "${var.ssh_root_private_key}"
+    private_key = var.ssh_root_private_key
   }
   
   provisioner "remote-exec" {
@@ -48,17 +48,17 @@ resource "scaleway_server" "swarm_worker" {
   }
 
   provisioner "file" {
-    content     = "${data.template_file.docker_conf.rendered}"
+    content     = data.template_file.docker_conf.rendered
     destination = "/etc/systemd/system/docker.service.d/docker.conf"
   }
 
   provisioner "file" {
-    content     = "${data.template_file.docker_daemon_json.rendered}"
+    content     = data.template_file.docker_daemon_json.rendered
     destination = "/etc/docker/daemon.json"
   }
 
   provisioner "file" {
-    content     = "${data.template_file.ssh_conf.rendered}"
+    content     = data.template_file.ssh_conf.rendered
     destination = "/etc/ssh/sshd_config"
   }
 
@@ -87,7 +87,7 @@ resource "scaleway_server" "swarm_worker" {
       "systemctl daemon-reload",
       "systemctl restart docker",
       "systemctl restart ssh",
-      "docker swarm join --token ${data.external.swarm_tokens.result.worker} ${scaleway_server.swarm_manager.0.private_ip}:2377",
+      "docker swarm join --token ${data.external.swarm_tokens.result.worker} ${scaleway_instance_server.swarm_manager.0.private_ip}:2377",
     ]
   }
 
@@ -121,58 +121,58 @@ resource "scaleway_server" "swarm_worker" {
 
   # drain worker on destroy
   provisioner "remote-exec" {
-    when = "destroy"
+    when = destroy
 
     inline = [
       "docker node update --availability drain ${self.name}",
     ]
 
-    on_failure = "continue"
+    on_failure = continue
 
     connection {
       type = "ssh"
       user = "root"
-      host = "${scaleway_ip.swarm_manager_ip.0.ip}"
+      host = scaleway_instance_ip.swarm_manager_ip.0.address
     }
   }
 
   # leave swarm on destroy
   provisioner "remote-exec" {
-    when = "destroy"
+    when = destroy
 
     inline = [
       "docker swarm leave",
     ]
 
-    on_failure = "continue"
+    on_failure = continue
   }
 
   # remove node on destroy
   provisioner "remote-exec" {
-    when = "destroy"
+    when = destroy
 
     inline = [
       "docker node rm --force ${self.name}",
     ]
 
-    on_failure = "continue"
+    on_failure = continue
 
     connection {
       type = "ssh"
       user = "root"
-      host = "${scaleway_ip.swarm_manager_ip.0.ip}"
+      host = scaleway_instance_ip.swarm_manager_ip.0.address
     }
   }
-  depends_on = ["scaleway_server.swarm_manager"]
+  depends_on = [scaleway_instance_server.swarm_manager]
 }
 
 data "external" "swarm_tokens" {
   program = ["${path.module}/scripts/fetch-tokens.sh"]
 
   query = {
-    host = "${scaleway_ip.swarm_manager_ip.0.ip}"
-    sshkeypath = "${var.ssh_root_private_key}"
+    host = scaleway_instance_ip.swarm_manager_ip.0.address
+    sshkeypath = var.ssh_root_private_key
   }
 
-  depends_on = ["scaleway_server.swarm_manager"]
+  depends_on = [scaleway_instance_server.swarm_manager]
 }

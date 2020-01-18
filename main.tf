@@ -2,7 +2,8 @@ module "scaleway" {
     source                  = "./modules/scaleway"
 
     organization            = "${var.scaleway_org}"
-    api_token               = "${var.scaleway_token}"
+    access_key              = "${var.scaleway_accesstoken}"
+    secret_key              = "${var.scaleway_secrettoken}"
 
     ssh_root_public_key     = "${var.ssh_root_public_key}"
     ssh_root_private_key    = "${var.ssh_root_private_key}"

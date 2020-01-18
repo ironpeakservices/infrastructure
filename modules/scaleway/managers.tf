@@ -1,22 +1,21 @@
-resource "scaleway_ip" "swarm_manager_ip" {
-  count = "${var.manager_instance_count}"
+resource "scaleway_instance_ip" "swarm_manager_ip" {
+  count = var.manager_instance_count
 }
 
-resource "scaleway_server" "swarm_manager" {
-  count          = "${var.manager_instance_count}"
+resource "scaleway_instance_server" "swarm_manager" {
+  count          = var.manager_instance_count
   name           = "${terraform.workspace}-manager-${count.index + 1}"
-  image          = "${data.scaleway_image.docker.id}"
-  type           = "${var.manager_instance_type}"
-  security_group = "${scaleway_security_group.swarm_managers.id}"
-  public_ip      = "${element(scaleway_ip.swarm_manager_ip.*.ip, count.index)}"
+  image          = data.scaleway_image.docker.id
+  type           = var.manager_instance_type
+  security_group_id  = scaleway_instance_security_group.swarm_managers.id
+  ip_id          = scaleway_instance_ip.swarm_manager_ip[count.index].id
   tags           = ["manager", "docker"]
 
-
   connection {
-    host = "${element(scaleway_ip.swarm_manager_ip.*.ip, count.index)}"
     type = "ssh"
+    host = self.public_ip
     user = "root"
-    private_key = "${var.ssh_root_private_key}"
+    private_key = var.ssh_root_private_key
   }
   
   provisioner "remote-exec" {
@@ -53,17 +52,17 @@ resource "scaleway_server" "swarm_manager" {
   }
 
   provisioner "file" {
-    content     = "${data.template_file.docker_conf.rendered}"
+    content     = data.template_file.docker_conf.rendered
     destination = "/etc/systemd/system/docker.service.d/docker.conf"
   }
 
   provisioner "file" {
-    content      = "${data.template_file.docker_daemon_json.rendered}"
+    content      = data.template_file.docker_daemon_json.rendered
     destination = "/etc/docker/daemon.json"
   }
 
   provisioner "file" {
-    content     = "${data.template_file.ssh_conf.rendered}"
+    content     = data.template_file.ssh_conf.rendered
     destination = "/etc/ssh/sshd_config"
   }
 

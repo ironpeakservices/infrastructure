@@ -1,17 +1,14 @@
-variable "organization" {
-}
+variable "organization" {}
 
-variable "api_token" {
-}
+variable "secret_key" {}
 
-variable "ssh_root_private_key" {
-}
+variable "access_key" {}
 
-variable "ssh_root_public_key" {
-}
+variable "ssh_root_private_key" {}
 
-variable "ssh_tech_public_key" {
-}
+variable "ssh_root_public_key" {}
+
+variable "ssh_tech_public_key" {}
 
 variable "region" {
   default = "ams1"
