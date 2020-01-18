@@ -1,5 +1,6 @@
 provider "scaleway" {
   region            = var.region
+  zone              = var.zone
   organization_id   = var.organization
   access_key        = var.access_key
   secret_key        = var.secret_key

@@ -14,6 +14,10 @@ variable "region" {
   default = "nl-ams"
 }
 
+variable "zone" {
+  default = "nl-ams-1"
+}
+
 variable "manager_instance_type" {
   default = "DEV1-S"
 }
