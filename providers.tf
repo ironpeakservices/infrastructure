@@ -1,5 +1,5 @@
 provider "cloudflare" {
-    version = "~> 1.17"
+    version = "~> 2.3"
 }
 
 provider "external" {
@@ -11,7 +11,7 @@ provider "github" {
 }
 
 provider "scaleway" {
-    version = "~> 1.10"
+    version = "~> 1.13"
 }
 
 provider "template" {
