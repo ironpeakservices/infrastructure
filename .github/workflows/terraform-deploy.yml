@@ -43,10 +43,11 @@ jobs:
         TF_VAR_github_org: ${{ secrets.TF_VAR_github_org }}
         TF_VAR_github_token: ${{ secrets.TF_VAR_github_token }}
         TF_VAR_scaleway_org: ${{ secrets. TF_VAR_scaleway_org }}
-        TF_VAR_scaleway_token: ${{ secrets.TF_VAR_scaleway_token }}
+        TF_VAR_scaleway_accesstoken: ${{ secrets.TF_VAR_accesstoken }}
+        TF_VAR_scaleway_secrettoken: ${{ secrets.TF_VAR_secrettoken }}
         TF_VAR_ssh_root_public_key: ${{ secrets.TF_VAR_ssh_root_public_key }}
         TF_VAR_ssh_root_private_key: ${{ secrets.TF_VAR_ssh_root_private_key }}
-        TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}
+        TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}     
 
     - name: Terraform - Apply
       uses: hashicorp/terraform-github-actions/apply@v0.6.4
@@ -57,10 +58,11 @@ jobs:
         TF_VAR_github_org: ${{ secrets.TF_VAR_github_org }}
         TF_VAR_github_token: ${{ secrets.TF_VAR_github_token }}
         TF_VAR_scaleway_org: ${{ secrets. TF_VAR_scaleway_org }}
-        TF_VAR_scaleway_token: ${{ secrets.TF_VAR_scaleway_token }}
+        TF_VAR_scaleway_accesstoken: ${{ secrets.TF_VAR_accesstoken }}
+        TF_VAR_scaleway_secrettoken: ${{ secrets.TF_VAR_secrettoken }}
         TF_VAR_ssh_root_public_key: ${{ secrets.TF_VAR_ssh_root_public_key }}
         TF_VAR_ssh_root_private_key: ${{ secrets.TF_VAR_ssh_root_private_key }}
-        TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}
+        TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}     
 
     - name: Re-encrypt secrets
       run: |
