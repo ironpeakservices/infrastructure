@@ -11,11 +11,11 @@ variable "ssh_root_public_key" {}
 variable "ssh_tech_public_key" {}
 
 variable "region" {
-  default = "nl-ams"
+  default = "fr-par"
 }
 
 variable "zone" {
-  default = "nl-ams-1"
+  default = "fr-par-1"
 }
 
 variable "manager_instance_type" {
