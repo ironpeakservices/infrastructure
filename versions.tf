@@ -4,6 +4,7 @@ terraform {
 
 provider "cloudflare" {
     version = "~> 2.3"
+    api_token = var.cloudflare_token
 }
 
 provider "external" {
@@ -12,6 +13,8 @@ provider "external" {
 
 provider "github" {
     version = "~> 2.2"
+    token = var.github_token
+    organization = var.github_org
 }
 
 provider "scaleway" {
