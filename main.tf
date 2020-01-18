@@ -14,7 +14,6 @@ module "scaleway" {
 module "cloudflare" {
     source                  = "./modules/cloudflare"
     
-    cloudflare_email        = "${var.cloudflare_email}"
     cloudflare_token        = "${var.cloudflare_token}"
 }
 
