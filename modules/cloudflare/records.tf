@@ -1,13 +1,3 @@
-resource "cloudflare_record" "A_ironpeak--be_168f1fc179f7ed3a6d313a177364c43b" {
-  zone_id  = cloudflare_zone.ironpeak--be.id
-  name     = "home.ironpeak.be"
-  priority = "0"
-  proxied  = false
-  ttl      = "1"
-  type     = "A"
-  value    = "94.224.89.89"
-}
-
 resource "cloudflare_record" "A_ironpeak--services_e469584fda2002ffaf88ffa02c3fbac0" {
   zone_id  = cloudflare_zone.ironpeak--services.id
   name     = "ironpeak.services"
