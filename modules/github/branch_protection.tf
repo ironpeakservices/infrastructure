@@ -1,3 +1,4 @@
+/*
 resource "github_branch_protection" "ironpeak--be_master" {
   branch                 = "master"
   enforce_admins         = false
@@ -8,3 +9,4 @@ resource "github_branch_protection" "ironpeak--be_master" {
     strict = true
   }
 }
+*/
