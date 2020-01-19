@@ -16,12 +16,10 @@ output "wildcard_dns" {
 
 output "kubeconfig" {
     sensitive = true
-    //TODO re-enable if provider > 1.13.0
-    value     = "foo" //scaleway_k8s_cluster_beta.ironpeakbe-main-cluster.kubeconfig.config_file
+    value     = scaleway_k8s_cluster_beta.ironpeakbe-main-cluster.kubeconfig[0].config_file
 }
 
 output "token" {
     sensitive = true
-    //TODO re-enable if provider > 1.13.0
-    value     = "bar" //caleway_k8s_cluster_beta.ironpeakbe-main-cluster.kubeconfig.token
+    value     = scaleway_k8s_cluster_beta.ironpeakbe-main-cluster.kubeconfig[0].token
 }

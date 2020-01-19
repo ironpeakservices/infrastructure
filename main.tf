@@ -1,5 +1,5 @@
-module "kubernetes" {
-    source                  = "./modules/kubernetes"
+module "scaleway" {
+    source                  = "./modules/scaleway"
 
     scaleway_accesstoken    = var.scaleway_accesstoken
     scaleway_secrettoken    = var.scaleway_secrettoken
