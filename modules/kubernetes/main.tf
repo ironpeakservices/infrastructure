@@ -1,3 +1,11 @@
+provider "scaleway" {
+    access_key = var.scaleway_accesstoken
+    secret_key = var.scaleway_secrettoken
+
+    zone       = var.zone
+    region     = var.region
+}
+
 resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
     name = "ironpeakbe-main-cluster"
     version = "latest"
