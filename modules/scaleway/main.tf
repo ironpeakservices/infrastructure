@@ -1,6 +1,7 @@
 provider "scaleway" {
-    access_key = var.scaleway_accesstoken
-    secret_key = var.scaleway_secrettoken
+    access_key      = var.scaleway_accesstoken
+    secret_key      = var.scaleway_secrettoken
+    organization_id = var.scaleway_organization
 
     zone       = var.zone
     region     = var.region
