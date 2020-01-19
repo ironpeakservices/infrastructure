@@ -11,6 +11,10 @@ provider "external" {
     version = "~> 1.2"
 }
 
+provider "local" {
+    version = "~> 1.4"
+}
+
 provider "github" {
     version = "~> 2.2"
     token = var.github_token
