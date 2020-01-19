@@ -1,0 +1,36 @@
+resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
+    name = "ironpeakbe-main-cluster"
+    version = "latest"
+    tags = [ "k8s", "ironpeakbe", "main-cluster", "prd" ]
+    
+    enable_dashboard = true
+
+    ingress = "traefik"
+    cni = "calico"
+    // admission_plugins =
+    // feature_gates =
+
+    default_pool {
+        node_type = var.node_type
+
+        autoscaling = true
+        autohealing = true
+
+        size = var.node_default_count
+        min_size = var.node_minimum_count
+        max_size = var.node_maximum_count
+
+        container_runtime = "crio"
+    }
+
+    /*
+    auto_upgrade {
+        enable = true
+
+        maintenance_window {
+            start_hour = 3
+            day = "any"
+        }
+    }
+    */   
+}
