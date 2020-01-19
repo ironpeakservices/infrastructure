@@ -16,10 +16,5 @@ output "wildcard_dns" {
 
 output "kubeconfig" {
     sensitive = true
-    value     = scaleway_k8s_cluster_beta.ironpeakbe-main-cluster.kubeconfig[0].config_file
-}
-
-output "token" {
-    sensitive = true
-    value     = scaleway_k8s_cluster_beta.ironpeakbe-main-cluster.kubeconfig[0].token
+    value     = scaleway_k8s_cluster_beta.ironpeakbe-main-cluster.kubeconfig
 }
