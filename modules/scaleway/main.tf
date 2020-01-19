@@ -1,34 +1,44 @@
 provider "scaleway" {
-  region        = "${var.region}"
-  organization  = "${var.organization}"
-  token         = "${var.api_token}"
+    access_key = var.scaleway_accesstoken
+    secret_key = var.scaleway_secrettoken
+
+    zone       = var.zone
+    region     = var.region
 }
 
-resource "scaleway_ssh_key" "scaleway_ssh_public_key" {
-    key = "${var.ssh_root_public_key}"
-}
+resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
+    name = "ironpeakbe-main-cluster"
+    version = "latest"
+    tags = [ "k8s", "ironpeakbe", "main-cluster", "prd" ]
+    
+    enable_dashboard = true
 
-data "scaleway_image" "docker" {
-  architecture = "${var.node_arch}"
-  name         = "Docker"
-}
+    ingress = "traefik"
+    cni = "calico"
+    // admission_plugins =
+    // feature_gates =
 
-data "template_file" "docker_conf" {
-  template = "${file("${path.module}/conf/docker.tpl")}"
-}
+    default_pool {
+        node_type = var.node_type
 
-data "template_file" "docker_daemon_json" {
-  template = "${file("${path.module}/conf/daemon.tpl")}"
+        autoscaling = true
+        autohealing = true
 
-  vars = {
-    ip = "${var.docker_api_ip}"
-  }
-}
+        size = var.node_default_count
+        min_size = var.node_minimum_count
+        max_size = var.node_maximum_count
 
-data "template_file" "ssh_conf" {
-  template = "${file("${path.module}/conf/ssh.tpl")}"
+        container_runtime = "crio"
+    }
 
-  vars = {
-    port = "${var.ssh_port}"
-  }
+    /*
+    auto_upgrade {
+        enable = true
+
+        maintenance_window {
+            start_hour = 3
+            day = "any"
+        }
+    }
+    */   
 }

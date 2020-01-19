@@ -1,25 +1,27 @@
 module "scaleway" {
     source                  = "./modules/scaleway"
 
-    organization            = "${var.scaleway_org}"
-    api_token               = "${var.scaleway_token}"
+    scaleway_accesstoken    = var.scaleway_accesstoken
+    scaleway_secrettoken    = var.scaleway_secrettoken
+}
 
-    ssh_root_public_key     = "${var.ssh_root_public_key}"
-    ssh_root_private_key    = "${var.ssh_root_private_key}"
+module "kubernetes" {
+    source                  = "./modules/kubernetes"
 
-    ssh_tech_public_key     = "${var.ssh_tech_public_key}"
+    host                    = module.scaleway.kubeconfig[0].host
+    token                   = module.scaleway.kubeconfig[0].token
+    cluster_ca_certificate  = module.scaleway.kubeconfig[0].cluster_ca_certificate
 }
 
 module "cloudflare" {
     source                  = "./modules/cloudflare"
     
-    cloudflare_email        = "${var.cloudflare_email}"
-    cloudflare_token        = "${var.cloudflare_token}"
+    cloudflare_token        = var.cloudflare_token
 }
 
 module "github" {
     source                  = "./modules/github"
 
-    github_token            = "${var.github_token}"
-    github_organization     = "${var.github_org}"
+    github_token            = var.github_token
+    github_organization     = var.github_org
 }

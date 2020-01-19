@@ -1,50 +1,30 @@
-variable "organization" {
+variable scaleway_accesstoken {}
+
+variable scaleway_secrettoken {}
+
+variable node_type {
+    default = "GP1-XS"
 }
 
-variable "api_token" {
+variable node_default_count {
+    type = number
+    default = 1
 }
 
-variable "ssh_root_private_key" {
+variable node_minimum_count {
+    type = number
+    default = 1
 }
 
-variable "ssh_root_public_key" {
+variable node_maximum_count {
+    type = number
+    default = 1
 }
 
-variable "ssh_tech_public_key" {
+variable "zone" {
+    default = "fr-par-1"
 }
 
 variable "region" {
-  default = "ams1"
-}
-
-variable "manager_instance_type" {
-  default = "DEV1-S"
-}
-
-variable "worker_instance_type" {
-  default = "DEV1-S"
-}
-
-variable "worker_instance_count" {
-  default = 1
-}
-
-variable "manager_instance_count" {
-  default = 1
-}
-
-variable "docker_api_ip" {
-  default = "127.0.0.1"
-}
-
-variable "ssh_port" {
-  default = "22"
-}
-
-variable "private_subnet" {
-  default = "10.0.0.0/8"
-}
-
-variable "node_arch" {
-  default = "x86_64"
+    default = "fr-par"
 }
