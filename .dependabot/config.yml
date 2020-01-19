@@ -6,5 +6,5 @@ update_configs:
   update_schedule: "daily"
 
 - package_manager: "github_actions"
-  directory: ".github/"
+  directory: "/"
   update_schedule: "daily"
