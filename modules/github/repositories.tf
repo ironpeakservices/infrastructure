@@ -1,3 +1,4 @@
+/*
 resource "github_repository" "docker-security" {
   allow_merge_commit = true
   allow_rebase_merge = true
@@ -141,3 +142,4 @@ resource "github_repository" "scratch-go" {
   private            = false
   topics             = ["docker", "go"]
 }
+*/
