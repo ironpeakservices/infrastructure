@@ -5,6 +5,14 @@ module "scaleway" {
     scaleway_secrettoken    = var.scaleway_secrettoken
 }
 
+module "kubernetes" {
+    source                  = "./modules/kubernetes"
+
+    host                    = module.scaleway.kubeconfig.host
+    token                   = module.scaleway.kubeconfig.token
+    cluster_ca_certificate  = module.scaleway.kubeconfig.cluster_ca_certificate
+}
+
 module "cloudflare" {
     source                  = "./modules/cloudflare"
     

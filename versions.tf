@@ -25,6 +25,10 @@ provider "scaleway" {
     version = "~> 1.13"
 }
 
+provider "kubernetes" {
+    version = "~> 1.10"
+}
+
 provider "template" {
     version = "~> 2.1"
 }
