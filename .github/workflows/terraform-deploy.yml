@@ -25,7 +25,7 @@ jobs:
         fi
         openssl enc -aes-256-cbc -md sha512 -salt -in terraform.tfstate.enc -out terraform.tfstate -d -pass env:STATE_PASSWORD
         rm terraform.tfstate.enc
-        if [ ! -f terraform.tfstate ]; then; echo "Decryption failed"; exit 1; fi
+        if [ ! -f terraform.tfstate ]; then echo "Decryption failed"exit 1; fi
       env:
         STATE_PASSWORD: ${{ secrets.TF_STATE_SECRET }}
 
