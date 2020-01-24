@@ -9,7 +9,7 @@ provider "scaleway" {
 
 resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
     name = "ironpeakbe-main-cluster"
-    version = "latest"
+    version = "1.17.2" // or ommit to default to latest
     tags = [ "k8s", "ironpeakbe", "main-cluster", "prd" ]
     
     enable_dashboard = true
