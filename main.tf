@@ -3,6 +3,7 @@ module "scaleway" {
 
     scaleway_accesstoken    = var.scaleway_accesstoken
     scaleway_secrettoken    = var.scaleway_secrettoken
+    scaleway_organization   = var.scaleway_org
 }
 
 module "kubernetes" {
