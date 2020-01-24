@@ -29,7 +29,7 @@ resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
         min_size = var.node_minimum_count
         max_size = var.node_maximum_count
 
-        container_runtime = "crio"
+        container_runtime = "containerd"
     }
 
     /*
