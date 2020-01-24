@@ -98,7 +98,7 @@ jobs:
         git config user.name "GitHub Deploy"
         git add terraform.tfstate.enc
         git commit -m "chore(state): update state"
-        git push
+        git push origin "HEAD:${GITHUB_REF##*/}"
 
     - uses: actions/upload-artifact@v1
       with:
