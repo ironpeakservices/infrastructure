@@ -94,6 +94,8 @@ jobs:
           echo "State not found in repo after apply!"
           exit 1
         fi
+        git config user.email "hello@ironpeak.be"
+        git config user.name "GitHub Deploy"
         git add terraform.tfstate.enc
         git commit -m "chore(state): update state"
         git push
