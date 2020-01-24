@@ -14,6 +14,7 @@ module "kubernetes" {
     cluster_ca_certificate  = module.scaleway.kubeconfig[0].cluster_ca_certificate
 }
 
+/*
 module "cloudflare" {
     source                  = "./modules/cloudflare"
     
@@ -26,3 +27,4 @@ module "github" {
     github_token            = var.github_token
     github_organization     = var.github_org
 }
+*/
