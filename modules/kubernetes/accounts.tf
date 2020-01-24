@@ -1,9 +1,7 @@
 resource "kubernetes_service_account" "github-mainwebsite-deployer" {
     metadata {
         namespace = kubernetes_namespace.mainwebsite.metadata.0.name
-        annotations = {
-            name = "github-mainwebsite-deployer"
-        }
+        name = "github-mainwebsite-deployer"
     }
 
     secret {
@@ -13,8 +11,15 @@ resource "kubernetes_service_account" "github-mainwebsite-deployer" {
 
 resource "kubernetes_secret" "sa-github-mainwebsite-deployer" {
     metadata {
+        namespace = kubernetes_namespace.mainwebsite.metadata.0.name
         name = "sa-github-mainwebsite-deployer"
     }
 
+    /*
+    data = {
+        token = ""
+    }
+    */
+    
     type = "kubernetes.io/service-account-token"
 }
