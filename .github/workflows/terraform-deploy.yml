@@ -95,8 +95,8 @@ jobs:
         file_pattern: terraform.tfstate.enc
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_MERGE_TOKEN }}
-    - run: ls -al . kubeconfig
+  
     - uses: actions/upload-artifact@v1
       with:
         name: kubeconfig
-        path: kubeconfig
+        path: .
