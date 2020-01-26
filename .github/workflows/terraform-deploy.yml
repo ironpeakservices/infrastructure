@@ -13,19 +13,19 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v1.0.0
 
-    - name: Decrypt secrets
-      run: |
-        if [ -f "terraform.tfstate" ]; then
-          echo "State found in repo!"
-          exit 1
-        fi
-        if [ ! -f "terraform.tfstate.enc" ]; then
-          echo "No state found, starting fresh (!)"
-          exit 0
-        fi
-        openssl enc -aes-256-cbc -md sha512 -salt -in terraform.tfstate.enc -out terraform.tfstate -d -pass env:STATE_PASSWORD
-        rm terraform.tfstate.enc
-        if [ ! -f terraform.tfstate ]; then echo "Decryption failed" exit 1; fi
+    # - name: Decrypt secrets
+    #   run: |
+    #     if [ -f "terraform.tfstate" ]; then
+    #       echo "State found in repo!"
+    #       exit 1
+    #     fi
+    #     if [ ! -f "terraform.tfstate.enc" ]; then
+    #       echo "No state found, starting fresh (!)"
+    #       exit 0
+    #     fi
+    #     openssl enc -aes-256-cbc -md sha512 -salt -in terraform.tfstate.enc -out terraform.tfstate -d -pass env:STATE_PASSWORD
+    #     rm terraform.tfstate.enc
+    #     if [ ! -f terraform.tfstate ]; then echo "Decryption failed" exit 1; fi
       env:
         STATE_PASSWORD: ${{ secrets.TF_STATE_SECRET }}
 
@@ -77,26 +77,26 @@ jobs:
         TF_VAR_ssh_root_private_key: ${{ secrets.TF_VAR_ssh_root_private_key }}
         TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}     
 
-    - name: Re-encrypt secrets
-      run: |
-        if [ ! -f "terraform.tfstate" ]; then
-          echo "State not found in repo after apply!"
-          exit 1
-        fi
-        openssl enc -aes-256-cbc -md sha512 -salt -in terraform.tfstate -out terraform.tfstate.enc -pass env:STATE_PASSWORD
-        rm terraform.tfstate
-      env:
-        STATE_PASSWORD: ${{ secrets.TF_STATE_SECRET }}
+    # - name: Re-encrypt secrets
+    #   run: |
+    #     if [ ! -f "terraform.tfstate" ]; then
+    #       echo "State not found in repo after apply!"
+    #       exit 1
+    #     fi
+    #     openssl enc -aes-256-cbc -md sha512 -salt -in terraform.tfstate -out terraform.tfstate.enc -pass env:STATE_PASSWORD
+    #     rm terraform.tfstate
+    #   env:
+    #     STATE_PASSWORD: ${{ secrets.TF_STATE_SECRET }}
 
-    - uses: stefanzweifel/git-auto-commit-action@v2.5.0
-      with:
-        commit_message: "chore(state): add new deployed state"
-        branch: master
-        file_pattern: terraform.tfstate.enc
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_MERGE_TOKEN }}
+    # - uses: stefanzweifel/git-auto-commit-action@v2.5.0
+    #   with:
+    #     commit_message: "chore(state): add new deployed state"
+    #     branch: master
+    #     file_pattern: terraform.tfstate.enc
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_MERGE_TOKEN }}
   
-    - uses: actions/upload-artifact@v1
-      with:
-        name: kubeconfig
-        path: .
+    # - uses: actions/upload-artifact@v1
+    #   with:
+    #     name: kubeconfig
+    #     path: .
