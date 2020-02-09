@@ -9,9 +9,9 @@ module "scaleway" {
 module "kubernetes" {
     source                  = "./modules/kubernetes"
 
-    host                    = module.scaleway.kubeconfig[1].host
-    token                   = module.scaleway.kubeconfig[1].token
-    cluster_ca_certificate  = module.scaleway.kubeconfig[1].cluster_ca_certificate
+    host                    = module.scaleway.kubeconfig[0].host
+    token                   = module.scaleway.kubeconfig[0].token
+    cluster_ca_certificate  = module.scaleway.kubeconfig[0].cluster_ca_certificate
 }
 
 module "cloudflare" {
