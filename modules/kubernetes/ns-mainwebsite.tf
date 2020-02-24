@@ -28,7 +28,7 @@ resource "kubernetes_network_policy" "default_networkpolicy" {
 }
 
 # have a service account to deploy
-resource "kubernetes_service_account" "github_mainwebsite_deployer" {
+resource "kubernetes_service_account" "sa_github_mainwebsite_deployer" {
     metadata {
         namespace = kubernetes_namespace.mainwebsite.metadata.0.name
         name = "github-mainwebsite-deployer"
@@ -36,12 +36,12 @@ resource "kubernetes_service_account" "github_mainwebsite_deployer" {
 }
 
 # secret for the deployer service account
-resource "kubernetes_secret" "sa_github_mainwebsite_deployer" {
+resource "kubernetes_secret" "se_github_mainwebsite_deployer" {
     metadata {
         namespace = kubernetes_namespace.mainwebsite.metadata.0.name
-        name = "sa-github-mainwebsite-deployer"
+        name = "se-github-mainwebsite-deployer"
         annotations = {
-          "kubernetes.io/service-account.name" = "${kubernetes_service_account.github-mainwebsite-deployer.metadata.0.name}"
+          "kubernetes.io/service-account.name" = "${kubernetes_service_account.sa_github-mainwebsite-deployer.metadata.0.name}"
         }
     }
     
@@ -71,6 +71,6 @@ resource "kubernetes_role_binding" "rb_github_mainwebsite_deployer" {
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "ServiceAccount"
-    name      = kubernetes_service_account.github_mainwebsite_deployer.metadata.0.name
+    name      = kubernetes_service_account.sa_github_mainwebsite_deployer.metadata.0.name
   }
 }
