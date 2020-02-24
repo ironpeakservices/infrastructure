@@ -14,13 +14,13 @@ module "kubernetes" {
     cluster_ca_certificate  = module.scaleway.kubeconfig[0].cluster_ca_certificate
 }
 
-/*
 module "cloudflare" {
     source                  = "./modules/cloudflare"
     
     cloudflare_token        = var.cloudflare_token
 }
 
+/*
 module "github" {
     source                  = "./modules/github"
 
