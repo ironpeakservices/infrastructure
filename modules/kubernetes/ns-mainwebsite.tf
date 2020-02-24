@@ -41,7 +41,7 @@ resource "kubernetes_secret" "se_github_mainwebsite_deployer" {
         namespace = kubernetes_namespace.mainwebsite.metadata.0.name
         name = "se-github-mainwebsite-deployer"
         annotations = {
-          "kubernetes.io/service-account.name" = "${kubernetes_service_account.sa_github-mainwebsite_deployer.metadata.0.name}"
+          "kubernetes.io/service-account.name" = "${kubernetes_service_account.sa_github_mainwebsite_deployer.metadata.0.name}"
         }
     }
     
