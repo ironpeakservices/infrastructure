@@ -70,6 +70,10 @@ resource "kubernetes_role_binding" "rb_github_mainwebsite_deployer" {
   }
   role_ref {
     api_group = "rbac.authorization.k8s.io"
+    kind      = "Role"
+    name      = kubernetes_role_binding.rb_github_mainwebsite_deployer.metadata.0.name
+  }
+  subject {
     kind      = "ServiceAccount"
     name      = kubernetes_service_account.sa_github_mainwebsite_deployer.metadata.0.name
   }
