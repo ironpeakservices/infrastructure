@@ -5,7 +5,7 @@ module "scaleway" {
     scaleway_secrettoken    = var.scaleway_secrettoken
     scaleway_organization   = var.scaleway_org
 }
-/*
+
 module "kubernetes" {
     source                  = "./modules/kubernetes"
 
@@ -14,6 +14,7 @@ module "kubernetes" {
     cluster_ca_certificate  = module.scaleway.kubeconfig[0].cluster_ca_certificate
 }
 
+/*
 module "cloudflare" {
     source                  = "./modules/cloudflare"
     
