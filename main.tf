@@ -12,7 +12,6 @@ module "cloudflare" {
     cloudflare_token        = var.cloudflare_token
 }
 
-/*
 module "kubernetes" {
     source                  = "./modules/kubernetes"
 
@@ -20,7 +19,8 @@ module "kubernetes" {
     token                   = module.scaleway.kubeconfig[0].token
     cluster_ca_certificate  = module.scaleway.kubeconfig[0].cluster_ca_certificate
 }
-        
+
+/*
 module "github" {
     source                  = "./modules/github"
 
