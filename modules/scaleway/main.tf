@@ -1,6 +1,7 @@
 provider "scaleway" {
-    access_key = var.scaleway_accesstoken
-    secret_key = var.scaleway_secrettoken
+    access_key      = var.scaleway_accesstoken
+    secret_key      = var.scaleway_secrettoken
+    organization_id = var.scaleway_organization
 
     zone       = var.zone
     region     = var.region
@@ -8,7 +9,7 @@ provider "scaleway" {
 
 resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
     name = "ironpeakbe-main-cluster"
-    version = "latest"
+    version = "1.17.3"
     tags = [ "k8s", "ironpeakbe", "main-cluster", "prd" ]
     
     enable_dashboard = true
@@ -28,7 +29,7 @@ resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
         min_size = var.node_minimum_count
         max_size = var.node_maximum_count
 
-        container_runtime = "crio"
+        container_runtime = "containerd"
     }
 
     /*

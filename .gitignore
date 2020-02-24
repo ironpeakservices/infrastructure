@@ -4,3 +4,4 @@ certs/
 *.tfvars
 .terraform/
 .DS_Store
+kubeconfig

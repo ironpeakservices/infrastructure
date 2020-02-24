@@ -1,7 +1,6 @@
 # infrastructure
 Terraform configuration of the ironpeak infrastructure.
-
+Deploy status: ![Deploy](https://github.com/ironPeakServices/infrastructure/workflows/Deploy/badge.svg?branch=master)
 
 ## Running manually
-Test the plan: `terraform plan -var 'ssh_private_key_path=my-key' -var 'ssh_public_key_path=my-pub' -var 'api_token=SCALEWAY_API_TOKEN'`
-Execute the plan: `terraform apply -auto-approve -var 'ssh_private_key_path=my-key' -var 'ssh_public_key_path=my-pub' -var 'api_token=SCALEWAY_API_TOKEN'`
+Test the plan with `terraform plan` or execute it: `terraform apply`.

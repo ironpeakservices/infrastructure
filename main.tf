@@ -3,6 +3,7 @@ module "scaleway" {
 
     scaleway_accesstoken    = var.scaleway_accesstoken
     scaleway_secrettoken    = var.scaleway_secrettoken
+    scaleway_organization   = var.scaleway_org
 }
 
 module "kubernetes" {
@@ -19,9 +20,11 @@ module "cloudflare" {
     cloudflare_token        = var.cloudflare_token
 }
 
+/*
 module "github" {
     source                  = "./modules/github"
 
     github_token            = var.github_token
     github_organization     = var.github_org
 }
+*/

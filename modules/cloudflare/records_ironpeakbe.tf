@@ -24,7 +24,7 @@ resource "cloudflare_record" "CNAME_wwwironpeakbe" {
   zone_id  = cloudflare_zone.ironpeakbe.id
   name     = "www.ironpeak.be"
   priority = "0"
-  proxied  = false
+  proxied  = true
   ttl      = "1"
   type     = "CNAME"
   value    = cloudflare_record.A_ironpeakbe.name

@@ -2,6 +2,8 @@ variable scaleway_accesstoken {}
 
 variable scaleway_secrettoken {}
 
+variable scaleway_organization {}
+
 variable node_type {
     default = "GP1-XS"
 }
