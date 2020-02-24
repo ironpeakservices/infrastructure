@@ -18,7 +18,7 @@ resource "kubernetes_namespace" "mainwebsite" {
 resource "kubernetes_network_policy" "default-networkpolicy" {
   metadata {
     name      = "default-networkpolicy"
-    namespace = "mainwebsite"
+    namespace = kubernetes_namespace.mainwebsite.metadata.0.name
   }
 
   spec {
@@ -47,3 +47,29 @@ resource "kubernetes_secret" "sa-github-mainwebsite-deployer" {
     
     type = "kubernetes.io/service-account-token"
 }
+
+# deployer role for GitHub
+resource "kubernetes_role" "ro-github-mainwebsite-deployer" {
+  metadata {
+    name = "ro-github-mainwebsite-deployer"
+    namespace = kubernetes_namespace.mainwebsite.metadata.0.name
+  }
+
+  rule {
+    api_groups     = ["", "extensions", "apps"]
+    resources      = ["deployments", "replicasets", "pods"]
+    verbs          = ["get", "list", "watch", "create", "update", "patch", "delete"]
+  }
+}
+
+# now bind the role to the user
+resource "kubernetes_role_binding" "rb-github-mainwebsite-deployer" {
+  metadata {
+    name      = "rb-github-mainwebsite-deployer"
+    namespace = kubernetes_namespace.mainwebsite.metadata.0.name
+  }
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ServiceAccount"
+    name      = kubernetes_service_account.github-mainwebsite-deployer.metadata.0.name
+  }
