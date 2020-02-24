@@ -15,6 +15,7 @@ jobs:
       with:
         repository: hazcod/infrastructure-state
         path: state/
+        token: ${{ secrets.GITHUB_MERGE_TOKEN }}
 
     - name: Terraform - Init
       uses: hashicorp/terraform-github-actions@v0.7.1
