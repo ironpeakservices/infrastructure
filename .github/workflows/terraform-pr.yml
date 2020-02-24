@@ -8,48 +8,41 @@ jobs:
     steps:
     
     - name: Checkout code
-      uses: actions/checkout@master
+      uses: actions/checkout@v2
       
-    - name: Decrypt secrets
-      run: |
-        if [ -f "terraform.tfstate" ]; then
-          echo "State found in repo!"
-          exit 1
-        fi
-        if [ ! -f "terraform.tfstate.enc" ]; then
-          echo "No state found, starting fresh (!)"
-          exit 0
-        fi
-        openssl enc -aes-256-cbc -md sha512 -salt -in terraform.tfstate.enc -out terraform.tfstate -d -pass env:STATE_PASSWORD
-        if [ ! -f terraform.tfstate ]; then echo "Decryption failed"exit 1; fi
-      env:
-        STATE_PASSWORD: ${{ secrets.TF_STATE_SECRET }}
+    - name: Checkout secrets
+      uses: actions/checkout@v2
+      with:
+        repository: hazcod/infrastructure-state
+        path: state/
+        token: ${{ secrets.GITHUB_MERGE_TOKEN }}
 
     - name: Terraform - Init
-      uses: hashicorp/terraform-github-actions@v0.6.4
+      uses: hashicorp/terraform-github-actions@v0.7.1
       with:
         tf_actions_subcommand: "init"
         tf_actions_version: "latest"
 
     - name: Terraform - Lint
-      uses: reviewdog/action-tflint@v1.1.1
+      uses: reviewdog/action-tflint@v1.2.2
       with:
         github_token: ${{ secrets.github_token }}
         reporter: github-pr-review
         flags: "--deep"
 
     - name: Terraform - Validate
-      uses: hashicorp/terraform-github-actions@v0.6.4
+      uses: hashicorp/terraform-github-actions@v0.7.1
       with:
         tf_actions_subcommand: "validate"
         tf_actions_version: "latest"
 
     - name: Terraform - Plan
-      uses: hashicorp/terraform-github-actions@v0.6.4
+      uses: hashicorp/terraform-github-actions@v0.7.1
       with:
         tf_actions_subcommand: "plan"
         tf_actions_version: "latest"
       env:
+        TF_CLI_ARGS: "-state=state/terraform.tfstate"
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
         TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_cloudflare_token }}
         TF_VAR_github_org: ${{ secrets.TF_VAR_github_org }}
