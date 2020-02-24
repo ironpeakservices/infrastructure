@@ -73,3 +73,4 @@ resource "kubernetes_role_binding" "rb_github_mainwebsite_deployer" {
     kind      = "ServiceAccount"
     name      = kubernetes_service_account.github_mainwebsite_deployer.metadata.0.name
   }
+}
