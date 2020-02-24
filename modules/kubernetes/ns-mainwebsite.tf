@@ -15,7 +15,7 @@ resource "kubernetes_namespace" "mainwebsite" {
 }
 
 # by default deny all ingress/egress traffic
-resource "kubernetes_network_policy" "default-networkpolicy" {
+resource "kubernetes_network_policy" "default_networkpolicy" {
   metadata {
     name      = "default-networkpolicy"
     namespace = kubernetes_namespace.mainwebsite.metadata.0.name
@@ -28,7 +28,7 @@ resource "kubernetes_network_policy" "default-networkpolicy" {
 }
 
 # have a service account to deploy
-resource "kubernetes_service_account" "github-mainwebsite-deployer" {
+resource "kubernetes_service_account" "github_mainwebsite_deployer" {
     metadata {
         namespace = kubernetes_namespace.mainwebsite.metadata.0.name
         name = "github-mainwebsite-deployer"
@@ -36,7 +36,7 @@ resource "kubernetes_service_account" "github-mainwebsite-deployer" {
 }
 
 # secret for the deployer service account
-resource "kubernetes_secret" "sa-github-mainwebsite-deployer" {
+resource "kubernetes_secret" "sa_github_mainwebsite_deployer" {
     metadata {
         namespace = kubernetes_namespace.mainwebsite.metadata.0.name
         name = "sa-github-mainwebsite-deployer"
@@ -49,7 +49,7 @@ resource "kubernetes_secret" "sa-github-mainwebsite-deployer" {
 }
 
 # deployer role for GitHub
-resource "kubernetes_role" "ro-github-mainwebsite-deployer" {
+resource "kubernetes_role" "ro_github_mainwebsite_deployer" {
   metadata {
     name = "ro-github-mainwebsite-deployer"
     namespace = kubernetes_namespace.mainwebsite.metadata.0.name
@@ -63,7 +63,7 @@ resource "kubernetes_role" "ro-github-mainwebsite-deployer" {
 }
 
 # now bind the role to the user
-resource "kubernetes_role_binding" "rb-github-mainwebsite-deployer" {
+resource "kubernetes_role_binding" "rb_github_mainwebsite_deployer" {
   metadata {
     name      = "rb-github-mainwebsite-deployer"
     namespace = kubernetes_namespace.mainwebsite.metadata.0.name
@@ -71,5 +71,5 @@ resource "kubernetes_role_binding" "rb-github-mainwebsite-deployer" {
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "ServiceAccount"
-    name      = kubernetes_service_account.github-mainwebsite-deployer.metadata.0.name
+    name      = kubernetes_service_account.github_mainwebsite_deployer.metadata.0.name
   }
