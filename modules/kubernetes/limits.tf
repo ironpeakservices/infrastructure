@@ -1,3 +1,4 @@
+# default cluster resource limitations
 resource "kubernetes_limit_range" "default-resource-limitations" {
   metadata {
     name = "default-resource-limitations"
@@ -26,5 +27,15 @@ resource "kubernetes_limit_range" "default-resource-limitations" {
         memory = "500M"
       }
     }
+  }
+}
+
+# default disruption budgets
+resource "kubernetes_pod_disruption_budget" "default-pod-disruption-budget" {
+  metadata {
+    name = "default-pod-disruption-budget"
+  }
+  spec {
+    min_available = 1
   }
 }
