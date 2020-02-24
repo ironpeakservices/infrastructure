@@ -36,6 +36,7 @@ resource "kubernetes_pod_disruption_budget" "default-pod-disruption-budget" {
     name = "default-pod-disruption-budget"
   }
   spec {
+    selector {}
     min_available = 1
   }
 }
