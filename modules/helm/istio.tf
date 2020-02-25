@@ -18,7 +18,7 @@ resource "helm_release" "istio_init" {
   recreate_pods   = true
   verify          = false
   
-  force_update = true #TODO: remove
+  #force_update = true #TODO: remove
 }
 
 # istio chart for the real components
@@ -36,7 +36,7 @@ resource "helm_release" "istio" {
   recreate_pods   = true
   verify          = false
     
-  force_update = true #TODO: remove
+  #force_update = true #TODO: remove
 }
 
 # ability to use istio as a CNI instead of cilium/canico
@@ -54,5 +54,5 @@ resource "helm_release" "istio_cni" {
   recreate_pods   = true
   verify          = false
     
-  force_update = true #TODO: remove
+  #force_update = true #TODO: remove
 }
