@@ -30,3 +30,16 @@ resource "helm_release" "istio" {
   recreate_pods   = true
   verify          = true
 }
+
+# ability to use istio as a CNI instead of cilium/canico
+resource "helm_release" "istio-cni" {
+  name        = "istio-cni"
+  repository  = data.helm_repository.istio.metadata[0].name
+  chart       = "istio.io/istio-cni"
+  version     = var.istio_version
+  namespace   = var.istio_namespace
+  
+  cleanup_on_fail = true
+  recreate_pods   = true
+  verify          = true
+}
