@@ -6,7 +6,7 @@ data "helm_repository" "istio" {
 
 # initialize our istio Custom Resource Defitinations
 # these are needed for the real istio charts
-resource "helm_release" "istio-init" {
+resource "helm_release" "istio_init" {
   name        = "istio-init"
   repository  = data.helm_repository.istio.metadata[0].name
   chart       = "istio-init"
@@ -15,10 +15,13 @@ resource "helm_release" "istio-init" {
   
   cleanup_on_fail = true
   recreate_pods   = true
+  verify          = false
 }
 
 # istio chart for the real components
 resource "helm_release" "istio" {
+  depends_on  = [helm_release.istio_init]
+
   name        = "istio"
   repository  = data.helm_repository.istio.metadata[0].name
   chart       = "istio"
@@ -27,10 +30,13 @@ resource "helm_release" "istio" {
   
   cleanup_on_fail = true
   recreate_pods   = true
+  verify          = false
 }
 
 # ability to use istio as a CNI instead of cilium/canico
-resource "helm_release" "istio-cni" {
+resource "helm_release" "istio_cni" {
+  depends_on  = [helm_release.istio]
+
   name        = "istio-cni"
   repository  = data.helm_repository.istio.metadata[0].name
   chart       = "istio-cni"
@@ -39,4 +45,5 @@ resource "helm_release" "istio-cni" {
   
   cleanup_on_fail = true
   recreate_pods   = true
+  verify          = false
 }
