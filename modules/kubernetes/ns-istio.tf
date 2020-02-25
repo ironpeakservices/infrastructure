@@ -10,6 +10,6 @@ resource "kubernetes_namespace" "istio" {
             type = "system"
         }
 
-        name = "istio"
+        name = var.istio_namespace
     }
 }
