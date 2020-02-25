@@ -5,5 +5,5 @@ variable "token" {}
 variable "cluster_ca_certificate" {}
 
 variable "istio_namespace" {
-  default = "istio"
+  default = "system-istio"
 }
