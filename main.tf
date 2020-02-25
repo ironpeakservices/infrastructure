@@ -20,6 +20,14 @@ module "kubernetes" {
     cluster_ca_certificate  = module.scaleway.kubeconfig[0].cluster_ca_certificate
 }
 
+module "kubernetes_istio" {
+    source                  = "./modules/helm"
+    
+    host                    = module.kubernetes.host
+    token                   = module.kubernetes.token
+    cluster_ca_certificate  = module.kubernetes.cluster_ca_certificate
+}
+
 /*
 module "github" {
     source                  = "./modules/github"
