@@ -9,7 +9,7 @@ data "helm_repository" "istio" {
 resource "helm_release" "istio-init" {
   name        = "istio-init"
   repository  = data.helm_repository.istio.metadata[0].name
-  chart       = "istio.io/istio-init"
+  chart       = "istio-init"
   version     = var.istio_version
   namespace   = var.istio_namespace
   
@@ -22,7 +22,7 @@ resource "helm_release" "istio-init" {
 resource "helm_release" "istio" {
   name        = "istio"
   repository  = data.helm_repository.istio.metadata[0].name
-  chart       = "istio.io/istio"
+  chart       = "istio"
   version     = var.istio_version
   namespace   = var.istio_namespace
   
@@ -35,7 +35,7 @@ resource "helm_release" "istio" {
 resource "helm_release" "istio-cni" {
   name        = "istio-cni"
   repository  = data.helm_repository.istio.metadata[0].name
-  chart       = "istio.io/istio-cni"
+  chart       = "istio-cni"
   version     = var.istio_version
   namespace   = var.istio_namespace
   
