@@ -15,7 +15,6 @@ resource "helm_release" "istio-init" {
   
   cleanup_on_fail = true
   recreate_pods   = true
-  verify          = true
 }
 
 # istio chart for the real components
@@ -28,7 +27,6 @@ resource "helm_release" "istio" {
   
   cleanup_on_fail = true
   recreate_pods   = true
-  verify          = true
 }
 
 # ability to use istio as a CNI instead of cilium/canico
@@ -41,5 +39,4 @@ resource "helm_release" "istio-cni" {
   
   cleanup_on_fail = true
   recreate_pods   = true
-  verify          = true
 }
