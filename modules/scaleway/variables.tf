@@ -4,6 +4,10 @@ variable scaleway_secrettoken {}
 
 variable scaleway_organization {}
 
+variable k8s_version {
+    default = "1.17.3"
+}
+
 variable node_type {
     default = "GP1-XS"
 }
