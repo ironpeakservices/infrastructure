@@ -13,7 +13,7 @@ module "scaleway" {
     scaleway_secrettoken    = var.scaleway_secrettoken
     scaleway_organization   = var.scaleway_org
 }
-
+/*
 # baseline kubernetes configuration
 module "kubernetes" {
     source                  = "./modules/kubernetes"
@@ -31,7 +31,7 @@ module "kubernetes_helm" {
     token                   = module.kubernetes.token
     cluster_ca_certificate  = module.kubernetes.cluster_ca_certificate
 }
-
+*/
 /*
 # since we're GitOps, include GitHub aswel
 module "github" {
