@@ -6,7 +6,7 @@
 provider "helm" {
   kubernetes {
     load_config_file       = true
-    config_path            = "kubeconfig"
+    config_path            = var.kubeconfig_path
     config_context         = var.cluster_name
     #host                   = var.host
     #token                  = var.token
