@@ -26,11 +26,14 @@ provider "scaleway" {
 }
 
 provider "kubernetes" {
-    version = "~> 1.10"
+    # fixed to 1.10.0 because of https://github.com/terraform-providers/terraform-provider-kubernetes/issues/759
+    version = "1.10.0"
+    token = module.scaleway.token
 }
 
 provider "helm" {
     version = "~> v1.0"
+    token = module.scaleway.token
 }
 
 provider "template" {
