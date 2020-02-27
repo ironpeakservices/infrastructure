@@ -7,6 +7,7 @@ provider "helm" {
   # for helm v2
   service_account = "tiller"
   install_tiller  = true
+  namespace       = "kube-system"
   
   kubernetes {
     load_config_file       = false
