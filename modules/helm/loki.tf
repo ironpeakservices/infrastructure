@@ -5,7 +5,7 @@ data "helm_repository" "loki" {
 }
 
 # install prometheus, 
-resource "helm_release" "istio_init" {
+resource "helm_release" "loki_stack" {
   name        = "loki"
   repository  = data.helm_repository.loki.metadata[0].name
   chart       = "loki/loki-stack"
