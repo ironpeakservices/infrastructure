@@ -32,7 +32,7 @@ provider "kubernetes" {
 }
 
 provider "helm" {
-    version = "~> v1.0"
+    version = "~> v0.10"
     token = module.scaleway.token
 }
 
