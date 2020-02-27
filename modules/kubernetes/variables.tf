@@ -1,9 +1,11 @@
-variable "host" {}
+variable host {}
 
-variable "token" {}
+variable token {}
 
-variable "cluster_ca_certificate" {}
+variable cluster_ca_certificate {}
 
-variable "istio_namespace" {
+variable cluster_name {}
+
+variable istio_namespace {
   default = "system-istio"
 }
