@@ -12,6 +12,7 @@ module "scaleway" {
     scaleway_accesstoken    = var.scaleway_accesstoken
     scaleway_secrettoken    = var.scaleway_secrettoken
     scaleway_organization   = var.scaleway_org
+    cluster_name            = var.k8s_cluster_name
 }
 
 # baseline kubernetes configuration
@@ -21,6 +22,7 @@ module "kubernetes" {
     host                    = module.scaleway.host
     token                   = module.scaleway.token
     cluster_ca_certificate  = module.scaleway.cluster_ca_certificate
+    cluster_name            = var.k8s_cluster_name
 }
 
 # all baseline kubernetes packages in helm charts
@@ -29,7 +31,7 @@ module "kubernetes_helm" {
     
     host                    = module.kubernetes.host
     token                   = module.kubernetes.token
-    cluster_ca_certificate  = module.kubernetes.cluster_ca_certificate
+    cluster_name            = var.k8s_cluster_name
 }
 
 /*
