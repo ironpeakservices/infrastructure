@@ -31,6 +31,7 @@ module "kubernetes_helm" {
     
     host                    = module.kubernetes.host
     token                   = module.kubernetes.token
+    cluster_ca_certificate  = module.scaleway.cluster_ca_certificate
     cluster_name            = var.k8s_cluster_name
 }
 
