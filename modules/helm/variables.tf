@@ -1,14 +1,8 @@
-variable "host" {
-  default = "foo"
-}
+variable "host" {}
 
-variable "token" {
-  default = "foo"
-}
+variable "token" {}
 
-variable "cluster_ca_certificate" {
-  default = "Zm9v"
-}
+variable "cluster_ca_certificate" {}
 
 variable "istio_version" {
   default = "1.4.5"  
