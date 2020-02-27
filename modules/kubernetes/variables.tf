@@ -7,7 +7,7 @@ variable cluster_ca_certificate {}
 variable cluster_name {}
 
 variable kubeconfig_path {
-  default = "../kubeconfig"
+  default = "${path.root}/kubeconfig"
 }
 
 variable istio_namespace {
