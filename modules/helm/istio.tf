@@ -17,12 +17,6 @@ resource "helm_release" "istio_init" {
   cleanup_on_fail = true
   recreate_pods   = true
   verify          = false
-  
-  #force_update = true #TODO: remove
-  
-  provisioner "local-exec" {
-    command = "helm test istio-init"
-  }
 }
 
 # istio chart for the real components
@@ -39,12 +33,6 @@ resource "helm_release" "istio" {
   cleanup_on_fail = true
   recreate_pods   = true
   verify          = false
-    
-  #force_update = true #TODO: remove
-  
-  provisioner "local-exec" {
-    command = "helm test istio"
-  }
 }
 
 # ability to use istio as a CNI instead of cilium/canico
@@ -61,10 +49,4 @@ resource "helm_release" "istio_cni" {
   cleanup_on_fail = true
   recreate_pods   = true
   verify          = false
-    
-  #force_update = true #TODO: remove
-  
-  provisioner "local-exec" {
-    command = "helm test istio-cni"
-  }
 }
