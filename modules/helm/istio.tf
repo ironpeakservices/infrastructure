@@ -33,6 +33,27 @@ resource "helm_release" "istio" {
   #cleanup_on_fail = true
   recreate_pods   = true
   verify          = false
+  
+  set { # we are going to use Cloudflare Argo for ingress traffic
+    name  = "gateways.istio-ingressgateway.enabled"
+    value = "false"
+  }
+  set { # egress should go through our gateway
+    name  = "gateways.istio-egressgateway.enabled"
+    value = "true"
+  }
+  set { # never allow cluster ingress traffic
+    name  = "global.k8sIngress.enabled"
+    value = "false"
+  }
+  set { # istio grafana dashboard
+    name  = "grafana.enabled"
+    value = "true"
+  }
+  set { # enable the cni plugin to replace canico
+    name  = "cni.enabled"
+    value = "true"
+  }
 }
 
 # ability to use istio as a CNI instead of cilium/canico
