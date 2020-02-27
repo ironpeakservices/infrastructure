@@ -25,5 +25,5 @@ variable "loki_namespace" {
 }
 
 variable "grafana_version" {
-  default = "6.0.3"
+  default = "5.0.3"
 }
