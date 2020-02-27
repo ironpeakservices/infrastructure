@@ -22,3 +22,12 @@ resource "kubernetes_cluster_role_binding" "rb_system_tiller" {
     namespace = "kube-system"
   }
 }
+
+resource "kubernetes_service_account" "helm-sa" {
+  metadata {
+    name = "helm"
+    namespace = "kube-system"
+  }
+
+  automount_service_account_token = true
+}
