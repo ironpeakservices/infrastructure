@@ -18,7 +18,7 @@ resource "kubernetes_cluster_role_binding" "rb_system_tiller" {
   
   subject {
     kind      = "ServiceAccount"
-    name      = "${kubernetes_service_account.sa_system_tiller.metadata.0.name}"
+    name      = ${kubernetes_service_account.sa_system_tiller.metadata.0.name}
     namespace = "kube-system"
   }
 }
