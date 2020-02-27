@@ -4,7 +4,7 @@ variable "token" {}
 
 variable "cluster_ca_certificate" {}
 
-variable cluster_name {
+variable "cluster_name" {
   default = "default"
 }
 
@@ -16,10 +16,10 @@ variable "istio_namespace" {
   default = "istio"
 }
 
-variable loki_verison {
+variable "loki_version" {
   default = "0.32.1"
 }
 
-variable loki_namespace {
+variable "loki_namespace" {
   default = "logging"
 }
