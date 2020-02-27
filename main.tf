@@ -18,9 +18,9 @@ module "scaleway" {
 module "kubernetes" {
     source                  = "./modules/kubernetes"
 
-    host                    = module.scaleway.kubeconfig[0].host
-    token                   = module.scaleway.kubeconfig[0].token
-    cluster_ca_certificate  = module.scaleway.kubeconfig[0].cluster_ca_certificate
+    host                    = module.scaleway.host
+    token                   = module.scaleway.token
+    cluster_ca_certificate  = module.scaleway.cluster_ca_certificate
 }
 
 # all baseline kubernetes packages in helm charts
