@@ -3,8 +3,6 @@ resource "kubernetes_service_account" "sa_system_tiller" {
     name = "tiller"
     namespace = "kube-system"
   }
-  
-  name = "tiller"
 }
 
 resource "kubernetes_cluster_role_binding" "rb_system_tiller" {
