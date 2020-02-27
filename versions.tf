@@ -3,39 +3,39 @@ terraform {
 }
 
 provider "cloudflare" {
-    version = "~> 2.3"
+    version = "~> v2.3"
     api_token = var.cloudflare_token
 }
 
 provider "external" {
-    version = "~> 1.2"
+    version = "~> v1.2"
 }
 
 provider "local" {
-    version = "~> 1.4"
+    version = "~> v1.4"
 }
 
 provider "github" {
-    version = "~> 2.2"
+    version = "~> v2.2"
     token = var.github_token
     organization = var.github_org
 }
 
 provider "scaleway" {
-    version = "~> 1.13"
+    version = "~> v1.13"
 }
 
 provider "kubernetes" {
-    # fixed to 1.10 because of https://github.com/terraform-providers/terraform-provider-kubernetes/issues/759
-    version = "~> 1.10"
+    # fixed to v1.10 because of https://github.com/terraform-providers/terraform-provider-kubernetes/issues/759
+    version = "~> v1.10"
     token = module.scaleway.token
 }
 
 provider "helm" {
-    version = "~> 1.0"
+    version = "~> v1.0"
     token = module.scaleway.token
 }
 
 provider "template" {
-    version = "~> 2.1"
+    version = "~> v2.1"
 }
