@@ -5,6 +5,7 @@
 
 provider "helm" {
   kubernetes {
+    version                = "~> 0.10"
     load_config_file       = false
     host                   = var.host
     token                  = var.token
