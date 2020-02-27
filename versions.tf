@@ -26,11 +26,13 @@ provider "scaleway" {
 }
 
 provider "kubernetes" {
-    version = "<= 1.9.0"
+    version = "1.10.0"
+    token = module.scaleway.token
 }
 
 provider "helm" {
     version = "~> v1.0"
+    token = module.scaleway.token
 }
 
 provider "template" {
