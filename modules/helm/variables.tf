@@ -15,3 +15,11 @@ variable "istio_version" {
 variable "istio_namespace" {
   default = "istio"
 }
+
+variable loki_verison {
+  default = "0.32.1"
+}
+
+variable loki_namespace {
+  default = "logging"
+}
