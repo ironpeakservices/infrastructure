@@ -13,7 +13,7 @@ variable k8s_version {
 }
 
 variable node_type {
-    default = "GP1-XS"
+    default = "DEV1-M"
 }
 
 variable node_default_count {
