@@ -42,6 +42,7 @@ jobs:
         tf_actions_subcommand: "plan"
         tf_actions_version: "latest"
       env:
+        TF_LOG: TRACE
         TF_CLI_ARGS: "-state=state/terraform.tfstate"
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
         TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_cloudflare_token }}
