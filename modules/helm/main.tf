@@ -6,6 +6,7 @@
 provider "helm" {    
   # for helm v2
   service_account = "tiller"
+  install_tiller  = true
   
   kubernetes {
     load_config_file       = false
