@@ -23,3 +23,7 @@ variable "loki_version" {
 variable "loki_namespace" {
   default = "logging"
 }
+
+variable "grafana_version" {
+  default = "6.0.3"
+}
