@@ -12,7 +12,6 @@ provider "helm" {
     config_context         = var.cluster_name
     
     # for helm v2
-    install_tiller = "true"
     service_account = "tiller"
   }
 }
