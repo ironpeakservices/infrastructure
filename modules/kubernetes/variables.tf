@@ -9,5 +9,5 @@ variable cluster_name {
 }
 
 variable "istio_namespace" {
-  default = "system-istio"
+  default = "istio"
 }

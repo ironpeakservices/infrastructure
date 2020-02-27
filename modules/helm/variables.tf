@@ -13,5 +13,5 @@ variable "istio_version" {
 }
 
 variable "istio_namespace" {
-  default = "system-istio"
+  default = "istio"
 }

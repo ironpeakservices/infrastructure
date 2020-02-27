@@ -13,8 +13,8 @@ resource "helm_release" "istio_init" {
   version     = var.istio_version
   namespace   = var.istio_namespace
   
-  atomic          = true
-  cleanup_on_fail = true
+  #atomic          = true
+  #cleanup_on_fail = true
   recreate_pods   = true
   verify          = false
 }
@@ -29,8 +29,8 @@ resource "helm_release" "istio" {
   version     = var.istio_version
   namespace   = var.istio_namespace
   
-  atomic          = true
-  cleanup_on_fail = true
+  #atomic          = true
+  #cleanup_on_fail = true
   recreate_pods   = true
   verify          = false
 }
@@ -45,8 +45,8 @@ resource "helm_release" "istio_cni" {
   version     = var.istio_version
   namespace   = var.istio_namespace
   
-  atomic          = true
-  cleanup_on_fail = true
+  #atomic          = true
+  #cleanup_on_fail = true
   recreate_pods   = true
   verify          = false
 }
