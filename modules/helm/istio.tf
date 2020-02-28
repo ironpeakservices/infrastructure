@@ -13,6 +13,7 @@ resource "helm_release" "istio_init" {
   version     = var.istio_version
   namespace   = var.istio_namespace
   
+  timeout         = 600
   #atomic          = true
   #cleanup_on_fail = true
   recreate_pods   = true
@@ -29,6 +30,7 @@ resource "helm_release" "istio_cni" {
   version     = var.istio_version
   namespace   = var.istio_namespace
   
+  timeout         = 600
   #atomic          = true
   #cleanup_on_fail = true
   recreate_pods   = true
@@ -45,6 +47,7 @@ resource "helm_release" "istio" {
   version     = var.istio_version
   namespace   = var.istio_namespace
   
+  timeout         = 600
   #atomic          = true
   #cleanup_on_fail = true
   recreate_pods   = true
