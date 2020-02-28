@@ -15,7 +15,7 @@ resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
     enable_dashboard = true
 
     ingress = "none"
-    cni = "flannel"
+    cni = "cilium"
     // admission_plugins =
     // feature_gates =
 
