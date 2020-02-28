@@ -14,8 +14,8 @@ resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
     
     enable_dashboard = true
 
-    ingress = "traefik"
-    cni = "calico"
+    ingress = "none"
+    cni = "flannel"
     // admission_plugins =
     // feature_gates =
 
