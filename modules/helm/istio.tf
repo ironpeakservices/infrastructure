@@ -69,10 +69,10 @@ resource "helm_release" "istio" {
     name  = "grafana.enabled"
     value = "true"
   }
-  set { # enable the cni plugin to replace canico
-    name  = "istio_cni.enabled"
-    value = "true"
-  }
+#  set { # enable the cni plugin to replace canico
+#    name  = "istio_cni.enabled"
+#    value = "true"
+#  }
   set { # enable container mtls by default
     name  = "mtls.enabled"
     value = "true"
