@@ -66,15 +66,15 @@ resource "helm_release" "loki_grafana" {
   recreate_pods   = true
   verify          = false
   
-  set {
+  set { # grafana should store some cached data
     name  = "persistence.enabled"
     value = "true"
   }
-  set {
+  set { # 10Gbit should be more than enough
     name  = "persistence.size"
     value = "10Gi"
   }
-  set {
+  set { # use k8s native storage
     name  = "persistence.type"
     value = "pvc"
   }
