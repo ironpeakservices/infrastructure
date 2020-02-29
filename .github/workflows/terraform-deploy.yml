@@ -38,6 +38,7 @@ jobs:
         tf_actions_subcommand: "plan"
         tf_actions_version: "latest"
       env:
+        TF_LOG: WARN
         TF_CLI_ARGS: "-state=state/terraform.tfstate"
         TF_ACTION_COMMENT: false
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
@@ -57,6 +58,7 @@ jobs:
         tf_actions_subcommand: "apply"
         tf_actions_version: "latest"
       env:
+        TF_LOG: WARN
         TF_ACTION_COMMENT: false
         TF_CLI_ARGS: "-state=state/terraform.tfstate"
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
@@ -71,6 +73,7 @@ jobs:
         TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}     
 
     - uses: stefanzweifel/git-auto-commit-action@v2.5.0
+      if: always()
       with:
         repository: state/
         commit_message: "feat(state): add new deployed state"

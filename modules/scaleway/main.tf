@@ -8,14 +8,14 @@ provider "scaleway" {
 }
 
 resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
-    name = "ironpeakbe-main-cluster"
-    version = "1.17.3"
+    name = var.cluster_name
+    version = var.k8s_version
     tags = [ "k8s", "ironpeakbe", "main-cluster", "prd" ]
     
     enable_dashboard = true
 
-    ingress = "traefik"
-    cni = "calico"
+    ingress = "none"
+    cni = "cilium"
     // admission_plugins =
     // feature_gates =
 

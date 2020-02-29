@@ -1,19 +1,23 @@
+// --- scaleway variables -------------
+
 variable "scaleway_accesstoken" {}
 
 variable "scaleway_secrettoken" {}
 
 variable "scaleway_org" {}
 
+// --- cloudflare variables -----------
+
 variable "cloudflare_token" {}
 
-/*
-variable "ssh_root_private_key" {}
+// --- kubernetes variables -----------
 
-variable "ssh_root_public_key" {}
+variable "k8s_cluster_name" {
+    default = "ironpeakbe-main-cluster"
+}
 
-variable "ssh_tech_public_key" {}
+// --- github variables ---------------
 
 variable "github_token" {}
 
 variable "github_org" {}
-*/

@@ -1,4 +1,5 @@
-resource "kubernetes_namespace" "mainwebsite" {
+# istio namespace
+resource "kubernetes_namespace" "istio" {
     metadata {
         annotations = {
             env = "prd"
@@ -6,9 +7,9 @@ resource "kubernetes_namespace" "mainwebsite" {
 
         labels = {
             env = "prd"
-            type = "website"
+            type = "system"
         }
 
-        name = "mainwebsite"
+        name = var.istio_namespace
     }
 }
