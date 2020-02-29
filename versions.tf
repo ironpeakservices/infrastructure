@@ -26,8 +26,7 @@ provider "scaleway" {
 }
 
 provider "kubernetes" {
-    # fixed to 1.10.0 because of https://github.com/terraform-providers/terraform-provider-kubernetes/issues/759
-    version = "1.10.0"
+    version = "1.11.1"
     token = module.scaleway.token
 }
 

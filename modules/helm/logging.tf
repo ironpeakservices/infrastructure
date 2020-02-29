@@ -17,27 +17,31 @@ resource "helm_release" "loki_stack" {
   recreate_pods   = true
   verify          = false
   
-  set {
+  set { # we want to keep our logging
     name  = "loki.persistence.enabled"
     value = "true"
   }
-  set {
+  set { # set a good sized amount to keep some
     name  = "loki.persistence.size"
     value = "100Gi"
   }
-  set {
-    name  = "fluent-bit.enabled"
-    value = "true"
-  }
-  set {
+  set { # promtail is our main logging collector
     name  = "promtail.enabled"
     value = "true"
   }
-  set {
+  set { # we don't need fluent-bit
+    name  = "fluent-bit.enabled"
+    value = "false"
+  }
+  set { # no need for prometheus
+    name  = "prometheus.enabled"
+    value = "false"
+  }
+  set { # auto-delete logs after a while
     name  = "config.table_manager.retention_deletes_enabled"
     value = "true"
   }
-  set {
+  set { # keep logs for one month
     name  = "config.table_manager.retention_period"
     value = "720h"
   }
