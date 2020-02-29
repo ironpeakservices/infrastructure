@@ -14,10 +14,13 @@ resource "kubernetes_limit_range" "default-resource-limitations" {
     }
 
     limit {
-      type = "PersistentVolumeClaim"
-      min = {
-        storage = "1000M"
-      }
+        type = "PersistentVolumeClaim"
+        min = {
+            storage = "10M"
+        }
+        max = {
+            storage = "1000M"
+        }
     }
 
     limit {
