@@ -106,7 +106,7 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
         termination_grace_period_seconds = 30
 
         container {
-          image = "cloudflared"
+          image = "docker.pkg.github.com/ironpeakservices/iron-argo/iron-argo:2020.02.28"
           name  = "grafana-cloudflared"
 
           args = [
