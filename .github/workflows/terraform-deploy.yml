@@ -93,11 +93,16 @@ jobs:
             --istioNamespace "istio" \
             validate \
             --filename istio/policy.yaml
-        
+
+        echo "Verifying istio installation"
+        "./istio-${ISTIO_VERSION}/bin/istioctl" \
+        --kubeconfig "kubeconfig" \
+        --istioNamespace "istio" \
+        verify-install
+
+        echo "Applying istio config"
         "./istio-${ISTIO_VERSION}/bin/istioctl" \
           --kubeconfig "kubeconfig" \
           --istioNamespace "istio" \
           manifest apply \
-          --filename istio/policy.yaml \
-          --set values.global.mtls.enabled=true \
-          --set values.global.controlPlaneSecurityEnabled=true
+          --filename istio/policy.yaml
