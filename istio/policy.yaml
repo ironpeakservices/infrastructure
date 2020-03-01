@@ -1,7 +1,8 @@
 apiVersion: install.istio.io/v1alpha2
 kind: IstioControlPlane
 spec:
-  mtls:
-    enabled: true
-  
-  controlPlaneSecurityEnabled: true
+  values:
+    mtls:
+      enabled: true
+    
+    controlPlaneSecurityEnabled: true
