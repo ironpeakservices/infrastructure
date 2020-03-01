@@ -77,6 +77,58 @@ resource "helm_release" "loki_grafana" {
   set { # use k8s native storage
     name  = "persistence.type"
     value = "pvc"
+  } 
+}
+
+resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
+  metadata {
+    name = "loki-grafana-tunnel-deployment"
+    labels = {
+      type = "tunnel"
+    }
   }
-  
+  spec {
+    replicas = 1
+
+    selector {
+      match_labels = {
+        type = "tunnel"
+      }
+    }
+
+    template {
+      spec {
+        termination_grace_period_seconds = 30
+
+        container {
+          image = "cloudflared"
+          name  = "grafana-cloudflared"
+
+          args = [
+            "--url=http://grafana.logging",
+            "--hostname=logging.ironpeak.be",
+            "--no-autoupdate",
+            "--origincert=/etc/cloudflared/cert.pem"
+          ]
+
+          volume_mount {
+            name        = "tunnel-secret"
+            mount_path  = "/etc/cloudflared"
+            read_only   = true
+          }
+
+          resources {
+            limits {
+              cpu    = "0.5"
+              memory = "512Mi"
+            }
+            requests {
+              cpu    = "250m"
+              memory = "50Mi"
+            }
+          }
+        }
+      }
+    }
+  }
 }
