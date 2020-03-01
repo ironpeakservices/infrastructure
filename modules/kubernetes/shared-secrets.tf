@@ -5,7 +5,7 @@ data "kubernetes_secret" "cloudflared_cert_pem" {
 
     type = "Opaque"
 
-    data {
+    data = {
         cert = var.cloudflared_tunnel_token
     }
 }
