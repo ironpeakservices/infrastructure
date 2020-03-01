@@ -92,11 +92,16 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
 
     selector {
       match_labels = {
-        type = "tunnel"
+       "app.kubernetes.io/name" = "grafana"
       }
     }
 
     template {
+      metadata {
+        labels = {
+          type = "tunnel"
+        }
+      }
       spec {
         termination_grace_period_seconds = 30
 
