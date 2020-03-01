@@ -4,5 +4,6 @@ spec:
   mtls:
     enabled: true
   
-  global:
-    values.global.controlPlaneSecurityEnabled: true
+  values:
+    global:
+      controlPlaneSecurityEnabled: true
