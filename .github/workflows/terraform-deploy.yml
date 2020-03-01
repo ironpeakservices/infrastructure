@@ -105,5 +105,6 @@ jobs:
         "./istio-${ISTIO_VERSION}/bin/istioctl" \
           --kubeconfig "kubeconfig" \
           --istioNamespace "istio" \
+          --verbose \
           manifest apply \
           --filename istio/policy.yaml
