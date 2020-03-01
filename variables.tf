@@ -10,6 +10,8 @@ variable "scaleway_org" {}
 
 variable "cloudflare_token" {}
 
+variable "cloudflared_tunnel_token" {}
+
 // --- kubernetes variables -----------
 
 variable "k8s_cluster_name" {

@@ -23,6 +23,7 @@ module "kubernetes" {
     token                   = module.scaleway.token
     cluster_ca_certificate  = module.scaleway.cluster_ca_certificate
     cluster_name            = var.k8s_cluster_name
+    cloudflared_tunnel_token= var.cloudflared_tunnel_token
 }
 
 # all baseline kubernetes packages in helm charts
