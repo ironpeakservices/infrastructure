@@ -39,4 +39,4 @@ provider "template" {
     version = "~> 2.1"
 }
 
-// git 
+// ISTIO_VERSION = 1.4.5
