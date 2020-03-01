@@ -98,7 +98,8 @@ jobs:
         "./istio-${ISTIO_VERSION}/bin/istioctl" \
         --kubeconfig "kubeconfig" \
         --istioNamespace "istio" \
-        verify-install
+        verify-install || true
+        # https://github.com/istio/istio/issues/19350
 
         echo "Applying istio config"
         "./istio-${ISTIO_VERSION}/bin/istioctl" \
