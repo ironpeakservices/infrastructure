@@ -86,4 +86,18 @@ jobs:
       run: |
         export ISTIO_VERSION="$(grep ISTIO_VERSION versions.tf | cut -d '=' -f 2 | xargs)"
         curl -L https://git.io/getLatestIstio | sh -
-        "./istio-${ISTIO_VERSION}/bin/istioctl" --kubeconfig kubeconfig manifest apply --set values.global.mtls.enabled=true --set values.global.controlPlaneSecurityEnabled=true
+
+        echo "Validating istio config"
+        "./istio-${ISTIO_VERSION}/bin/istioctl" \
+            --kubeconfig "kubeconfig" \
+            --istioNamespace "istio" \
+            validate \
+            --filename istio/policy.yaml
+        
+        "./istio-${ISTIO_VERSION}/bin/istioctl" \
+          --kubeconfig "kubeconfig" \
+          --istioNamespace "istio" \
+          manifest apply \
+          --filename istio/policy.yaml \
+          --set values.global.mtls.enabled=true \
+          --set values.global.controlPlaneSecurityEnabled=true
