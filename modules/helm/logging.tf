@@ -77,6 +77,113 @@ resource "helm_release" "loki_grafana" {
   set { # use k8s native storage
     name  = "persistence.type"
     value = "pvc"
+  } 
+}
+
+resource "kubernetes_secret" "cloudflared_cert_pem" {
+    metadata {
+        name      = "cloudflared-cert-pem"
+        namespace = var.loki_namespace
+    }
+
+    type = "Opaque"
+
+    data = {
+        cert = var.cloudflared_tunnel_token
+    }
+}
+
+locals {
+  dockercfg = {
+    "docker.pkg.github.com" = {
+      email    = "hello@ironpeak.be"
+      username = "hazcod"
+      password = var.github_token
+    }
   }
-  
+}
+
+resource "kubernetes_secret" "github_registry_auth" {
+  metadata {
+    name      = "github-registry-auth"
+    namespace = var.loki_namespace
+  }
+
+  data = {
+    ".dockercfg" = "${ jsonencode(local.dockercfg) }"
+  }
+
+  type = "kubernetes.io/dockercfg"
+}
+
+resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
+  metadata {
+    name      = "loki-grafana-tunnel-deployment"
+    namespace = var.loki_namespace
+    labels    = {
+      type = "tunnel"
+    }
+  }
+  spec {
+    replicas = 1
+    min_ready_seconds = 5
+
+    selector {
+      match_labels = {
+       "app.kubernetes.io/name" = "grafana"
+      }
+    }
+
+    template {
+      metadata {
+        labels = {
+          type = "tunnel"
+        }
+      }
+      spec {
+        termination_grace_period_seconds = 30
+        
+        image_pull_secrets {
+          name = "github-registry-auth"
+        }
+        
+        volume {
+          name = kubernetes_secret.cloudflared_cert_pem.metadata.0.name
+          secret {
+            secret_name   = kubernetes_secret.cloudflared_cert_pem.metadata.0.name
+            default_mode  = "0400"
+          }
+        }
+
+        container {
+          image = "docker.pkg.github.com/ironpeakservices/iron-argo/iron-argo:2020.02.28"
+          name  = "grafana-cloudflared"
+
+          args = [
+            "--url=http://grafana.logging",
+            "--hostname=logging.ironpeak.be",
+            "--no-autoupdate",
+            "--origincert=/etc/cloudflared/cert.pem"
+          ]
+
+          volume_mount {
+            name        = "tunnel-secret"
+            mount_path  = "/etc/cloudflared"
+            read_only   = true
+          }
+
+          resources {
+            limits {
+              cpu    = "0.5"
+              memory = "512Mi"
+            }
+            requests {
+              cpu    = "250m"
+              memory = "50Mi"
+            }
+          }
+        }
+      }
+    }
+  }
 }
