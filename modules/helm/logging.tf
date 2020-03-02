@@ -80,7 +80,7 @@ resource "helm_release" "loki_grafana" {
   } 
 }
 
-data "kubernetes_secret" "cloudflared_cert_pem" {
+resource "kubernetes_secret" "cloudflared_cert_pem" {
     metadata {
         name      = "cloudflared_cert_pem"
         namespace = var.loki_namespace
