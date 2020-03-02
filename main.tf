@@ -35,6 +35,7 @@ module "kubernetes_helm" {
     cluster_ca_certificate  = module.scaleway.cluster_ca_certificate
     cluster_name            = var.k8s_cluster_name
     github_token            = var.github_token
+    cloudflared_tunnel_token= var.cloudflare_tunnel_token
 }
 
 /*
