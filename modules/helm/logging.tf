@@ -82,7 +82,7 @@ resource "helm_release" "loki_grafana" {
 
 resource "kubernetes_secret" "cloudflared_cert_pem" {
     metadata {
-        name      = "cloudflared_cert_pem"
+        name      = "cloudflared-cert-pem"
         namespace = var.loki_namespace
     }
 
@@ -145,6 +145,13 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
         
         image_pull_secrets {
           name = "github-registry-auth"
+        }
+        
+        volume {
+          name = kubernetes_secret.cloudflared_cert_pem.metadata.0.name
+          secret {
+            name = kubernetes_secret.cloudflared_cert_pem.metadata.0.name
+          }
         }
 
         container {
