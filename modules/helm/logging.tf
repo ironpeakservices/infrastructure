@@ -127,9 +127,6 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
   spec {
     replicas = 1
     min_ready_seconds = 5
-    image_pull_secrets = {
-      name = "github-registry-auth"
-    }
 
     selector {
       match_labels = {
@@ -145,6 +142,10 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
       }
       spec {
         termination_grace_period_seconds = 30
+        
+        image_pull_secrets = {
+          name = "github-registry-auth"
+        }
 
         container {
           image = "docker.pkg.github.com/ironpeakservices/iron-argo/iron-argo:2020.02.28"
