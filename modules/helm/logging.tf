@@ -103,9 +103,10 @@ locals {
   }
 }
 
-resource "kubernetes_secret" "regsecret" {
+resource "kubernetes_secret" "github_registry_auth" {
   metadata {
-    name = "regsecret"
+    name      = "github-registry-auth"
+    namespace = var.loki_namespace
   }
 
   data = {
@@ -117,15 +118,18 @@ resource "kubernetes_secret" "regsecret" {
 
 resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
   metadata {
-    name = "loki-grafana-tunnel-deployment"
-    labels = {
+    name      = "loki-grafana-tunnel-deployment"
+    namespace = var.loki_namespace
+    labels    = {
       type = "tunnel"
     }
   }
   spec {
     replicas = 1
     min_ready_seconds = 5
-    image_pull_secrets = 
+    image_pull_secrets = {
+      name = "github-registry-auth"
+    }
 
     selector {
       match_labels = {
