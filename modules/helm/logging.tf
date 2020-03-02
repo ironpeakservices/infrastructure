@@ -80,6 +80,41 @@ resource "helm_release" "loki_grafana" {
   } 
 }
 
+data "kubernetes_secret" "cloudflared_cert_pem" {
+    metadata {
+        name      = "cloudflared_cert_pem"
+        namespace = var.loki_namespace
+    }
+
+    type = "Opaque"
+
+    data = {
+        cert = var.cloudflared_tunnel_token
+    }
+}
+
+locals {
+  dockercfg = {
+    "docker.pkg.github.com" = {
+      email    = "hello@ironpeak.be"
+      username = "hazcod"
+      password = var.github_token
+    }
+  }
+}
+
+resource "kubernetes_secret" "regsecret" {
+  metadata {
+    name = "regsecret"
+  }
+
+  data {
+    ".dockercfg" = "${ jsonencode(local.dockercfg) }"
+  }
+
+  type = "kubernetes.io/dockercfg"
+}
+
 resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
   metadata {
     name = "loki-grafana-tunnel-deployment"
@@ -89,6 +124,8 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
   }
   spec {
     replicas = 1
+    min_ready_seconds = 5
+    image_pull_secrets = 
 
     selector {
       match_labels = {
