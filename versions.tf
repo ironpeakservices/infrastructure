@@ -33,6 +33,7 @@ provider "kubernetes" {
 provider "helm" {
     version = "~> 1.0"
     token = module.scaleway.token
+    cloudflared_tunnel_token = var.cloudflared_tunnel_token
 }
 
 provider "template" {
