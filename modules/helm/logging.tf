@@ -108,7 +108,7 @@ resource "kubernetes_secret" "regsecret" {
     name = "regsecret"
   }
 
-  data {
+  data = {
     ".dockercfg" = "${ jsonencode(local.dockercfg) }"
   }
 
