@@ -150,7 +150,8 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
         volume {
           name = kubernetes_secret.cloudflared_cert_pem.metadata.0.name
           secret {
-            name = kubernetes_secret.cloudflared_cert_pem.metadata.0.name
+            secret_name   = kubernetes_secret.cloudflared_cert_pem.metadata.0.name
+            default_mode  = "0400"
           }
         }
 
