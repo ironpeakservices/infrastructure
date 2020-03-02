@@ -143,7 +143,7 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
       spec {
         termination_grace_period_seconds = 30
         
-        image_pull_secrets = {
+        image_pull_secrets {
           name = "github-registry-auth"
         }
 
