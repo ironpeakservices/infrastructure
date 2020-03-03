@@ -6,11 +6,11 @@ variable "scaleway_secrettoken" {}
 
 variable "scaleway_org" {}
 
-variable "zone" {
+variable "scaleway_zone" {
     default = "fr-par-1"
 }
 
-variable "region" {
+variable "scaleway_region" {
     default = "fr-par"
 }
 
