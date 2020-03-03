@@ -168,7 +168,8 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
             "--url=http://grafana.logging",
             "--hostname=logs.ironpeak.be",
             "--no-autoupdate",
-            "--origincert=/etc/cloudflared/cert.pem"
+            "--origincert=/etc/cloudflared/cert.pem",
+            "--loglevel=debug"
           ]
 
           volume_mount {
