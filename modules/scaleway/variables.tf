@@ -1,9 +1,3 @@
-variable scaleway_accesstoken {}
-
-variable scaleway_secrettoken {}
-
-variable scaleway_organization {}
-
 variable cluster_name {
     default = "default"
 }
