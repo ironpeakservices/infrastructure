@@ -118,7 +118,7 @@ resource "kubernetes_secret" "github_registry_auth" {
 
 resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
   metadata {
-    name      = "loki_grafana-tunnel-deployment"
+    name      = "loki-grafana-tunnel-deployment"
     namespace = var.loki_namespace
     labels    = {
       type = "tunnel"
