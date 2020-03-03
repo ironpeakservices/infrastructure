@@ -156,7 +156,7 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
         }
 
         container {
-          image = "docker.pkg.github.com/ironpeakservices/iron-argo/iron-argo:2020.02.28"
+          image = "hub.docker.com/ironpeakservices/iron-argo:latest"
           name  = "grafana-cloudflared"
 
           args = [
