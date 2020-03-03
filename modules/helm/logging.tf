@@ -128,9 +128,15 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
     replicas = 1
     min_ready_seconds = 5
 
+    selector {
+      match_labels = {
+       type = "tunnel"
+      }
+    }
+    
     template {
       metadata {
-        labels    = {
+        labels = {
           type = "tunnel"
         }
       }
