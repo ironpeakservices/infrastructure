@@ -143,6 +143,12 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
       spec {
         termination_grace_period_seconds = 30
         
+        security_context {
+          run_as_user   = 1000
+          run_as_group  = 1000
+          run_as_non_root = true
+        }
+
         image_pull_secrets {
           name = "github-registry-auth"
         }
@@ -151,7 +157,7 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
           name = kubernetes_secret.cloudflared_cert_pem.metadata.0.name
           secret {
             secret_name   = kubernetes_secret.cloudflared_cert_pem.metadata.0.name
-            #default_mode  = "0400"
+            default_mode  = "0400"
           }
         }
 
