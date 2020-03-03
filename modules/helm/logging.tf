@@ -166,7 +166,7 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
 
           args = [
             "--url=http://grafana.logging",
-            "--hostname=logs.k8s.ironpeak.be",
+            "--hostname=logs.ironpeak.be",
             "--no-autoupdate",
             "--origincert=/etc/cloudflared/cert.pem"
           ]
