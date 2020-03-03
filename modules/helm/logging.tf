@@ -129,11 +129,6 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
     min_ready_seconds = 5
 
     template {
-      metadata {
-        labels = {
-          type = "tunnel"
-        }
-      }
       spec {
         termination_grace_period_seconds = 30
         
