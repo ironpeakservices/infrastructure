@@ -25,3 +25,11 @@ variable "loki_namespace" {
 variable "grafana_version" {
   default = "5.0.3"
 }
+
+variable "quay_version" {
+  default = "1.0.0"
+}
+
+variable "quay_namespace" {
+  default = "quay"
+}
