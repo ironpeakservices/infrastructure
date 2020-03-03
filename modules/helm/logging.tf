@@ -167,7 +167,7 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
           ]
 
           volume_mount {
-            name        = "tunnel-secret"
+            name        = kubernetes_secret.cloudflared_cert_pem.metadata.0.name
             mount_path  = "/etc/cloudflared"
             read_only   = true
           }

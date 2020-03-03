@@ -59,7 +59,7 @@ jobs:
         tf_actions_subcommand: "apply"
         tf_actions_version: "latest"
       env:
-        TF_LOG: TRACE
+        TF_LOG: WARN
         TF_ACTION_COMMENT: false
         TF_CLI_ARGS: "-state=state/terraform.tfstate"
         TF_VAR_cloudflared_tunnel_token: ${{ secrets.TF_VAR_cloudflared_tunnel_token }}
