@@ -93,6 +93,7 @@ resource "kubernetes_secret" "cloudflared_cert_pem" {
     }
 }
 
+/*
 locals {
   dockercfg = {
     "docker.pkg.github.com" = {
@@ -102,6 +103,7 @@ locals {
     }
   }
 }
+*/
 
 resource "kubernetes_secret" "github_registry_auth" {
   metadata {
@@ -118,7 +120,7 @@ resource "kubernetes_secret" "github_registry_auth" {
 
 resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
   metadata {
-    name      = "loki-grafana-tunnel-deployment"
+    name      = "grafana-tunnel"
     namespace = var.loki_namespace
     labels    = {
       type = "tunnel"
@@ -148,10 +150,6 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
           run_as_group  = 1000
           run_as_non_root = true
         }
-
-        image_pull_secrets {
-          name = "github-registry-auth"
-        }
         
         volume {
           name = kubernetes_secret.cloudflared_cert_pem.metadata.0.name
@@ -163,7 +161,7 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
 
         container {
           image = "docker.io/ironpeakservices/iron-argo:latest"
-          name  = "loki-grafana-tunnel"
+          name  = "grafana-tunnel"
 
           args = [
             "--url=http://grafana.logging",
