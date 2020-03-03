@@ -6,6 +6,14 @@ variable "scaleway_secrettoken" {}
 
 variable "scaleway_org" {}
 
+variable "zone" {
+    default = "fr-par-1"
+}
+
+variable "region" {
+    default = "fr-par"
+}
+
 // --- cloudflare variables -----------
 
 variable "cloudflare_token" {}

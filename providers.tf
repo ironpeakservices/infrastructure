@@ -35,6 +35,8 @@ provider "scaleway" {
     access_key      = var.scaleway_accesstoken
     secret_key      = var.scaleway_secrettoken
     organization_id = var.scaleway_org
+    zone            = var.scaleway_zone
+    region          = var.scaleway_region
 }
 
 provider "kubernetes" {
