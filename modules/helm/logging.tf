@@ -103,7 +103,7 @@ locals {
     }
   }
 }
-*/
+
 
 resource "kubernetes_secret" "github_registry_auth" {
   metadata {
@@ -117,6 +117,7 @@ resource "kubernetes_secret" "github_registry_auth" {
 
   type = "kubernetes.io/dockercfg"
 }
+*/
 
 resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
   metadata {
@@ -165,7 +166,7 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
 
           args = [
             "--url=http://grafana.logging",
-            "--hostname=logging.ironpeak.be",
+            "--hostname=logs.k8s.ironpeak.be",
             "--no-autoupdate",
             "--origincert=/etc/cloudflared/cert.pem"
           ]
