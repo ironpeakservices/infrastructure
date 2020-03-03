@@ -1,9 +1,3 @@
-variable scaleway_accesstoken {}
-
-variable scaleway_secrettoken {}
-
-variable scaleway_organization {}
-
 variable cluster_name {
     default = "default"
 }
@@ -29,12 +23,4 @@ variable node_minimum_count {
 variable node_maximum_count {
     type = number
     default = 1
-}
-
-variable "zone" {
-    default = "fr-par-1"
-}
-
-variable "region" {
-    default = "fr-par"
 }

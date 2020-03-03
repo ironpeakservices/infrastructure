@@ -86,7 +86,7 @@ jobs:
     
     - name: istio - Apply
       run: |
-        export ISTIO_VERSION="$(grep ISTIO_VERSION versions.tf | cut -d '=' -f 2 | xargs)"
+        export ISTIO_VERSION="$(grep ISTIO_VERSION providers.tf | cut -d '=' -f 2 | xargs)"
         curl -L https://git.io/getLatestIstio | sh -
 
         echo "Validating istio config"
