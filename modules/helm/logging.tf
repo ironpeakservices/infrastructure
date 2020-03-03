@@ -12,8 +12,8 @@ resource "helm_release" "loki_stack" {
   version     = var.loki_version
   namespace   = var.loki_namespace
   
-  #atomic          = true
-  #cleanup_on_fail = true
+  atomic          = true
+  cleanup_on_fail = true
   recreate_pods   = true
   verify          = false
   
@@ -127,12 +127,6 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
   spec {
     replicas = 1
     min_ready_seconds = 5
-
-    selector {
-      match_labels = {
-       "app.kubernetes.io/name" = "grafana"
-      }
-    }
 
     template {
       metadata {
