@@ -89,7 +89,7 @@ resource "kubernetes_secret" "cloudflared_cert_pem" {
     type = "Opaque"
 
     data = {
-        cert = var.cloudflared_tunnel_token
+        "cert.pem" = var.cloudflared_tunnel_token
     }
 }
 
