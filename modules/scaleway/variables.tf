@@ -30,5 +30,5 @@ variable "zone" {
 }
 
 variable "region" {
-    default = "fr-par"
+    default = "nl-ams-1"
 }
