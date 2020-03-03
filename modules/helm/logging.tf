@@ -118,7 +118,7 @@ resource "kubernetes_secret" "github_registry_auth" {
 
 resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
   metadata {
-    name      = "loki-grafana-tunnel-deployment"
+    name      = "loki_grafana-tunnel-deployment"
     namespace = var.loki_namespace
     labels    = {
       type = "tunnel"
@@ -151,13 +151,13 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
           name = kubernetes_secret.cloudflared_cert_pem.metadata.0.name
           secret {
             secret_name   = kubernetes_secret.cloudflared_cert_pem.metadata.0.name
-            default_mode  = "0400"
+            #default_mode  = "0400"
           }
         }
 
         container {
           image = "docker.io/ironpeakservices/iron-argo:latest"
-          name  = "grafana-cloudflared"
+          name  = "loki-grafana-tunnel"
 
           args = [
             "--url=http://grafana.logging",
