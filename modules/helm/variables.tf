@@ -25,3 +25,11 @@ variable "loki_namespace" {
 variable "grafana_version" {
   default = "5.0.3"
 }
+
+variable "nginx_namespace" {
+  default = "kube-system"
+}
+
+variable "nginx_version" {
+  default = "1.33.1"
+}
