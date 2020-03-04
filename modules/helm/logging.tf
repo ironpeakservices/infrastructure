@@ -77,7 +77,7 @@ resource "helm_release" "loki_grafana" {
   }
   set {
     name  = "ingress.hosts[0]"
-    value = "ironpeak.be"
+    value = "cluster.ironpeak.be"
   }
   set_string {
     name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/app-root"
