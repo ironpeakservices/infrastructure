@@ -115,7 +115,7 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
 
           args = [
             "--url=http://nginx-ingress-nginx-controller.kube-system",
-            "--hostname=cluster.ironpeak.be",
+            "--hostname=${var.cluster_hostname}",
             "--no-autoupdate",
             "--origincert=/etc/cloudflared/cert.pem",
           ]

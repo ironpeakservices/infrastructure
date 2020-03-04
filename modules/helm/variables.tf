@@ -2,6 +2,10 @@ variable "github_token" {}
 
 variable "cloudflared_tunnel_token" {}
 
+variable "cluster_hostname" {
+  default = "cluster.ironpeak.be"
+}
+
 variable "cluster_name" {
   default = "default"
 }
@@ -32,4 +36,12 @@ variable "nginx_namespace" {
 
 variable "nginx_version" {
   default = "1.33.1"
+}
+
+variable "dashboard_namespace" {
+  default = "kube-system"
+}
+
+variable "dashboard_version" {
+  default = "1.10.1"
 }

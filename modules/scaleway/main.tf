@@ -3,7 +3,7 @@ resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
     version = var.k8s_version
     tags = [ "k8s", "ironpeakbe", "main-cluster", "prd" ]
     
-    enable_dashboard = true
+    enable_dashboard = false
 
     ingress = "none"
     cni = "cilium"

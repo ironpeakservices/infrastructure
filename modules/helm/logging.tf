@@ -1,9 +1,3 @@
-# repo of the istio helm charts
-data "helm_repository" "loki" {
-  name = "loki"
-  url  = "https://grafana.github.io/loki/charts"
-}
-
 # install loki stack for prometheus 
 resource "helm_release" "loki_stack" {
   name        = "loki"
@@ -77,7 +71,7 @@ resource "helm_release" "loki_grafana" {
   }
   set {
     name  = "ingress.hosts[0]"
-    value = "cluster.ironpeak.be"
+    value = var.cluster_hostname
   }
   set_string {
     name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/app-root"
