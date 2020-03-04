@@ -75,10 +75,6 @@ resource "helm_release" "loki_grafana" {
     name  = "ingress.enabled"
     value = true
   }
-  set {
-    name  = "ingress.hosts[0]"
-    value = "nginx-ingress-nginx-controller.kube-system"
-  }
   set_string {
     name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/app-root"
     value = "/logs"
