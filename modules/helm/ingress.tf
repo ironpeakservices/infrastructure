@@ -15,6 +15,10 @@ resource "helm_release" "nginx-ingress" {
       name  = "controller.name"
       value = "nginx-controller"
   }
+  set { # internal use only since we use argo
+      name  = "controller.service.type"
+      value = "ClusterIP"
+  }
   set {
       name  = "controller.service.enableHttps"
       value = false
