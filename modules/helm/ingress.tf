@@ -6,7 +6,7 @@ resource "helm_release" "nginx-ingress" {
   version     = var.nginx_version
   namespace   = var.nginx_namespace
   
-  atomic          = true
+  #atomic          = true
   cleanup_on_fail = true
   recreate_pods   = true
   verify          = false
@@ -62,7 +62,7 @@ resource "kubernetes_secret" "github_registry_auth" {
 
 resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
   metadata {
-    name      = "traefik-tunnel"
+    name      = "ingress-tunnel"
     namespace = var.nginx_namespace
     labels    = {
       type = "tunnel"
@@ -103,7 +103,7 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
 
         container {
           image = "docker.io/ironpeakservices/iron-argo:latest"
-          name  = "traefik-tunnel"
+          name  = "ingress-tunnel"
 
           args = [
             "--url=http://nginx-ingress",
