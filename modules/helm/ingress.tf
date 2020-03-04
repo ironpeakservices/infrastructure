@@ -12,11 +12,11 @@ resource "helm_release" "nginx-ingress" {
   verify          = false
   
   set {
-      name  = "controller.image.runAsUser"
-      value = 1000
+      name  = "controller.service.enableHttps"
+      value = false
   }
   set {
-      name  = "controller.service.enableHttps"
+      name  = "defaultBackend.enabled"
       value = false
   }
 }
