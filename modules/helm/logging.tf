@@ -79,4 +79,8 @@ resource "helm_release" "loki_grafana" {
     name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/app-root"
     value = "/logs"
   }
+  set_string {
+    name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/rewrite-target"
+    value = "/"
+  }
 }
