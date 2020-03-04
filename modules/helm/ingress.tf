@@ -12,6 +12,10 @@ resource "helm_release" "nginx-ingress" {
   verify          = false
   
   set {
+      name  = "controller.name"
+      value = "nginx-controller"
+  }
+  set {
       name  = "controller.service.enableHttps"
       value = false
   }
@@ -110,7 +114,6 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
             "--hostname=cluster.ironpeak.be",
             "--no-autoupdate",
             "--origincert=/etc/cloudflared/cert.pem",
-            "--loglevel=debug"
           ]
 
           volume_mount {
