@@ -72,7 +72,7 @@ resource "helm_release" "loki_grafana" {
     value = "pvc"
   } 
   set_string {
-    name  = "service.annotations.nginx.ingress\\.kubernetes\\.io/app-root"
+    name  = "service.annotations.nginx\\.ingress\\.kubernetes\\.io/app-root"
     value = "/logs"
   }
 }
