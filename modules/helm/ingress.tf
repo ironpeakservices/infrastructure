@@ -1,32 +1,30 @@
-# repo of the traefik helm charts
-data "helm_repository" "traefik" {
-  name = "traefik"
-  url  = "https://containous.github.io/traefik-helm-chart"
-}
-
-# install traefik stack for ingress 
-resource "helm_release" "traefik" {
-  name        = "traefik"
-  repository  = data.helm_repository.traefik.metadata[0].name
-  chart       = "traefik/traefik"
-  version     = var.traefik_version
-  namespace   = var.traefik_namespace
+# install nginx-ingress stack for ingress 
+resource "helm_release" "nginx-ingress" {
+  name        = "nginx-ingress"
+  repository  = data.helm_repository.stable.metadata[0].name
+  chart       = "stable/nginx-ingress"
+  version     = var.nginx_version
+  namespace   = var.nginx_namespace
   
   atomic          = true
   cleanup_on_fail = true
   recreate_pods   = true
   verify          = false
   
-  set { # we want to keep our logging
-    name  = "loki.persistence.enabled"
-    value = "true"
+  set {
+      name  = "controller.image.runAsUser"
+      value = 1000
+  }
+  set {
+      name  = "controller.service.enableHttps"
+      value = false
   }
 }
 
 resource "kubernetes_secret" "cloudflared_cert_pem" {
     metadata {
         name      = "cloudflared-cert-pem"
-        namespace = var.loki_namespace
+        namespace = var.nginx_namespace
     }
 
     type = "Opaque"
@@ -65,7 +63,7 @@ resource "kubernetes_secret" "github_registry_auth" {
 resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
   metadata {
     name      = "traefik-tunnel"
-    namespace = var.traefik_namespace
+    namespace = var.nginx_namespace
     labels    = {
       type = "tunnel"
     }
@@ -108,7 +106,7 @@ resource "kubernetes_deployment" "loki_grafana_tunnel_deployment" {
           name  = "traefik-tunnel"
 
           args = [
-            "--url=http://traefik",
+            "--url=http://nginx-ingress",
             "--hostname=cluster.ironpeak.be",
             "--no-autoupdate",
             "--origincert=/etc/cloudflared/cert.pem",

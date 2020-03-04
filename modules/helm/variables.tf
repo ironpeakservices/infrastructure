@@ -26,10 +26,10 @@ variable "grafana_version" {
   default = "5.0.3"
 }
 
-variable "traefik_namespace" {
+variable "nginx_namespace" {
   default = "kube-system"
 }
 
-variable "traefik_version" {
-  default = "3.5.0"
+variable "nginx_version" {
+  default = "1.33.1"
 }

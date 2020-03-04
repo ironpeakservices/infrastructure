@@ -46,13 +46,6 @@ resource "helm_release" "loki_stack" {
     value = "720h"
   }
 }
-
-# stable helm v2 charts
-data "helm_repository" "stable" {
-  name = "stable"
-  url  = "https://kubernetes-charts.storage.googleapis.com"
-}
-
 # now install grafana for the gui bits
 resource "helm_release" "loki_grafana" {
   name        = "grafana"
