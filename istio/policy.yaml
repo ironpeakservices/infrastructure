@@ -8,6 +8,9 @@ spec:
       
       controlPlaneSecurityEnabled: true
 
+    gateways:
+      istio-ingressgateway:
+        type: ClusterIP
       #ingress:
       #  enabled: true
       #  annotations:
