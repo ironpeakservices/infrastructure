@@ -71,8 +71,12 @@ resource "helm_release" "loki_grafana" {
     name  = "persistence.type"
     value = "pvc"
   } 
+  set {
+    name  = "ingress.enabled"
+    value = true
+  }
   set_string {
-    name  = "service.annotations.nginx\\.ingress\\.kubernetes\\.io/app-root"
+    name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/app-root"
     value = "/logs"
   }
 }
