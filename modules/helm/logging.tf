@@ -75,7 +75,7 @@ resource "helm_release" "loki_grafana" {
     name  = "ingress.enabled"
     value = true
   }
-  set_string {
+  set {
     name  = "ingress.hosts[0]"
     value = "*"
   }
