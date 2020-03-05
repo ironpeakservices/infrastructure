@@ -73,8 +73,13 @@ resource "helm_release" "loki_grafana" {
     name  = "ingress.hosts[0]"
     value = var.cluster_hostname
   }
+  set {
+    name  = "ingress.path"
+    value = "/logs"
+  }
   set_string {
     name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/app-root"
     value = "/logs"
   }
+  
 }
