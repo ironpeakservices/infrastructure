@@ -81,5 +81,7 @@ resource "helm_release" "loki_grafana" {
     name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/app-root"
     value = "/logs"
   }
-  
+  set_string {
+    name  = "grafana.ini.auth\\.anonymous\\.enabled"
+    value = true
 }
