@@ -22,8 +22,8 @@ resource "helm_release" "k8sdashboard" {
         name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/app-root"
         value = "/k8sdashboard"
     }
-    set_string {
-        name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/rewrite-target"
-        value = "/"
+    set {
+        name  = "ingress.path"
+        value = "/k8sdashboard"
     }
 }
