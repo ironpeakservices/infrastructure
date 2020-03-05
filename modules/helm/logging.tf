@@ -84,4 +84,5 @@ resource "helm_release" "loki_grafana" {
   set_string {
     name  = "grafana.ini.auth\\.anonymous\\.enabled"
     value = true
+  }
 }
