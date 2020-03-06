@@ -14,7 +14,7 @@ provider "template" {
     version = "~> 2.1"
 }
 
-// ISTIO_VERSION = 1.4.5
+// ISTIO_VERSION = 1.5.0
 
 provider "cloudflare" {
     version = "~> 2.3"
