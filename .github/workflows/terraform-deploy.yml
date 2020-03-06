@@ -88,25 +88,33 @@ jobs:
       run: |
         export ISTIO_VERSION="$(grep ISTIO_VERSION providers.tf | cut -d '=' -f 2 | xargs)"
         curl -L https://git.io/getLatestIstio | sh -
+        export istioNamespace="istio"
 
         echo "Validating istio config"
         "./istio-${ISTIO_VERSION}/bin/istioctl" \
             --kubeconfig "kubeconfig" \
-            --istioNamespace "istio" \
+            --istioNamespace "$istioNamespace" \
             validate \
             --filename istio/policy.yaml
 
         echo "Verifying istio installation"
         "./istio-${ISTIO_VERSION}/bin/istioctl" \
         --kubeconfig "kubeconfig" \
-        --istioNamespace "istio" \
+        --istioNamespace "$istioNamespace" \
         verify-install || true
         # https://github.com/istio/istio/issues/19350
+        
+        echo "Trying istio upgrade"
+        "./istio-${ISTIO_VERSION}/bin/istioctl" \
+          --kubeconfig "kubeconfig" \
+          --istioNamespace "$istioNamespace" \
+          upgrade \
+          --filename istio/policy.yaml
 
         echo "Applying istio config"
         "./istio-${ISTIO_VERSION}/bin/istioctl" \
           --kubeconfig "kubeconfig" \
-          --istioNamespace "istio" \
+          --istioNamespace "$istioNamespace" \
           manifest apply \
           --skip-confirmation \
           --filename istio/policy.yaml
