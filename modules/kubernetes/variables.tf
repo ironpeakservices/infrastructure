@@ -5,3 +5,7 @@ variable cluster_name {
 variable "istio_namespace" {
   default = "istio"
 }
+
+variable "foo" {
+  default = "foo"
+}
