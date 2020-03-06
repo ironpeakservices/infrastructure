@@ -1,3 +1,3 @@
-output "placeholder" {
+output "foo" {
   value = "foo"
 }
