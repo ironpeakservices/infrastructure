@@ -23,7 +23,7 @@ variable "loki_version" {
 }
 
 variable "loki_namespace" {
-  default = "logging"
+  default = "kube-system"
 }
 
 variable "grafana_version" {
