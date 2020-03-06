@@ -2,6 +2,10 @@ variable "github_token" {}
 
 variable "cloudflared_tunnel_token" {}
 
+variable "foo" {
+  default = "foo"
+}
+
 variable "cluster_hostname" {
   default = "cluster.ironpeak.be"
 }
