@@ -15,6 +15,7 @@ module "kubernetes" {
     source                  = "./modules/kubernetes"
 
     cluster_name            = var.k8s_cluster_name
+    foo                     = module.scaleway.id
 }
 
 # all baseline kubernetes packages in helm charts
@@ -24,6 +25,7 @@ module "kubernetes_helm" {
     cluster_name            = var.k8s_cluster_name
     github_token            = var.github_token
     cloudflared_tunnel_token= var.cloudflared_tunnel_token
+    foo                     = module.kubernetes.foo
 }
 
 /*
