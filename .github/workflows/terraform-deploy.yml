@@ -106,11 +106,10 @@ jobs:
         KUBE_CONFIG_DATA: ${{ vars.kubeconfig }}
         args: apply -f kubernetes/
       
-    - name: Helmfile - apply
-      uses: docker://cablespaghetti/helmfile-docker
+    - name: Helmsman - apply
+      uses: docker://praqma/helmsman:v3.1.0
       with:
-        KUBE_CONFIG_DATA: ${{ vars.kubeconfig }}
-        args: --file helm/helmfile.yaml apply
+        args: helmsman -kubeconfig terraform/kubeconfig -apply -f helm/helmfile.yaml
 
     - uses: chrnorm/deployment-action@releases/v1
       name: Create GitHub deployment (success)

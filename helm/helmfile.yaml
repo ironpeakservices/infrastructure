@@ -1,36 +1,33 @@
-repositories:
-- name: stable
-  url: https://kubernetes-charts.storage.googleapis.com
+settings:
+  kubeContext: "default"
 
-- name: loki
-  url: https://grafana.github.io/loki/charts
+helmRepos:
+  stable: https://kubernetes-charts.storage.googleapis.com
+  loki: https://grafana.github.io/loki/charts
 
 
-releases:
-- name: dashboard
-  namespace: monitoring
-  chart: stable/kubernetes-dashboard
-  version: ~1.10
-  values:
-  - dashboard.values.yaml
+apps:
+  dashboard:
+    namespace: monitoring
+    chart: stable/kubernetes-dashboard
+    version: ~1.10
+    valuesFile: dashboard.values.yaml
 
-- name: logging
-  namespace: monitoring
-  chart: loki/loki-stack
-  version: ~0.32
-  values:
-  - logging.values.yaml
+  logging:
+    namespace: monitoring
+    chart: loki/loki-stack
+    version: ~0.32
+    valuesFile: logging.values.yaml
 
-- name: grafana
-  namespace: monitoring
-  chart: stable/grafana
-  version: ~5.0
-  values:
-  - grafana.values.yaml
+  grafana:
+    namespace: monitoring
+    chart: stable/grafana
+    version: ~5.0
+    valuesFile: grafana.values.yaml
 
-- name: ingress
-  namespace: kube-system
-  chart: stable/nginx-ingress
-  version: ~1.33
-  values:
-  - ingress.values.yaml
+  ingress:
+    namespace: kube-system
+    chart: stable/nginx-ingress
+    version: ~1.33
+    valuesFile: ingress.values.yaml
+
