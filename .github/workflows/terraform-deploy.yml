@@ -91,14 +91,22 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_MERGE_TOKEN }}
     
+    - name: extract kubeconfig
+      id: vars
+      run: |
+        echo ::set-output name=kubeconfig::$(cat terraform/kubeconfig | base64)
+    
     - name: kubectl - kubernetes
       uses: steebchen/kubectl@1.0.1
       with:
+        KUBE_CONFIG_DATA: ${{ vars.kubeconfig }}
         args: apply -f kubernetes/
       
     - name: Helmfile - apply
       uses: docker://cablespaghetti/helmfile-docker
-      args: --file helm/helmfile.yaml apply
+      with:
+        KUBE_CONFIG_DATA: ${{ vars.kubeconfig }}
+        args: --file helm/helmfile.yaml apply
 
     - uses: chrnorm/deployment-action@releases/v1
       name: Create GitHub deployment (success)
