@@ -9,6 +9,13 @@ jobs:
     name: Terraform
     runs-on: ubuntu-latest
     steps:
+
+    - uses: chrnorm/deployment-action@releases/v1
+      name: Create GitHub deployment
+      with:
+        token: "${{ github.token }}"
+        target-url: https://cluster.ironpeak.be/
+        environment: production
     
     - name: Checkout code
       uses: actions/checkout@v2
@@ -92,3 +99,21 @@ jobs:
     - name: Helmfile - apply
       uses: docker://cablespaghetti/helmfile-docker
       args: --file helm/helmfile.yaml apply
+
+    - uses: chrnorm/deployment-action@releases/v1
+      name: Create GitHub deployment (success)
+      if: success()
+      with:
+        token: "${{ github.token }}"
+        target-url: https://cluster.ironpeak.be/
+        environment: production
+        state: "success"
+
+    - uses: chrnorm/deployment-action@releases/v1
+      name: Create GitHub deployment (failure)
+      if: failure()
+      with:
+        token: "${{ github.token }}"
+        target-url: https://cluster.ironpeak.be/
+        environment: production
+        state: "failure"
