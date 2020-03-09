@@ -61,7 +61,7 @@ jobs:
         TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}     
 
     - name: Helmsman - lint
-      uses: docker://praqma/helmsman:v3.1.0
+      uses: docker://praqma/helmsman:v3.0.0
       with:
         args: helmsman -kubeconfig terraform/kubeconfig -dry-run -f helm/helmfile.yaml
 
