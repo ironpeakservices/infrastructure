@@ -14,7 +14,7 @@ variable "scaleway_region" {
     default = "fr-par"
 }
 
-variable "k8s_cluster-name" {
+variable "k8s_cluster_name" {
     default = "ironpeakbe-main-cluster"
 }
 
