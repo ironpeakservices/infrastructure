@@ -56,12 +56,12 @@ jobs:
         TF_VAR_ssh_root_private_key: ${{ secrets.TF_VAR_ssh_root_private_key }}
         TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}     
 
-    - name: istio - Validate
-      run: |
-        export ISTIO_VERSION="$(grep ISTIO_VERSION providers.tf | cut -d '=' -f 2 | xargs)"
-        curl -L https://git.io/getLatestIstio | sh -
-        "./istio-${ISTIO_VERSION}/bin/istioctl" \
-          --kubeconfig "kubeconfig" \
-          --istioNamespace "istio" \
-          validate \
-          --filename istio/policy.yaml
+    - name: Helmfile - lint
+      uses: docker://cablespaghetti/helmfile-docker
+      args: --file helm/helmfile.yaml lint
+
+    - name: validate manifests in dir1 and dir2
+      uses: makocchi-git/actions-k8s-manifests-validate@1.0.0
+      with:
+        files: kubernetes/,istio/
+        token: ${{ secrets.GITHUB_TOKEN }}

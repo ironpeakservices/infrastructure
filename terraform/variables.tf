@@ -20,12 +20,6 @@ variable "cloudflare_token" {}
 
 variable "cloudflared_tunnel_token" {}
 
-// --- kubernetes variables -----------
-
-variable "k8s_cluster_name" {
-    default = "ironpeakbe-main-cluster"
-}
-
 // --- github variables ---------------
 
 variable "github_token" {}

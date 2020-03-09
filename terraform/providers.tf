@@ -38,24 +38,3 @@ provider "scaleway" {
     zone            = var.scaleway_zone
     region          = var.scaleway_region
 }
-
-provider "kubernetes" {
-    version = "1.11.1"
-
-    load_config_file        = false
-    cluster_ca_certificate  = base64decode(module.scaleway.cluster_ca_certificate)
-    host                    = module.scaleway.host
-    token                   = module.scaleway.token
-    config_context          = var.k8s_cluster_name
-}
-
-provider "helm" {
-    version = "~> 1.0"
-    kubernetes {
-        load_config_file       = false
-        host                   = module.scaleway.host
-        token                  = module.scaleway.token
-        cluster_ca_certificate = base64decode(module.scaleway.cluster_ca_certificate)
-        config_context         = var.k8s_cluster_name
-    }
-}
