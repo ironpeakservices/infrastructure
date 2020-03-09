@@ -105,7 +105,7 @@ jobs:
       with:
         args: apply -f kubernetes/
       env:
-        KUBE_CONFIG_DATA: ${{ vars.kubeconfig }}
+        KUBE_CONFIG_DATA: ${{ steps.vars.kubeconfig }}
       
     - name: Helmsman - apply
       uses: docker://praqma/helmsman:v3.1.0
