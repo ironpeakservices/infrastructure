@@ -1,0 +1,4 @@
+controller.name: nginx-controller
+controller.service.type: ClusterIP
+controller.service.enableHttps: false
+defaultBackend.enabled: false

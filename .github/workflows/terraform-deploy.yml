@@ -9,6 +9,13 @@ jobs:
     name: Terraform
     runs-on: ubuntu-latest
     steps:
+
+    - uses: chrnorm/deployment-action@releases/v1
+      name: Create GitHub deployment
+      with:
+        token: "${{ github.token }}"
+        target-url: https://cluster.ironpeak.be/
+        environment: production
     
     - name: Checkout code
       uses: actions/checkout@v2
@@ -25,18 +32,21 @@ jobs:
       with:
         tf_actions_subcommand: "init"
         tf_actions_version: "latest"
+        tf_actions_working_dir: terraform/
 
     - name: Terraform - Validate
       uses: hashicorp/terraform-github-actions@v0.7.1
       with:
         tf_actions_subcommand: "validate"
         tf_actions_version: "latest"
+        tf_actions_working_dir: terraform/
   
     - name: Terraform - Plan
       uses: hashicorp/terraform-github-actions@v0.7.1
       with:
         tf_actions_subcommand: "plan"
         tf_actions_version: "latest"
+        tf_actions_working_dir: terraform/
       env:
         TF_LOG: WARN
         TF_CLI_ARGS: "-state=state/terraform.tfstate"
@@ -58,6 +68,7 @@ jobs:
       with:
         tf_actions_subcommand: "apply"
         tf_actions_version: "latest"
+        tf_actions_working_dir: terraform/
       env:
         TF_LOG: WARN
         TF_ACTION_COMMENT: false
@@ -84,37 +95,36 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_MERGE_TOKEN }}
     
-    - name: istio - Apply
+    - name: extract kubeconfig
+      id: vars
       run: |
-        export ISTIO_VERSION="$(grep ISTIO_VERSION providers.tf | cut -d '=' -f 2 | xargs)"
-        curl -L https://git.io/getLatestIstio | sh -
-        export istioNamespace="istio"
+        echo ::set-output name=kubeconfig::$(cat terraform/kubeconfig | base64)
+    
+    - name: kubectl - kubernetes
+      uses: steebchen/kubectl@1.0.1
+      with:
+        KUBE_CONFIG_DATA: ${{ vars.kubeconfig }}
+        args: apply -f kubernetes/
+      
+    - name: Helmsman - apply
+      uses: docker://praqma/helmsman:v3.1.0
+      with:
+        command: helmsman -apply -kubeconfig terraform/kubeconfig -f helm/helmfile.yaml'
 
-        echo "Validating istio config"
-        "./istio-${ISTIO_VERSION}/bin/istioctl" \
-            --kubeconfig "kubeconfig" \
-            --istioNamespace "$istioNamespace" \
-            validate \
-            --filename istio/policy.yaml
+    - uses: chrnorm/deployment-action@releases/v1
+      name: Create GitHub deployment (success)
+      if: success()
+      with:
+        token: "${{ github.token }}"
+        target-url: https://cluster.ironpeak.be/
+        environment: production
+        state: "success"
 
-        echo "Verifying istio installation"
-        "./istio-${ISTIO_VERSION}/bin/istioctl" \
-        --kubeconfig "kubeconfig" \
-        --istioNamespace "$istioNamespace" \
-        verify-install || true
-        # https://github.com/istio/istio/issues/19350
-        
-        echo "Trying istio upgrade"
-        "./istio-${ISTIO_VERSION}/bin/istioctl" \
-          --kubeconfig "kubeconfig" \
-          --istioNamespace "$istioNamespace" \
-          upgrade \
-          --filename istio/policy.yaml
-
-        echo "Applying istio config"
-        "./istio-${ISTIO_VERSION}/bin/istioctl" \
-          --kubeconfig "kubeconfig" \
-          --istioNamespace "$istioNamespace" \
-          manifest apply \
-          --skip-confirmation \
-          --filename istio/policy.yaml
+    - uses: chrnorm/deployment-action@releases/v1
+      name: Create GitHub deployment (failure)
+      if: failure()
+      with:
+        token: "${{ github.token }}"
+        target-url: https://cluster.ironpeak.be/
+        environment: production
+        state: "failure"

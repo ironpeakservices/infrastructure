@@ -1,0 +1,4 @@
+ingress.enabled: true
+ingress.hosts[0]: cluster.ironpeak.be
+ingress.path: "/k8sdashboard"
+ingress.annotations.nginx.ingress.kubernetes.io/app-root: "/k8sdashboard"

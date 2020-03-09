@@ -14,17 +14,15 @@ variable "scaleway_region" {
     default = "fr-par"
 }
 
+variable "k8s_cluster_name" {
+    default = "ironpeakbe-main-cluster"
+}
+
 // --- cloudflare variables -----------
 
 variable "cloudflare_token" {}
 
 variable "cloudflared_tunnel_token" {}
-
-// --- kubernetes variables -----------
-
-variable "k8s_cluster_name" {
-    default = "ironpeakbe-main-cluster"
-}
 
 // --- github variables ---------------
 

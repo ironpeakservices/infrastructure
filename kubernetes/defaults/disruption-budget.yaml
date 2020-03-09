@@ -1,0 +1,8 @@
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+    name: default-pod-disruption-budget
+spec:
+    maxUnavailable: 1
+    minAvailable: 1
+

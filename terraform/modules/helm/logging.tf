@@ -78,8 +78,8 @@ resource "helm_release" "loki_grafana" {
     value = "/logs"
   }
   set_string {
-    name  = "ingress.annotations.nginx\\.ingress\\.kubernetes\\.io/app-root"
-    value = "/logs"
+    name  = "grafana.ini.server\\.server_url"
+    value = "https://${var.cluster_hostname}/logs/"
   }
   set_string {
     name  = "grafana.ini.auth\\.anonymous\\.enabled"
