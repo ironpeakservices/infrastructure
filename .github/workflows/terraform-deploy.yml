@@ -103,8 +103,9 @@ jobs:
     - name: kubectl - kubernetes
       uses: steebchen/kubectl@1.0.1
       with:
-        KUBE_CONFIG_DATA: ${{ vars.kubeconfig }}
         args: apply -f kubernetes/
+      env:
+        KUBE_CONFIG_DATA: ${{ vars.kubeconfig }}
       
     - name: Helmsman - apply
       uses: docker://praqma/helmsman:v3.1.0
