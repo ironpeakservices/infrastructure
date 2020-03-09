@@ -22,7 +22,7 @@ jobs:
       with:
         tf_actions_subcommand: "init"
         tf_actions_version: "latest"
-        tf_actions_working_dir: terraform/
+                tf_actions_working_dir: terraform/
 
     - name: Terraform - Lint
       uses: reviewdog/action-tflint@v1.2.2
@@ -61,7 +61,7 @@ jobs:
         TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}     
 
     - name: Helmsman - lint
-      uses: docker://praqma/helmsman:v3.0.0
+      uses: docker://praqma/helmsman:v3.0.3
       with:
         args: helmsman -kubeconfig terraform/kubeconfig -dry-run -f helm/helmfile.yaml
 
