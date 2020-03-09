@@ -62,7 +62,7 @@ jobs:
         args: --file helm/helmfile.yaml lint
 
     - name: validate manifests in dir1 and dir2
-      uses: makocchi-git/actions-k8s-manifests-validate@1.0.0
+      uses: makocchi-git/actions-k8s-manifests-validate@v1.0.0
       with:
         files: kubernetes/,istio/
         token: ${{ secrets.GITHUB_TOKEN }}
