@@ -47,7 +47,7 @@ jobs:
         tf_actions_working_dir: terraform/
       env:
         TF_LOG: WARN
-        TF_CLI_ARGS: "-state=state/terraform.tfstate"
+        TF_CLI_ARGS: "-state=terraform/state/terraform.tfstate"
         TF_VAR_cloudflared_tunnel_token: ${{ secrets.TF_VAR_cloudflared_tunnel_token }}
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
         TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_cloudflare_token }}
