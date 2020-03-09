@@ -109,7 +109,7 @@ jobs:
     - name: Helmsman - apply
       uses: docker://praqma/helmsman:v3.1.0
       with:
-        command: helmsman --apply -kubeconfig terraform/kubeconfig -f helm/helmfile.yaml'
+        command: helmsman -apply -kubeconfig terraform/kubeconfig -f helm/helmfile.yaml'
 
     - uses: chrnorm/deployment-action@releases/v1
       name: Create GitHub deployment (success)

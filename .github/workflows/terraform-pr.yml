@@ -68,5 +68,5 @@ jobs:
     - name: validate manifests in dir1 and dir2
       uses: makocchi-git/actions-k8s-manifests-validate@v1.0.0
       with:
-        files: kubernetes/,istio/
+        files: kubernetes/
         token: ${{ secrets.GITHUB_TOKEN }}
