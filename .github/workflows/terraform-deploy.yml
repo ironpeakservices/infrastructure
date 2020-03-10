@@ -35,6 +35,7 @@ jobs:
         tf_actions_subcommand: "init"
         tf_actions_version: "latest"
         tf_actions_working_dir: terraform/
+    - run: sudo chmod 777 -R terraform/.terraform
 
     - name: Terraform - Validate
       uses: hashicorp/terraform-github-actions@v0.8.0
