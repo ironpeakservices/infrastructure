@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
-    - uses: chrnorm/deployment-action@releases/v1
+    - uses: chrnorm/deployment-action@v1.1.1
       name: Create GitHub deployment
       id: deployment
       with:
@@ -114,22 +114,18 @@ jobs:
       with:
         command: helmsman -apply -kubeconfig terraform/kubeconfig -f helm/helmfile.yaml'
 
-    - uses: chrnorm/deployment-action@releases/v1
-      name: Create GitHub deployment (success)
+    - uses: chrnorm/deployment-action@v1.1.1
+      name: "Set GitHub Deployment: Success"
       if: success()
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        target-url: https://cluster.ironpeak.be/
-        environment: production
         state: "success"
         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
-    - uses: chrnorm/deployment-action@releases/v1
-      name: Create GitHub deployment (failure)
+    - uses: chrnorm/deployment-action@v1.1.1
+      name: "Set GitHub Deployment: Failed"
       if: failure()
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
-        target-url: https://cluster.ironpeak.be/
-        environment: production
         state: "failure"
         deployment_id: ${{ steps.deployment.outputs.deployment_id }}
