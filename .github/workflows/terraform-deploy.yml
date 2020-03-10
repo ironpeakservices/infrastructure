@@ -34,7 +34,7 @@ jobs:
         tf_actions_version: "latest"
         tf_actions_working_dir: terraform/
         
-    - run: ls -alh . terraform/
+    - run: chmod 777 terraform/.terraform/
 
     - name: Terraform - Validate
       uses: hashicorp/terraform-github-actions@v0.7.1
