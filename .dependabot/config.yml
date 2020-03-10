@@ -2,7 +2,7 @@ version: 1
 
 update_configs:
 - package_manager: "terraform"
-  directory: "/"
+  directory: "/terraform/"
   update_schedule: "daily"
 
 - package_manager: "github_actions"
