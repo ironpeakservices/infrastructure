@@ -16,6 +16,7 @@ jobs:
         token: "${{ github.token }}"
         target-url: https://cluster.ironpeak.be/
         environment: production
+        initial_status: in_progress
     
     - name: Checkout code
       uses: actions/checkout@v2
@@ -116,7 +117,7 @@ jobs:
       name: Create GitHub deployment (success)
       if: success()
       with:
-        token: "${{ github.token }}"
+        token: ${{ secrets.GITHUB_TOKEN }}
         target-url: https://cluster.ironpeak.be/
         environment: production
         state: "success"
@@ -125,7 +126,7 @@ jobs:
       name: Create GitHub deployment (failure)
       if: failure()
       with:
-        token: "${{ github.token }}"
+        token: ${{ secrets.GITHUB_TOKEN }}
         target-url: https://cluster.ironpeak.be/
         environment: production
         state: "failure"
