@@ -28,7 +28,7 @@ provider "github" {
 }
 
 provider "scaleway" {
-    version = "~> 1.13"
+    version = "~> 1.14"
 
     access_key      = var.scaleway_accesstoken
     secret_key      = var.scaleway_secrettoken
