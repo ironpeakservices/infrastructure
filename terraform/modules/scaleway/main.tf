@@ -25,10 +25,7 @@ resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
 
     auto_upgrade {
         enable = true
-        maintenance_window {
-            maintenance_window_day = "sunday"
-            start_hour = 3
-            day = "any"
-        }
+        maintenance_window_day = "sunday"
+        maintenance_window_start_hour = 3
     }
 }
