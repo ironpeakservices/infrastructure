@@ -22,10 +22,4 @@ resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
 
         container_runtime = "containerd"
     }
-
-    auto_upgrade {
-        enable = true
-        maintenance_window_day = "sunday"
-        maintenance_window_start_hour = 3
-    }
 }
