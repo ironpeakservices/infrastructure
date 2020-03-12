@@ -2,8 +2,12 @@ variable cluster_name {
     default = "default"
 }
 
+data "external" "get_kubernetes_version" {
+  program = ["${path.module}/extract-kubernetes-version.sh", "${path.module}/.kubernetes/go.mod"]
+}
+
 variable k8s_version {
-    default = "latest"
+    default = "${data.external.get_kubernetes_version.result}"
 }
 
 variable node_type {
