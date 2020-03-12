@@ -3,7 +3,7 @@ variable cluster_name {
 }
 
 variable k8s_version {
-    default = "1.17.3"
+    default = "latest"
 }
 
 variable node_type {
