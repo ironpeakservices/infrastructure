@@ -2,14 +2,14 @@
 # TODO: https://github.com/netdata/helmchart/issues/74
 data "helm_repository" "netdata" {
   name = "netdata"
-  url  = "https://github.com/netdata/helmchart"
+  url  = "https://netdata.github.io/helmchart/"
 }
 
 # install netdata for our cluster & pod monitoring 
 resource "helm_release" "netdata" {
   name        = "netdata"
   repository  = data.helm_repository.netdata.metadata[0].name
-  chart       = "netdata/helmchart"
+  chart       = "netdata/netdata"
   version     = var.netdata_version
   namespace   = var.netdata_namespace
   
