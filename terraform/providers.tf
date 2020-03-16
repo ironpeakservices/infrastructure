@@ -1,5 +1,9 @@
 terraform {
     required_version = ">= v0.12.19"
+    
+    backend "local" {
+        path = "state/terrform.tfstate"    
+    }
 }
 
 provider "external" {
