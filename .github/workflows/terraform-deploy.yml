@@ -85,7 +85,7 @@ jobs:
         repository: terraform/state/
         commit_message: "feat(state): add new deployed state"
         branch: master
-        file_pattern: terraform/state/terraform.tfstate
+        file_pattern: terraform.tfstate
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_MERGE_TOKEN }}
     
