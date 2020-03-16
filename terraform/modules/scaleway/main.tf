@@ -1,5 +1,5 @@
 data "external" "get_kubernetes_version" {
-  program = ["terraform/${path.module}/extract-kubernetes-version.sh", "${path.module}/.kubernetes/go.mod"]
+  program = ["${path.module}/extract-kubernetes-version.sh", "${path.module}/.kubernetes/go.mod"]
 }
 
 resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
