@@ -10,8 +10,8 @@ This repository contains all necessary configuration to bring the full ironpeak.
     - Cloudflare resources in `modules/cloudflare/`
     - GitHub resources in `modules/github/`
     - Scaleway Kapsule which brings us our Kubernetes cluster in `modules/scaleway/`
-    - Kubernetes configuration (shared resources such as namespaces) in `modules/kubernetes/`
-2. Install shared application instances via Helm 3 in `modules/helm/`
+    - Kubernetes configuration (shared resources such as namespaces) in `kubernetes/`
+2. Install shared application instances via Helm 3 in `helm/`
 3. `istio/`: the istio policy configuration via `istioctl`
 
 ## Running manually
