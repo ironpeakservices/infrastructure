@@ -2,7 +2,7 @@ terraform {
     required_version = ">= v0.12.19"
     
     backend "local" {
-        path = "${path.module}/state/terraform.tfstate"    
+        path = "state/terraform.tfstate"    
     }
 }
 
