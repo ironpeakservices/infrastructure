@@ -97,7 +97,7 @@ jobs:
     - name: kubectl - kubernetes
       uses: steebchen/kubectl@1.0.1
       with:
-        args: apply -f kubernetes/
+        args: apply --recursive --filename kubernetes/
       env:
         KUBE_CONFIG_DATA: ${{ steps.vars.kubeconfig }}
       
