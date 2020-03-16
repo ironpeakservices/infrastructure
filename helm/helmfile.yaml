@@ -4,6 +4,7 @@ settings:
 helmRepos:
   stable: https://kubernetes-charts.storage.googleapis.com
   loki: https://grafana.github.io/loki/charts
+  netdata: https://netdata.github.io/helmchart/
 
 
 apps:
