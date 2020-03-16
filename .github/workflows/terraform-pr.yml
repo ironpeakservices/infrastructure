@@ -46,7 +46,7 @@ jobs:
         tf_actions_version: "latest"
         tf_actions_working_dir: terraform/
       env:
-        TF_LOG: WARN
+        TF_LOG: TRACE
         TF_VAR_cloudflared_tunnel_token: ${{ secrets.TF_VAR_cloudflared_tunnel_token }}
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
         TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_cloudflare_token }}
