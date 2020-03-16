@@ -92,6 +92,7 @@ jobs:
     - name: extract kubeconfig
       id: vars
       run: |
+        find . -type f -iname '*kubeconfig*'
         echo ::set-output name=kubeconfig::$(cat terraform/kubeconfig | base64)
     
     - name: kubectl - kubernetes
