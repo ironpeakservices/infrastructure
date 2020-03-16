@@ -47,7 +47,6 @@ jobs:
         tf_actions_working_dir: terraform/
       env:
         TF_LOG: WARN
-        TF_CLI_ARGS: "-state=state/terraform.tfstate"
         TF_VAR_cloudflared_tunnel_token: ${{ secrets.TF_VAR_cloudflared_tunnel_token }}
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
         TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_cloudflare_token }}
@@ -55,10 +54,7 @@ jobs:
         TF_VAR_github_token: ${{ secrets.TF_VAR_github_token }}
         TF_VAR_scaleway_org: ${{ secrets. TF_VAR_scaleway_org }}
         TF_VAR_scaleway_accesstoken: ${{ secrets.TF_VAR_accesstoken }}
-        TF_VAR_scaleway_secrettoken: ${{ secrets.TF_VAR_secrettoken }}
-        TF_VAR_ssh_root_public_key: ${{ secrets.TF_VAR_ssh_root_public_key }}
-        TF_VAR_ssh_root_private_key: ${{ secrets.TF_VAR_ssh_root_private_key }}
-        TF_VAR_ssh_tech_public_key: ${{ secrets.TF_VAR_ssh_tech_public_key }}     
+        TF_VAR_scaleway_secrettoken: ${{ secrets.TF_VAR_secrettoken }} 
 
     - name: Helmsman - lint
       uses: docker://praqma/helmsman:v3.1.0

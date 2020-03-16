@@ -1,5 +1,9 @@
 terraform {
     required_version = ">= v0.12.19"
+    
+    backend "local" {
+        path = "state/terraform.tfstate"    
+    }
 }
 
 provider "external" {
@@ -28,7 +32,7 @@ provider "github" {
 }
 
 provider "scaleway" {
-    version = "~> 1.13"
+    version = "~> 1.14"
 
     access_key      = var.scaleway_accesstoken
     secret_key      = var.scaleway_secrettoken
