@@ -1,18 +1,13 @@
-provider "scaleway" {
-    access_key      = var.scaleway_accesstoken
-    secret_key      = var.scaleway_secrettoken
-    organization_id = var.scaleway_organization
-
-    zone       = var.zone
-    region     = var.region
+data "external" "get_kubernetes_version" {
+  program = ["${path.module}/extract-kubernetes-version.sh", "${path.module}/.kubernetes/go.mod"]
 }
 
 resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
     name = var.cluster_name
-    version = var.k8s_version
+    version = var.k8s_version == "" ? data.external.get_kubernetes_version.result : var.k8s_version
     tags = [ "k8s", "ironpeakbe", "main-cluster", "prd" ]
     
-    enable_dashboard = true
+    enable_dashboard = false
 
     ingress = "none"
     cni = "cilium"
@@ -31,15 +26,4 @@ resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
 
         container_runtime = "containerd"
     }
-
-    /*
-    auto_upgrade {
-        enable = true
-
-        maintenance_window {
-            start_hour = 3
-            day = "any"
-        }
-    }
-    */   
 }

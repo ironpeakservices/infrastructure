@@ -1,1 +1,0 @@
-variable "cloudflare_token" {}
