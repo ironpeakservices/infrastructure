@@ -91,7 +91,7 @@ jobs:
     
     - name: extract kubeconfig
       id: vars
-      run: echo ::set-output name=kubeconfig::$(cat terraform/kubeconfig | base64)
+      run: echo ::set-output name=kubeconfig::$(cat terraform/kubeconfig | base64 | tr -d '\n')
     
     - name: kubectl - kubernetes
       uses: steebchen/kubectl@1.0.1
