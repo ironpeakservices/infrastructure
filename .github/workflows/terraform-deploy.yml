@@ -89,16 +89,10 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_MERGE_TOKEN }}
     
-    - name: extract kubeconfig
-      id: vars
-      run: echo ::set-output name=kubeconfig::$(cat terraform/kubeconfig | base64)
-    
     - name: kubectl - kubernetes
       uses: steebchen/kubectl@1.0.1
       with:
-        args: apply --recursive --filename kubernetes/
-      env:
-        KUBE_CONFIG_DATA: ${{ steps.vars.outputs.kubeconfig }}
+        args: apply --recursive --filename kubernetes/ --kubeconfig=terraform/kubeconfig
       
     - name: Helmsman - apply
       uses: docker://praqma/helmsman:v3.1.0
