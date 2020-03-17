@@ -1,0 +1,14 @@
+name: Compliance check
+on: [pull_request]
+
+jobs:
+  checkov:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v1
+      - name: Test with Checkov
+        run: |
+          pip install checkov
+          checkov -d terraform/
