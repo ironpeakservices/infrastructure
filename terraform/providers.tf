@@ -34,20 +34,3 @@ terraform {
         }
     }
 }
-
-provider "cloudflare" {
-    api_token = var.cloudflare_token
-}
-
-provider "github" {
-    token = var.github_token
-    organization = var.github_org
-}
-
-provider "scaleway" {
-    access_key      = var.scaleway_accesstoken
-    secret_key      = var.scaleway_secrettoken
-    organization_id = var.scaleway_org
-    zone            = var.scaleway_zone
-    region          = var.scaleway_region
-}
