@@ -6,47 +6,31 @@ jobs:
     name: Terraform
     runs-on: ubuntu-latest
     steps:
-    
-    - name: Checkout code
+    - 
+      name: Checkout code
       uses: actions/checkout@v2
-      
-    - name: Checkout secrets
+    - 
+      name: Checkout secrets
       uses: actions/checkout@v2
       with:
         repository: hazcod/infrastructure-state
         path: terraform/state/
         token: ${{ secrets.GITHUB_MERGE_TOKEN }}
-
-    - name: Terraform - Init
-      uses: hashicorp/terraform-github-actions@v0.8.0
-      with:
-        tf_actions_subcommand: "init"
-        tf_actions_version: "latest"
-        tf_actions_working_dir: terraform/
-
-    - name: Terraform - Lint
-      uses: reviewdog/action-tflint@v1.2.2
-      with:
-        github_token: ${{ secrets.github_token }}
-        reporter: github-pr-review
-        flags: "--deep"
-        tf_actions_working_dir: terraform/
-
-    - name: Terraform - Validate
-      uses: hashicorp/terraform-github-actions@v0.8.0
-      with:
-        tf_actions_subcommand: "validate"
-        tf_actions_version: "latest"
-        tf_actions_working_dir: terraform/
-
-    - name: Terraform - Plan
-      uses: hashicorp/terraform-github-actions@v0.8.0
-      with:
-        tf_actions_subcommand: "plan"
-        tf_actions_version: "latest"
-        tf_actions_working_dir: terraform/
+    - 
+      name: Setup terraform
+      uses: hashicorp/setup-terraform@v1
+      # TODO extract terraform version from dependabot-driven file
+      #with:
+      #  terraform_version: xxx
+    - 
+      uses: terraform - validate
+      run: terraform validate -no-color terraform/
+    - 
+      uses: terraform - plan
+      run: terraform plan -no-color terraform/
       env:
         TF_LOG: WARN
+        TF_ACTION_COMMENT: false
         TF_VAR_cloudflared_tunnel_token: ${{ secrets.TF_VAR_cloudflared_tunnel_token }}
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
         TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_cloudflare_token }}
@@ -54,14 +38,14 @@ jobs:
         TF_VAR_github_token: ${{ secrets.TF_VAR_github_token }}
         TF_VAR_scaleway_org: ${{ secrets. TF_VAR_scaleway_org }}
         TF_VAR_scaleway_accesstoken: ${{ secrets.TF_VAR_accesstoken }}
-        TF_VAR_scaleway_secrettoken: ${{ secrets.TF_VAR_secrettoken }} 
-
-    - name: Helmsman - lint
+        TF_VAR_scaleway_secrettoken: ${{ secrets.TF_VAR_secrettoken }}
+    - 
+      name: Helmsman - lint
       uses: docker://praqma/helmsman:v3.1.0
       with:
         command: helmsman -kubeconfig terraform/kubeconfig -f helm/helmfile.yaml'
-
-    - name: validate manifests in dir1 and dir2
+    - 
+      name: Kubernetes - validate manifests
       uses: makocchi-git/actions-k8s-manifests-validate@v1.0.0
       with:
         files: kubernetes/
