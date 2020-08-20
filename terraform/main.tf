@@ -23,6 +23,8 @@ terraform {
 # our dns, DoS scrubber and CDN
 module "cloudflare" {
     source                  = "./modules/cloudflare"
+
+    secret_token            = var.cloudflare_token
 }
 
 # the basic infrastructure (managed kubernetes cluster)
