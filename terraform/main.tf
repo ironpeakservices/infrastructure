@@ -30,6 +30,11 @@ module "scaleway" {
     source                  = "./modules/scaleway"
 
     cluster_name            = var.k8s_cluster_name
+    access_key              = var.scaleway_accesstoken
+    secret_key              = var.scaleway_secrettoken
+    org_id                  = var.scaleway_org
+    zone                    = var.scaleway_zone
+    region                  = var.scaleway_region
 }
 
 /*

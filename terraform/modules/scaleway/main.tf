@@ -7,6 +7,14 @@ terraform {
   }
 }
 
+provider "scaleway" {
+    access_key      = var.access_key
+    secret_key      = var.secret_key
+    organization_id = var.org_id
+    zone            = var.zone
+    region          = var.region
+}
+
 data "external" "get_kubernetes_version" {
   program = ["${path.module}/extract-kubernetes-version.sh", "${path.module}/../../.github/kubernetes/go.mod"]
 }

@@ -1,3 +1,13 @@
+variable access_key {}
+
+variable secret_key {}
+
+variable org_id {}
+
+variable zone {}
+
+variable region {}
+
 variable cluster_name {
     default = "default"
 }
