@@ -21,27 +21,33 @@ terraform {
         cloudflare = {
             source  = "cloudflare/cloudflare"
             version = "~> 2.9"
-
-            api_token = var.cloudflare_token
         }
         
         github = {
             source  = "hashicorp/github"
             version = "~> 2.9"
-
-            token = var.github_token
-            organization = var.github_org    
         }
         
         scaleway = {
             source  = "scaleway/scaleway"
             version = "~> 1.16"
-
-            access_key      = var.scaleway_accesstoken
-            secret_key      = var.scaleway_secrettoken
-            organization_id = var.scaleway_org
-            zone            = var.scaleway_zone
-            region          = var.scaleway_region
         }
     }
+}
+
+provider "cloudflare" {
+    api_token = var.cloudflare_token
+}
+
+provider "github" {
+    token = var.github_token
+    organization = var.github_org
+}
+
+provider "scaleway" {
+    access_key      = var.scaleway_accesstoken
+    secret_key      = var.scaleway_secrettoken
+    organization_id = var.scaleway_org
+    zone            = var.scaleway_zone
+    region          = var.scaleway_region
 }
