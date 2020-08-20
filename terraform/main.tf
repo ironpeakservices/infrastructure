@@ -37,6 +37,7 @@ module "scaleway" {
     org_id                  = var.scaleway_org
     zone                    = var.scaleway_zone
     region                  = var.scaleway_region
+    k8s_version             = var.kubernetes_version
 }
 
 /*

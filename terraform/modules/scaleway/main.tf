@@ -15,13 +15,10 @@ provider "scaleway" {
     region          = var.region
 }
 
-data "external" "get_kubernetes_version" {
-  program = ["${path.module}/extract-kubernetes-version.sh", "${path.module}/../../.github/kubernetes/go.mod"]
-}
-
 resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
     name = var.cluster_name
-    version = var.k8s_version == "" ? data.external.get_kubernetes_version.result.version : var.k8s_version
+    version = var.k8s_version
+    
     tags = [ "k8s", "ironpeakbe", "main-cluster", "prd" ]
     
     enable_dashboard = false

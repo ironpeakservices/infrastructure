@@ -8,12 +8,10 @@ variable zone {}
 
 variable region {}
 
+variable k8s_version {}
+
 variable cluster_name {
     default = "default"
-}
-
-variable k8s_version {
-  default = ""   
 }
 
 variable node_type {

@@ -19,8 +19,13 @@ jobs:
     -
       name: Extract terraform version
       run: |
-        echo ::set-env name=terraform-version::"$(./terraform/modules/scaleway/extract-kubernetes-version.sh .github/terraform/go.mod | jq -r .version)"
+        echo ::set-env name=terraform-version::"$(./.github/extract-version.sh .github/terraform/go.mod | jq -r .version)"
         echo "terraform version is ${{ env.terraform_version }}"
+    -
+      name: Extract k8s version
+      run: |
+        echo ::set-env name=k8s_version::"$(./.github/extract-version.sh .github/kubernetes/go.mod | jq -r .version)"
+        echo "K8S version is ${{ env.k8s_version }}"
     - 
       name: Setup terraform ${{ env.terraform_version }}
       uses: hashicorp/setup-terraform@v1
@@ -38,6 +43,7 @@ jobs:
       env:
         TF_LOG: WARN
         TF_ACTION_COMMENT: false
+        TF_VAR_kubernetes_version: ${{ env.k8s_version }}
         TF_VAR_cloudflared_tunnel_token: ${{ secrets.TF_VAR_cloudflared_tunnel_token }}
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
         TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_cloudflare_token }}
@@ -68,12 +74,12 @@ jobs:
     -
       name: Extract kind version
       run: |
-        echo ::set-env name=kind_version::"$(./terraform/modules/scaleway/extract-kubernetes-version.sh .github/kind/go.mod | jq -r .version)"
+        echo ::set-env name=kind_version::"$(./.github/extract-version.sh .github/kind/go.mod | jq -r .version)"
         echo "kind version is ${{ env.kind_version }}"
     -
       name: Extract k8s version
       run: |
-        echo ::set-env name=k8s_version::"$(./terraform/modules/scaleway/extract-kubernetes-version.sh .github/kubernetes/go.mod | jq -r .version)"
+        echo ::set-env name=k8s_version::"$(./.github/extract-version.sh .github/kubernetes/go.mod | jq -r .version)"
         echo "K8S version is ${{ env.k8s_version }}"
     - 
       name: Set up kind with K8s version ${{ env.k8s_version }}
