@@ -1,5 +1,5 @@
 terraform {
-    required_version = ">= v0.12.19"
+    required_version = ">= v0.13.0"
     
     backend "local" {
         path = "state/terraform.tfstate"    
