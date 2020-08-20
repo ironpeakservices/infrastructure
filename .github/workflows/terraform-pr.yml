@@ -19,7 +19,7 @@ jobs:
     -
       name: Extract terraform version
       run: |
-        echo ::set-env name=terraform_version::"$(./.github/extract-version.sh .github/terraform/go.mod | jq -r .version)"
+        echo ::set-env name=terraform_version::"$(./.github/extract-version.sh .github/terraform/go.mod | jq -r .version | cut -d v -f 1)"
         echo "terraform version is ${{ env.terraform_version }}"
     -
       name: Extract k8s version
