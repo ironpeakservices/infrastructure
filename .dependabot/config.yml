@@ -10,7 +10,7 @@ update_configs:
   update_schedule: "daily"
 
 - package_manager: "go:modules"
-  directory: "/terraform/modules/scaleway/.kubernetes"
+  directory: "/.github/.kubernetes/go.mod"
   update_schedule: "weekly"
   commit_message:
     prefix: "feat"
