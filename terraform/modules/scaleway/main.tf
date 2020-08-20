@@ -1,3 +1,12 @@
+terraform {
+  required_providers {
+    scaleway = {
+      source  = "scaleway/scaleway"
+      version = "~> 1.16"
+    }
+  }
+}
+
 data "external" "get_kubernetes_version" {
   program = ["${path.module}/extract-kubernetes-version.sh", "${path.module}/../../.github/kubernetes/go.mod"]
 }
@@ -13,17 +22,22 @@ resource "scaleway_k8s_cluster_beta" "ironpeakbe-main-cluster" {
     cni = "cilium"
     // admission_plugins =
     // feature_gates =
+}
 
-    default_pool {
-        node_type = var.node_type
+resource "scaleway_k8s_pool_beta" "ironpeakbe-main-pool" {
+    cluster_id = scaleway_k8s_cluster_beta.ironpeakbe-main-cluster.id
 
-        autoscaling = true
-        autohealing = true
+    name = "ironpeakbe-main-pool"
+    node_type = var.node_type
 
-        size = var.node_default_count
-        min_size = var.node_minimum_count
-        max_size = var.node_maximum_count
+    size = var.node_default_count
+    min_size = var.node_minimum_count
+    max_size = var.node_maximum_count
 
-        container_runtime = "containerd"
-    }
+    autoscaling = true
+    autohealing = true
+
+    container_runtime = "containerd"
+
+    // placement_group_id
 }
