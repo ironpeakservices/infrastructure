@@ -65,7 +65,7 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
 
   e2etesting:
-    name: E2E Testing
+    name: Testing
     needs: on-pull-request
     runs-on: ubuntu-latest
     steps:
@@ -96,7 +96,15 @@ jobs:
         echo "current-context:" $(kubectl config current-context)
         echo "environment-kubeconfig:" ${KUBECONFIG}
     - 
-      name: Run tests
-      run: |
-        echo "Running tests:"
-        ./tests/test.sh
+      name: test - kubectl
+      uses: steebchen/kubectl@1.0.1
+      with:
+        args: apply --recursive --filename kubernetes/
+    - 
+      name: test - helmsman
+      uses: docker://praqma/helmsman:v3.1.0
+      with:
+        command: helmsman -apply -f helm/helmfile.yaml'
+    - 
+      name: test - custom
+      run: ./tests/test.sh
