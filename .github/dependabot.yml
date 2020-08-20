@@ -1,12 +1,15 @@
 version: 2
+
 updates:
-- package-ecosystem: github-actions
+- 
+  package-ecosystem: github-actions
   directory: "/"
   schedule:
     interval: daily
     time: '04:00'
   open-pull-requests-limit: 10
-- package-ecosystem: gomod
+- 
+  package-ecosystem: gomod
   directory: "/.github/kubernetes/"
   schedule:
     interval: weekly
@@ -15,7 +18,8 @@ updates:
   commit-message:
     prefix: feat
     include: scope
-- package-ecosystem: gomod
+- 
+  package-ecosystem: gomod
   directory: "/.github/kind/"
   schedule:
     interval: daily
@@ -24,7 +28,18 @@ updates:
   commit-message:
     prefix: feat
     include: scope
-- package-ecosystem: terraform
+- 
+  package-ecosystem: gomod
+  directory: "/.github/kind/"
+  schedule:
+    interval: daily
+    time: '04:00'
+  open-pull-requests-limit: 10
+  commit-message:
+    prefix: feat
+    include: scope
+- 
+  package-ecosystem: terraform
   directory: "/terraform"
   schedule:
     interval: daily
