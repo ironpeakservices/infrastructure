@@ -97,9 +97,7 @@ jobs:
         echo "environment-kubeconfig:" ${KUBECONFIG}
     - 
       name: test - kubectl
-      uses: steebchen/kubectl@1.0.1
-      with:
-        args: apply --recursive --filename kubernetes/
+      run: kubectl apply --recursive --filename kubernetes/
     - 
       name: test - helmsman
       uses: docker://praqma/helmsman:v3.1.0

@@ -91,9 +91,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_MERGE_TOKEN }}
     - 
       name: kubectl - kubernetes
-      uses: steebchen/kubectl@1.0.1
-      with:
-        args: apply --recursive --filename kubernetes/ --kubeconfig=terraform/kubeconfig
+      run: kubectl apply --recursive --filename kubernetes/ --kubeconfig=terraform/kubeconfig
     - 
       name: Helmsman - apply
       uses: docker://praqma/helmsman:v3.1.0
