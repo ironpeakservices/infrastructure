@@ -79,9 +79,6 @@ jobs:
       run: |
         echo ::set-output name=k8s_version::"$(./terraform/modules/scaleway/extract-kubernetes-version.sh ./terraform/modules/scaleway/.kubernetes/go.mod)"
         echo "K8S version is ${{ env.k8s_version }}"
-    -
-       name: Set kind config
-       run: 
     - 
       name: Set up kind with K8s version ${{ env.k8s_version }}
       uses: engineerd/setup-kind@v0.4.0
