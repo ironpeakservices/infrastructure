@@ -66,3 +66,35 @@ jobs:
       with:
         files: kubernetes/
         token: ${{ secrets.GITHUB_TOKEN }}
+
+  e2etesting:
+    name: E2E Testing
+    needs: on-pull-request
+    runs-on: ubuntu-latest
+    steps:
+    - 
+      uses: actions/checkout@v2
+    -
+      name: Extract k8s version
+      run: |
+        echo ::set-output name=k8s_version::"$(./terraform/modules/scaleway/extract-kubernetes-version.sh ./terraform/modules/scaleway/.kubernetes/go.mod)"
+        echo "K8S version is ${{ env.k8s_version }}"
+    - 
+      name: Set up kind with K8s version ${{ env.k8s_version }}
+      uses: engineerd/setup-kind@v0.4.0
+      with:
+          name: ironpeak-test-cluster
+          image: kindest/node:${{ env.k8s_version }}
+          version: ${{ env.k8s_version }}
+    - 
+      name: K8S Info
+      run: |
+        kubectl cluster-info
+        kubectl get pods -n kube-system
+        echo "current-context:" $(kubectl config current-context)
+        echo "environment-kubeconfig:" ${KUBECONFIG}
+    - 
+      name: Run tests
+      run: |
+        echo "Running tests:"
+        ./tests/test.sh
