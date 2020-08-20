@@ -36,7 +36,7 @@ jobs:
       #  terraform_version: xxx
     - 
       name: terraform - init
-      run: terraform -no-color init terraform/
+      run: terraform init terraform/
     - 
       name: terraform - validate
       run: terraform validate -no-color terraform/
