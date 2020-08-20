@@ -23,10 +23,10 @@ jobs:
       #with:
       #  terraform_version: xxx
     - 
-      uses: terraform - validate
+      name: terraform - validate
       run: terraform validate -no-color terraform/
     - 
-      uses: terraform - plan
+      name: terraform - plan
       run: terraform plan -no-color terraform/
       env:
         TF_LOG: WARN
