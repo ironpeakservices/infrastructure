@@ -42,7 +42,7 @@ jobs:
       name: Setup terraform ${{ env.terraform_version }}
       uses: hashicorp/setup-terraform@v1
       with:
-        terraform_version: ${{ env.terraform_version }}"
+        terraform_version: ${{ env.terraform_version }}
     - 
       name: terraform - init
       run: terraform init terraform/
