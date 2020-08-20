@@ -87,7 +87,7 @@ jobs:
       with:
         version: "v${{ env.kind_version }}"
         name: ironpeak-test-cluster
-        image: kindest/node:${{ env.k8s_version }}
+        image: "kindest/node:v${{ env.k8s_version }}"
     - 
       name: K8S Info
       run: |
