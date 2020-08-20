@@ -19,12 +19,14 @@ provider "template" {
 }
 
 provider "cloudflare" {
+    source  = "terraform-providers/cloudflare"
     version = "~> 2.3"
 
     api_token = var.cloudflare_token
 }
 
 provider "github" {
+    source  = "terraform-providers/github"
     version = "~> 2.2"
 
     token = var.github_token
@@ -32,6 +34,7 @@ provider "github" {
 }
 
 provider "scaleway" {
+    source  = "scaleway/scaleway"
     version = "~> 1.14"
 
     access_key      = var.scaleway_accesstoken
