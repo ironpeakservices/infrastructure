@@ -23,6 +23,9 @@ jobs:
       #with:
       #  terraform_version: xxx
     - 
+      uses: terraform - init
+      run: terraform -no-color init terraform/
+    - 
       name: terraform - validate
       run: terraform validate -no-color terraform/
     - 
