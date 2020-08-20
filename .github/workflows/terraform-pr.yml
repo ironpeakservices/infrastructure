@@ -101,7 +101,7 @@ jobs:
     - 
       name: test - helmsman
       env:
-        HELMSMAN_VERSION="3.4.2"
+        HELMSMAN_VERSION: 3.4.2
       run: |
         curl -L "https://github.com/Praqma/helmsman/releases/download/v${HELMSMAN_VERSION}helmsman_${HELMSMAN_VERSION}_linux_amd64.tar.gz" | tar zx
         chmod +x helsman
