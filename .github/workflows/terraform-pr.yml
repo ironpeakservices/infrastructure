@@ -62,6 +62,11 @@ jobs:
     - 
       uses: actions/checkout@v2
     -
+      name: Extract kind version
+      run: |
+        echo ::set-env name=kind_version::"$(./terraform/modules/scaleway/extract-kubernetes-version.sh .github/kind/go.mod | jq -r .version)"
+        echo "kind version is ${{ env.kind_version }}"
+    -
       name: Extract k8s version
       run: |
         echo ::set-env name=k8s_version::"$(./terraform/modules/scaleway/extract-kubernetes-version.sh .github/kubernetes/go.mod | jq -r .version)"
@@ -70,9 +75,9 @@ jobs:
       name: Set up kind with K8s version ${{ env.k8s_version }}
       uses: engineerd/setup-kind@v0.4.0
       with:
-          name: ironpeak-test-cluster
-          image: kindest/node:${{ env.k8s_version }}
-          version: ${{ env.k8s_version }}
+        version: ${{ env.kind_version }}
+        name: ironpeak-test-cluster
+        image: kindest/node:${{ env.k8s_version }}
     - 
       name: K8S Info
       run: |
