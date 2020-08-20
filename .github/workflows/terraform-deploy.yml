@@ -36,7 +36,7 @@ jobs:
     -
       name: Extract k8s version
       run: |
-        echo ::set-env name=k8s_version::"$(./.github/extract-version.sh .github/kubernetes/go.mod | jq -r .version)"
+        echo ::set-env name=k8s_version::"$(./.github/extract-version.sh .github/kubernetes/go.mod | jq -r .version) | sed 's/^0/1/')"
         echo "K8S version is ${{ env.k8s_version }}"
     - 
       name: Setup terraform ${{ env.terraform_version }}
