@@ -11,7 +11,7 @@ appsTemplates:
   default: &appTemplate
     test: true
     protected: false
-    wait: true
+    wait: false
     enabled: true
 
 apps:
