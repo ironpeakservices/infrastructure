@@ -59,7 +59,7 @@ jobs:
     - 
       name: install helmsman ${{ env.helmsman_version }}
       run: |
-        curl -L https://github.com/Praqma/helmsman/releases/download/v${{ env.helmsman_version }}/helmsman_${{ helmsman_version }}_linux_amd64.tar.gz | tar zx
+        curl -L https://github.com/Praqma/helmsman/releases/download/v${{ env.helmsman_version }}/helmsman_${{ env.helmsman_version }}_linux_amd64.tar.gz | tar zx
         chmod +x helsman
         helmsman -kubeconfig terraform/kubeconfig -f helm/helmfile.yaml
     - 
@@ -115,7 +115,7 @@ jobs:
     - 
       name: install helmsman ${{ env.helmsman_version }}
       run: |
-        curl -L https://github.com/Praqma/helmsman/releases/download/v${{ env.helmsman_version }}/helmsman_${{ helmsman_version }}_linux_amd64.tar.gz | tar zx
+        curl -L https://github.com/Praqma/helmsman/releases/download/v${{ env.helmsman_version }}/helmsman_${{ env.helmsman_version }}_linux_amd64.tar.gz | tar zx
         chmod +x helsman
         helmsman -kubeconfig terraform/kubeconfig -f helm/helmfile.yaml
     - 
