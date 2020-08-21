@@ -89,7 +89,15 @@ jobs:
         file_pattern: terraform.tfstate
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_MERGE_TOKEN }}
-    - 
+    -
+      name: install istioctl
+      env:
+        ISTIO_VERSION: 1.6.8
+      run: |
+        curl -L https://istio.io/downloadIstio | ISTIO_VERSION="${ISTIO_VERSION}" sh -
+        mv istio-*/bin/istioctl .
+        istioctl operator init
+    -
       name: kubectl - kubernetes
       run: kubectl apply --recursive --filename kubernetes/ --kubeconfig=terraform/kubeconfig
     - 
@@ -98,7 +106,7 @@ jobs:
         HELMSMAN_VERSION: 3.4.2
       run: |
         curl -L "https://github.com/Praqma/helmsman/releases/download/v${HELMSMAN_VERSION}helmsman_${HELMSMAN_VERSION}_linux_amd64.tar.gz" | tar zx
-        chmod +x helsman
+        chmod +x helmsman
         helmsman -apply -kubeconfig terraform/kubeconfig -f helm/helmfile.yaml
     - 
       name: Update deployment status (success)
