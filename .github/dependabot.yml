@@ -1,13 +1,16 @@
 version: 2
+
 updates:
-- package-ecosystem: github-actions
+- 
+  package-ecosystem: github-actions
   directory: "/"
   schedule:
     interval: daily
     time: '04:00'
   open-pull-requests-limit: 10
-- package-ecosystem: gomod
-  directory: "/terraform/modules/scaleway/.kubernetes"
+- 
+  package-ecosystem: gomod
+  directory: "/.github/kubernetes/"
   schedule:
     interval: weekly
     time: '04:00'
@@ -15,7 +18,78 @@ updates:
   commit-message:
     prefix: feat
     include: scope
-- package-ecosystem: terraform
+- 
+  package-ecosystem: gomod
+  directory: "/.github/kind/"
+  schedule:
+    interval: daily
+    time: '04:00'
+  open-pull-requests-limit: 10
+  commit-message:
+    prefix: feat
+    include: scope
+- 
+  package-ecosystem: gomod
+  directory: "/.github/kind/"
+  schedule:
+    interval: daily
+    time: '04:00'
+  open-pull-requests-limit: 10
+  commit-message:
+    prefix: feat
+    include: scope
+- 
+  package-ecosystem: gomod
+  directory: "/.github/helmsman/"
+  schedule:
+    interval: daily
+    time: '04:00'
+  open-pull-requests-limit: 10
+  commit-message:
+    prefix: feat
+    include: scope
+- 
+  package-ecosystem: gomod
+  directory: "/.github/istio/"
+  schedule:
+    interval: daily
+    time: '04:00'
+  open-pull-requests-limit: 10
+  commit-message:
+    prefix: feat
+    include: scope
+- 
+  package-ecosystem: gomod
+  directory: "/.github/helm/"
+  schedule:
+    interval: daily
+    time: '04:00'
+  open-pull-requests-limit: 10
+  commit-message:
+    prefix: feat
+    include: scope
+- 
+  package-ecosystem: gomod
+  directory: "/.github/k8sdashboard/"
+  schedule:
+    interval: daily
+    time: '04:00'
+  open-pull-requests-limit: 10
+  commit-message:
+    prefix: feat
+    include: scope
+- 
+  package-ecosystem: gomod
+  directory: "/.github/nginxingress/"
+  schedule:
+    interval: daily
+    time: '04:00'
+  open-pull-requests-limit: 10
+  commit-message:
+    prefix: feat
+    include: scope
+- 
+  package-ecosystem: terraform
   directory: "/terraform"
   schedule:
     interval: daily

@@ -1,39 +1,54 @@
-settings:
-  kubeContext: default
-
 helmRepos:
+  nginxingress: https://kubernetes.github.io/ingress-nginx
   stable: https://kubernetes-charts.storage.googleapis.com
   loki: https://grafana.github.io/loki/charts
-  netdata: https://netdata.github.io/helmchart/
+  netdata: https://netdata.github.io/helmchart
+  k8sdashboard: https://kubernetes.github.io/dashboard
 
+namespaces:
+  monitoring:
+  #kube-system
+
+appsTemplates:
+  default: &appTemplate
+    timeout: 800
+    test: true
+    protected: false
+    wait: true
+    enabled: true
 
 apps:
   dashboard:
+    <<: *appTemplate
     namespace: monitoring
-    chart: stable/kubernetes-dashboard
-    version: ~1.10
+    chart: k8sdashboard/kubernetes-dashboard
+    version: "$K8SDASHBOARD_VERSION"
     valuesFile: dashboard.values.yaml
 
   logging:
+    <<: *appTemplate
     namespace: monitoring
     chart: loki/loki-stack
-    version: ~0.32
+    version: ~0.40
     valuesFile: logging.values.yaml
 
   netdata:
+    <<: *appTemplate
     namespace: monitoring
     chart: netdata/netdata
-    version: ~1.1
+    version: ~2.0
     valuesFile: netdata.values.yaml
 
   grafana:
+    <<: *appTemplate
     namespace: monitoring
     chart: stable/grafana
-    version: ~5.0
+    version: ~5.5
     valuesFile: grafana.values.yaml
 
   ingress:
+    <<: *appTemplate
     namespace: kube-system
-    chart: stable/nginx-ingress
-    version: ~1.33
+    chart: nginxingress/ingress-nginx
+    version: "$NGINXINGRESS_VERSION"
     valuesFile: ingress.values.yaml

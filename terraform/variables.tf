@@ -1,5 +1,7 @@
 // --- scaleway variables -------------
 
+variable "kubernetes_version" {}
+
 variable "scaleway_accesstoken" {}
 
 variable "scaleway_secrettoken" {}

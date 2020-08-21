@@ -1,52 +1,65 @@
 name: PR Check
 on: [pull_request]
 
+env:
+  KUBECONFIG: terraform/kubeconfig
+
 jobs:
   on-pull-request:
     name: Terraform
     runs-on: ubuntu-latest
     steps:
-    
-    - name: Checkout code
+    - 
+      name: Checkout code
       uses: actions/checkout@v2
-      
-    - name: Checkout secrets
+    - 
+      name: Checkout secrets
       uses: actions/checkout@v2
       with:
         repository: hazcod/infrastructure-state
         path: terraform/state/
         token: ${{ secrets.GITHUB_MERGE_TOKEN }}
+    -
+      name: Extract versions
+      run: |
+        echo ::set-env name=terraform_version::"$(./.github/extract-version.sh .github/terraform/go.mod | jq -r .version | cut -d v -f 1)"
+        echo "terraform version is ${{ env.terraform_version }}"
 
-    - name: Terraform - Init
-      uses: hashicorp/terraform-github-actions@v0.8.0
-      with:
-        tf_actions_subcommand: "init"
-        tf_actions_version: "latest"
-        tf_actions_working_dir: terraform/
+        echo ::set-env name=k8s_version::"$(./.github/extract-version.sh .github/kubernetes/go.mod | jq -r .version | sed 's/^0/1/')"
+        echo "K8S version is ${{ env.k8s_version }}"
 
-    - name: Terraform - Lint
-      uses: reviewdog/action-tflint@v1.2.2
-      with:
-        github_token: ${{ secrets.github_token }}
-        reporter: github-pr-review
-        flags: "--deep"
-        tf_actions_working_dir: terraform/
+        echo ::set-env name=istio_version::"$(./.github/extract-version.sh .github/istio/go.mod | jq -r .version)"
+        echo "istio version is ${{ env.istio_version }}"
 
-    - name: Terraform - Validate
-      uses: hashicorp/terraform-github-actions@v0.8.0
-      with:
-        tf_actions_subcommand: "validate"
-        tf_actions_version: "latest"
-        tf_actions_working_dir: terraform/
+        echo ::set-env name=helm_version::"$(./.github/extract-version.sh .github/helm/go.mod | jq -r .version)"
+        echo "helm version version is ${{ env.helm_version }}"
 
-    - name: Terraform - Plan
-      uses: hashicorp/terraform-github-actions@v0.8.0
+        echo ::set-env name=helmsman_version::"$(./.github/extract-version.sh .github/helmsman/go.mod | jq -r .version)"
+        echo "helmsman version is ${{ env.helmsman_version }}"
+
+        echo ::set-env name=k8sdashboard_version::"$(./.github/extract-version.sh .github/k8sdashboard/go.mod | jq -r .version)"
+        echo "K8S Dashboard version is ${{ env.k8sdashboard_version }}"
+
+        echo ::set-env name=nginxingress_version::"$(./.github/extract-version.sh .github/nginxingress/go.mod | jq -r .version | cut -d '-' -f 3)"
+        echo "nginx-ingress version is ${{ env.nginxingress_version }}"
+    - 
+      name: Setup terraform ${{ env.terraform_version }}
+      uses: hashicorp/setup-terraform@v1
       with:
-        tf_actions_subcommand: "plan"
-        tf_actions_version: "latest"
-        tf_actions_working_dir: terraform/
+        terraform_version: ${{ env.terraform_version }}
+    - 
+      name: terraform - init
+      run: terraform init terraform/
+    - 
+      name: terraform - validate
+      run: terraform validate -no-color terraform/
+    - 
+      name: terraform - plan
+      run: terraform plan -no-color terraform/
       env:
         TF_LOG: WARN
+        TF_ACTION_COMMENT: false
+        TF_VAR_kubernetes_version: ${{ env.k8s_version }}
         TF_VAR_cloudflared_tunnel_token: ${{ secrets.TF_VAR_cloudflared_tunnel_token }}
         TF_VAR_cloudflare_email: ${{ secrets.TF_VAR_cloudflare_email }}
         TF_VAR_cloudflare_token: ${{ secrets.TF_VAR_cloudflare_token }}
@@ -54,47 +67,105 @@ jobs:
         TF_VAR_github_token: ${{ secrets.TF_VAR_github_token }}
         TF_VAR_scaleway_org: ${{ secrets. TF_VAR_scaleway_org }}
         TF_VAR_scaleway_accesstoken: ${{ secrets.TF_VAR_accesstoken }}
-        TF_VAR_scaleway_secrettoken: ${{ secrets.TF_VAR_secrettoken }} 
+        TF_VAR_scaleway_secrettoken: ${{ secrets.TF_VAR_secrettoken }}
+    - 
+      name: install helm ${{ env.helm_version }} / helmsman ${{ env.helmsman_version }}
+      env:
+        K8SDASHBOARD_VERSION: ${{ env.k8sdashboard_version }}
+        NGINXINGRESS_VERSION: ${{ env.nginxingress_version }}
+      run: |
+        if [ ! -f terraform/kubeconfig ]; then
+          echo "Skipping helmsman plan since it's fresh"
+          exit 0
+        fi
 
-    - name: Helmsman - lint
-      uses: docker://praqma/helmsman:v3.1.0
-      with:
-        command: helmsman -kubeconfig terraform/kubeconfig -f helm/helmfile.yaml'
+        echo "installing helm..."
+        DESIRED_VERSION="${{ env.helm_version }}" curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
-    - name: validate manifests in dir1 and dir2
+        echo "installing helm diff plugin..."
+        helm plugin install https://github.com/databus23/helm-diff
+
+        echo "installing helmsman..."
+        curl -L https://github.com/Praqma/helmsman/releases/download/v${{ env.helmsman_version }}/helmsman_${{ env.helmsman_version }}_linux_amd64.tar.gz | tar zx
+        chmod +x helmsman
+        ./helmsman --kubeconfig terraform/kubeconfig -f helm/helmfile.yaml
+    - 
+      name: Kubernetes - validate manifests
       uses: makocchi-git/actions-k8s-manifests-validate@v1.0.0
       with:
         files: kubernetes/
         token: ${{ secrets.GITHUB_TOKEN }}
 
   e2etesting:
-    name: E2E Testing
+    name: Testing
     needs: on-pull-request
     runs-on: ubuntu-latest
     steps:
     - 
       uses: actions/checkout@v2
     -
-      name: Extract k8s version
+      name: Extract versions
       run: |
-        echo ::set-output name=k8s_version::"$(./terraform/modules/scaleway/extract-kubernetes-version.sh ./terraform/modules/scaleway/.kubernetes/go.mod)"
+        echo ::set-env name=kind_version::"$(./.github/extract-version.sh .github/kind/go.mod | jq -r .version)"
+        echo "kind version is ${{ env.kind_version }}"
+
+        echo ::set-env name=k8s_version::"$(./.github/extract-version.sh .github/kubernetes/go.mod | jq -r .version | sed 's/^0/1/')"
         echo "K8S version is ${{ env.k8s_version }}"
+
+        echo ::set-env name=istio_version::"$(./.github/extract-version.sh .github/istio/go.mod | jq -r .version)"
+        echo "istio version is ${{ env.istio_version }}"
+
+        echo ::set-env name=helm_version::"$(./.github/extract-version.sh .github/helm/go.mod | jq -r .version)"
+        echo "helm version version is ${{ env.helm_version }}"
+
+        echo ::set-env name=helmsman_version::"$(./.github/extract-version.sh .github/helmsman/go.mod | jq -r .version)"
+        echo "helmsman version is ${{ env.helmsman_version }}"
+
+        echo ::set-env name=k8sdashboard_version::"$(./.github/extract-version.sh .github/k8sdashboard/go.mod | jq -r .version)"
+        echo "K8S Dashboard version is ${{ env.k8sdashboard_version }}"
+
+        echo ::set-env name=nginxingress_version::"$(./.github/extract-version.sh .github/nginxingress/go.mod | jq -r .version | cut -d '-' -f 3)"
+        echo "nginx-ingress version is ${{ env.nginxingress_version }}"
     - 
-      name: Set up kind with K8s version ${{ env.k8s_version }}
+      name: Set up kind ${{ env.kind_version}} with K8s version ${{ env.k8s_version }}
       uses: engineerd/setup-kind@v0.4.0
       with:
-          name: ironpeak-test-cluster
-          image: kindest/node:${{ env.k8s_version }}
-          version: ${{ env.k8s_version }}
+        version: "v${{ env.kind_version }}"
+        name: ironpeak-test-cluster
+        image: "kindest/node:v${{ env.k8s_version }}"
     - 
       name: K8S Info
       run: |
         kubectl cluster-info
         kubectl get pods -n kube-system
         echo "current-context:" $(kubectl config current-context)
-        echo "environment-kubeconfig:" ${KUBECONFIG}
-    - 
-      name: Run tests
+    -
+      name: install istio ${{ env.istio_version }}
       run: |
-        echo "Running tests:"
-        ./tests/test.sh
+        curl -L https://istio.io/downloadIstio | ISTIO_VERSION="${{ env.istio_version }}" sh -
+        mv istio-*/bin/istioctl .
+        kubectl create namespace istio
+        ./istioctl verify-install
+        ./istioctl operator init
+    -
+      name: kubectl apply
+      run: kubectl apply --recursive --filename kubernetes/
+    - 
+      name: install helm ${{ env.helm_version }} / helmsman ${{ env.helmsman_version }}
+      env:
+        K8SDASHBOARD_VERSION: ${{ env.k8sdashboard_version }}
+        NGINXINGRESS_VERSION: ${{ env.nginxingress_version }}
+      run: |
+        echo "installing helm..."
+        DESIRED_VERSION="${{ env.helm_version }}" curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+        echo "installing helm diff plugin..."
+        helm plugin install https://github.com/databus23/helm-diff
+
+        echo "installing helmsman..."
+        curl -L https://github.com/Praqma/helmsman/releases/download/v${{ env.helmsman_version }}/helmsman_${{ env.helmsman_version }}_linux_amd64.tar.gz | tar zx
+        chmod +x helmsman
+        ./helmsman -no-fancy -apply -kubeconfig terraform/kubeconfig -f helm/helmfile.yaml
+    - 
+      name: test - custom
+      run: ./tests/test.sh
