@@ -45,6 +45,9 @@ jobs:
 
         echo ::set-env name=helmsman_version::"$(./.github/extract-version.sh .github/helmsman/go.mod | jq -r .version)"
         echo "helmsman version is ${{ env.helmsman_version }}"
+
+        echo ::set-env name=k8sdashboard_version::"$(./.github/extract-version.sh .github/k8sdashboard/go.mod | jq -r .version)"
+        echo "K8S Dashboard version is ${{ env.k8sdashboard_version }}"
     - 
       name: Setup terraform ${{ env.terraform_version }}
       uses: hashicorp/setup-terraform@v1
@@ -109,6 +112,8 @@ jobs:
       run: kubectl apply --recursive --filename kubernetes/ --kubeconfig=terraform/kubeconfig
     - 
       name: install helmsman ${{ env.helmsman_version }}
+      env:
+        K8SDASHBOARD_VERSION: ${{ env.k8sdashboard_version }}
       run: |
         echo "installing helm..."
         DESIRED_VERSION="${{ env.helm_version }}" curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash

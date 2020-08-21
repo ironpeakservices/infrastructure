@@ -2,6 +2,7 @@ helmRepos:
   stable: https://kubernetes-charts.storage.googleapis.com
   loki: https://grafana.github.io/loki/charts
   netdata: https://netdata.github.io/helmchart/
+  k8sdashboard: https://kubernetes.github.io/dashboard
 
 namespaces:
   monitoring:
@@ -18,8 +19,8 @@ apps:
   dashboard:
     <<: *appTemplate
     namespace: monitoring
-    chart: stable/kubernetes-dashboard
-    version: ~1.10
+    chart: k8sdashboard/kubernetes-dashboard
+    version: ~"$K8SDASHBOARD_VERSION"
     valuesFile: dashboard.values.yaml
 
   logging:
