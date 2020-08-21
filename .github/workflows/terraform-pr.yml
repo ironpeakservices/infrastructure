@@ -62,6 +62,11 @@ jobs:
     - 
       name: install helm ${{ env.helm_version }} / helmsman ${{ env.helmsman_version }}
       run: |
+        if [ ! -f terraform/kubeconfig ]; then
+          echo "Skipping helmsman plan since it's fresh"
+          exit 0
+        fi
+        
         echo "installing helm..."
         DESIRED_VERSION="${{ env.helm_version }}" curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
