@@ -1,6 +1,3 @@
-settings:
-  kubeContext: default
-
 helmRepos:
   stable: https://kubernetes-charts.storage.googleapis.com
   loki: https://grafana.github.io/loki/charts
