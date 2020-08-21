@@ -48,6 +48,6 @@ apps:
   ingress:
     <<: *appTemplate
     namespace: kube-system
-    chart: nginxingress/nginx-ingress
+    chart: nginxingress/ingress-nginx
     version: "$NGINXINGRESS_VERSION"
     valuesFile: ingress.values.yaml
