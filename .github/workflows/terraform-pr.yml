@@ -71,7 +71,7 @@ jobs:
         echo "installing helmsman..."
         curl -L https://github.com/Praqma/helmsman/releases/download/v${{ env.helmsman_version }}/helmsman_${{ env.helmsman_version }}_linux_amd64.tar.gz | tar zx
         chmod +x helmsman
-        ./helmsman -kubeconfig terraform/kubeconfig -f helm/helmfile.yaml
+        ./helmsman --kubeconfig terraform/kubeconfig -f helm/helmfile.yaml
     - 
       name: Kubernetes - validate manifests
       uses: makocchi-git/actions-k8s-manifests-validate@v1.0.0
@@ -137,7 +137,7 @@ jobs:
         echo "installing helmsman..."
         curl -L https://github.com/Praqma/helmsman/releases/download/v${{ env.helmsman_version }}/helmsman_${{ env.helmsman_version }}_linux_amd64.tar.gz | tar zx
         chmod +x helmsman
-        ./helmsman -kubeconfig terraform/kubeconfig -f helm/helmfile.yaml
+        ./helmsman --kubeconfig terraform/kubeconfig -f helm/helmfile.yaml
     - 
       name: test - custom
       run: ./tests/test.sh
