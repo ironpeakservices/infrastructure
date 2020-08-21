@@ -39,6 +39,9 @@ jobs:
 
         echo ::set-env name=k8sdashboard_version::"$(./.github/extract-version.sh .github/k8sdashboard/go.mod | jq -r .version)"
         echo "K8S Dashboard version is ${{ env.k8sdashboard_version }}"
+
+        echo ::set-env name=nginxingress_version::"$(./.github/extract-version.sh .github/nginxingress/go.mod | jq -r .version | cut -d '-' -f 3)"
+        echo "nginx-ingress version is ${{ env.nginxingress_version }}"
     - 
       name: Setup terraform ${{ env.terraform_version }}
       uses: hashicorp/setup-terraform@v1
@@ -69,6 +72,7 @@ jobs:
       name: install helm ${{ env.helm_version }} / helmsman ${{ env.helmsman_version }}
       env:
         K8SDASHBOARD_VERSION: ${{ env.k8sdashboard_version }}
+        NGINXINGRESS_VERSION: ${{ env.nginxingress_version }}
       run: |
         if [ ! -f terraform/kubeconfig ]; then
           echo "Skipping helmsman plan since it's fresh"
@@ -119,6 +123,9 @@ jobs:
 
         echo ::set-env name=k8sdashboard_version::"$(./.github/extract-version.sh .github/k8sdashboard/go.mod | jq -r .version)"
         echo "K8S Dashboard version is ${{ env.k8sdashboard_version }}"
+
+        echo ::set-env name=nginxingress_version::"$(./.github/extract-version.sh .github/nginxingress/go.mod | jq -r .version | cut -d '-' -f 3)"
+        echo "nginx-ingress version is ${{ env.nginxingress_version }}"
     - 
       name: Set up kind ${{ env.kind_version}} with K8s version ${{ env.k8s_version }}
       uses: engineerd/setup-kind@v0.4.0
@@ -147,6 +154,7 @@ jobs:
       name: install helm ${{ env.helm_version }} / helmsman ${{ env.helmsman_version }}
       env:
         K8SDASHBOARD_VERSION: ${{ env.k8sdashboard_version }}
+        NGINXINGRESS_VERSION: ${{ env.nginxingress_version }}
       run: |
         echo "installing helm..."
         DESIRED_VERSION="${{ env.helm_version }}" curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash

@@ -21,21 +21,21 @@ apps:
     <<: *appTemplate
     namespace: monitoring
     chart: k8sdashboard/kubernetes-dashboard
-    version: "~$K8SDASHBOARD_VERSION"
+    version: "$K8SDASHBOARD_VERSION"
     valuesFile: dashboard.values.yaml
 
   logging:
     <<: *appTemplate
     namespace: monitoring
     chart: loki/loki-stack
-    version: ~1.6
+    version: ~0.40
     valuesFile: logging.values.yaml
 
   netdata:
     <<: *appTemplate
     namespace: monitoring
     chart: netdata/netdata
-    version: ~2.0.7
+    version: ~2.0
     valuesFile: netdata.values.yaml
 
   grafana:
@@ -49,5 +49,5 @@ apps:
     <<: *appTemplate
     namespace: kube-system
     chart: nginxingress/nginx-ingress
-    version: ~ingress-nginx-2.11.3
+    version: "$NGINXINGRESS_VERSION"
     valuesFile: ingress.values.yaml
