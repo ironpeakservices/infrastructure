@@ -11,6 +11,7 @@ namespaces:
 
 appsTemplates:
   default: &appTemplate
+    timeout: 600
     test: true
     protected: false
     wait: true
