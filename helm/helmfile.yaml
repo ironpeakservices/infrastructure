@@ -7,13 +7,12 @@ namespaces:
   monitoring:
   #kube-system
 
-  appsTemplates:
-
-default: &appTemplate
-  test: true
-  protected: false
-  wait: true
-  enabled: true
+appsTemplates:
+  default: &appTemplate
+    test: true
+    protected: false
+    wait: true
+    enabled: true
 
 apps:
   dashboard:
