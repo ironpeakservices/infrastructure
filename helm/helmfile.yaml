@@ -1,7 +1,8 @@
 helmRepos:
+  nginxingress: https://kubernetes.github.io/ingress-nginx
   stable: https://kubernetes-charts.storage.googleapis.com
   loki: https://grafana.github.io/loki/charts
-  netdata: https://netdata.github.io/helmchart/
+  netdata: https://netdata.github.io/helmchart
   k8sdashboard: https://kubernetes.github.io/dashboard
 
 namespaces:
@@ -27,26 +28,26 @@ apps:
     <<: *appTemplate
     namespace: monitoring
     chart: loki/loki-stack
-    version: ~0.32
+    version: ~1.6
     valuesFile: logging.values.yaml
 
   netdata:
     <<: *appTemplate
     namespace: monitoring
     chart: netdata/netdata
-    version: ~1.1
+    version: ~2.0.7
     valuesFile: netdata.values.yaml
 
   grafana:
     <<: *appTemplate
     namespace: monitoring
     chart: stable/grafana
-    version: ~5.0
+    version: ~5.5
     valuesFile: grafana.values.yaml
 
   ingress:
     <<: *appTemplate
     namespace: kube-system
-    chart: stable/nginx-ingress
-    version: ~1.33
+    chart: nginxingress/nginx-ingress
+    version: ~ingress-nginx-2.11.3
     valuesFile: ingress.values.yaml
