@@ -98,7 +98,8 @@ jobs:
       run: |
         curl -L https://istio.io/downloadIstio | ISTIO_VERSION="${{ env.istio_version }}" sh -
         mv istio-*/bin/istioctl .
-        istioctl operator init
+        ./istioctl verify-install
+        ./istioctl operator init
     -
       name: kubectl apply
       run: kubectl apply --recursive --filename kubernetes/ --kubeconfig=terraform/kubeconfig
