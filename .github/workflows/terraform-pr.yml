@@ -1,6 +1,9 @@
 name: PR Check
 on: [pull_request]
 
+env:
+  KUBECONFIG: terraform/kubeconfig
+
 jobs:
   on-pull-request:
     name: Terraform

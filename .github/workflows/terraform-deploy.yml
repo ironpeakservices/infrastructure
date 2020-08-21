@@ -1,5 +1,8 @@
 name: Deploy
 
+env:
+  KUBECONFIG: terraform/kubeconfig
+
 on:
   push:
     branches: [master]
