@@ -28,6 +28,9 @@ jobs:
         echo ::set-env name=istio_version::"$(./.github/extract-version.sh .github/istio/go.mod | jq -r .version)"
         echo "istio version is ${{ env.istio_version }}"
 
+        echo ::set-env name=helm_version::"$(./.github/extract-version.sh .github/helm/go.mod | jq -r .version)"
+        echo "helm version version is ${{ env.helm_version }}"
+
         echo ::set-env name=helmsman_version::"$(./.github/extract-version.sh .github/helmsman/go.mod | jq -r .version)"
         echo "helmsman version is ${{ env.helmsman_version }}"
     - 
@@ -57,8 +60,15 @@ jobs:
         TF_VAR_scaleway_accesstoken: ${{ secrets.TF_VAR_accesstoken }}
         TF_VAR_scaleway_secrettoken: ${{ secrets.TF_VAR_secrettoken }}
     - 
-      name: install helmsman ${{ env.helmsman_version }}
+      name: install helm ${{ env.helm_version }} / helmsman ${{ env.helmsman_version }}
       run: |
+        echo "installing helm..."
+        DESIRED_VERSION="${{ env.helm_version }}" curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+        echo "installing helm diff plugin..."
+        helm plugin install https://github.com/databus23/helm-diff
+
+        echo "installing helmsman..."
         curl -L https://github.com/Praqma/helmsman/releases/download/v${{ env.helmsman_version }}/helmsman_${{ env.helmsman_version }}_linux_amd64.tar.gz | tar zx
         chmod +x helmsman
         ./helmsman -kubeconfig terraform/kubeconfig -f helm/helmfile.yaml
