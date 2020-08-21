@@ -20,7 +20,7 @@ apps:
     <<: *appTemplate
     namespace: monitoring
     chart: k8sdashboard/kubernetes-dashboard
-    version: ~"$K8SDASHBOARD_VERSION"
+    version: "~$K8SDASHBOARD_VERSION"
     valuesFile: dashboard.values.yaml
 
   logging:
