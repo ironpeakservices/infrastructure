@@ -104,7 +104,7 @@ jobs:
       run: |
         curl -L "https://github.com/Praqma/helmsman/releases/download/v${{ env.helmsman_version }}/helmsman_${{ env.helmsman_version }}_linux_amd64.tar.gz" | tar zx
         chmod +x helmsman
-        helmsman -apply -kubeconfig terraform/kubeconfig -f helm/helmfile.yaml
+        ./helmsman -apply -kubeconfig terraform/kubeconfig -f helm/helmfile.yaml
     - 
       name: Update deployment status (success)
       if: success()
