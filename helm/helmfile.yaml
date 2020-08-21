@@ -6,6 +6,9 @@ helmRepos:
   loki: https://grafana.github.io/loki/charts
   netdata: https://netdata.github.io/helmchart/
 
+namespaces:
+  monitoring:
+  #kube-system
 
 apps:
   dashboard:
