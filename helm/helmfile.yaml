@@ -7,32 +7,45 @@ namespaces:
   monitoring:
   #kube-system
 
+  appsTemplates:
+
+default: &appTemplate
+  test: true
+  protected: false
+  wait: true
+  enabled: true
+
 apps:
   dashboard:
+    <<: *appTemplate
     namespace: monitoring
     chart: stable/kubernetes-dashboard
     version: ~1.10
     valuesFile: dashboard.values.yaml
 
   logging:
+    <<: *appTemplate
     namespace: monitoring
     chart: loki/loki-stack
     version: ~0.32
     valuesFile: logging.values.yaml
 
   netdata:
+    <<: *appTemplate
     namespace: monitoring
     chart: netdata/netdata
     version: ~1.1
     valuesFile: netdata.values.yaml
 
   grafana:
+    <<: *appTemplate
     namespace: monitoring
     chart: stable/grafana
     version: ~5.0
     valuesFile: grafana.values.yaml
 
   ingress:
+    <<: *appTemplate
     namespace: kube-system
     chart: stable/nginx-ingress
     version: ~1.33
