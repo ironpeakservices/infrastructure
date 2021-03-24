@@ -1,6 +1,0 @@
-ingress.enabled: false
-slave.podAnnotations: {"monitored":true}
-master.database.persistence: true
-master.database.volumesize: 1Gi
-master.alarms.persistence: true
-master.alarms.volumesize: 100Mi

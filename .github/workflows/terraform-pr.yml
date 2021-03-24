@@ -1,45 +1,65 @@
-name: PR Check
 on: [pull_request]
 
 jobs:
-  on-pull-request:
+
+  k8slint:
+    name: Kubernetes
+    runs-on: ubuntu-latest
+    steps:
+    -
+      uses: actions/checkout@v2
+    -
+      name: Set up Helm
+      uses: azure/setup-helm@v1
+    -
+      name: Compile helm chart
+      run: |
+        mkdir compiled/
+        helm template helm/ > compiled/all.yaml
+    -
+      uses: stackrox/kube-linter-action@v1
+      with:
+        directory: compiled/
+        config: .github/kubelinter.yml
+
+  terraform-plan:
     name: Terraform
     runs-on: ubuntu-latest
     steps:
-    
-    - name: Checkout code
+    -
+      name: Checkout code
       uses: actions/checkout@v2
-      
-    - name: Checkout secrets
+    -
+      name: Checkout secrets
       uses: actions/checkout@v2
       with:
         repository: hazcod/infrastructure-state
         path: terraform/state/
         token: ${{ secrets.GITHUB_MERGE_TOKEN }}
-
-    - name: Terraform - Init
+    -
+      name: Terraform - Init
       uses: hashicorp/terraform-github-actions@v0.8.0
       with:
         tf_actions_subcommand: "init"
         tf_actions_version: "latest"
         tf_actions_working_dir: terraform/
-
-    - name: Terraform - Lint
+    -
+      name: Terraform - Lint
       uses: reviewdog/action-tflint@v1.2.2
       with:
         github_token: ${{ secrets.github_token }}
         reporter: github-pr-review
         flags: "--deep"
         tf_actions_working_dir: terraform/
-
-    - name: Terraform - Validate
+    -
+      name: Terraform - Validate
       uses: hashicorp/terraform-github-actions@v0.8.0
       with:
         tf_actions_subcommand: "validate"
         tf_actions_version: "latest"
         tf_actions_working_dir: terraform/
-
-    - name: Terraform - Plan
+    -
+      name: Terraform - Plan
       uses: hashicorp/terraform-github-actions@v0.8.0
       with:
         tf_actions_subcommand: "plan"
@@ -55,13 +75,8 @@ jobs:
         TF_VAR_scaleway_org: ${{ secrets. TF_VAR_scaleway_org }}
         TF_VAR_scaleway_accesstoken: ${{ secrets.TF_VAR_accesstoken }}
         TF_VAR_scaleway_secrettoken: ${{ secrets.TF_VAR_secrettoken }} 
-
-    - name: Helmsman - lint
-      uses: docker://praqma/helmsman:v3.1.0
-      with:
-        command: helmsman -kubeconfig terraform/kubeconfig -f helm/helmfile.yaml'
-
-    - name: validate manifests in dir1 and dir2
+    -
+      name: validate manifests in dir1 and dir2
       uses: makocchi-git/actions-k8s-manifests-validate@v1.0.0
       with:
         files: kubernetes/
@@ -77,7 +92,7 @@ jobs:
     -
       name: Extract k8s version
       run: |
-        echo ::set-output name=k8s_version::"$(./terraform/modules/scaleway/extract-kubernetes-version.sh ./terraform/modules/scaleway/.kubernetes/go.mod)"
+        echo ::set-output name=k8s_version::"$(./terraform/modules/scaleway/extract-kubernetes-version.sh ./.github/kubernetes/go.mod)"
         echo "K8S version is ${{ env.k8s_version }}"
     - 
       name: Set up kind with K8s version ${{ env.k8s_version }}

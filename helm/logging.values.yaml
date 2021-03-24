@@ -1,7 +1,0 @@
-loki.persistence.enabled: true
-loki.persistence.size: 100Gi
-promtail.enabled: true
-fluent-bit.enabled: false
-prometheus.enabled: false
-config.table_manager.retention_deletes_enabled: true
-config.table_manager.retention_period: 720h

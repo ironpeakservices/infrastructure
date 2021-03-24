@@ -1,7 +1,9 @@
 *.tfstate
 *.tfstate.backup
+state/
 certs/
 *.tfvars
+*.json
 .terraform/
 .DS_Store
 kubeconfig

@@ -1,42 +1,53 @@
 terraform {
-    required_version = ">= v0.12.19"
+    required_version = ">= v0.14"
     
     backend "local" {
         path = "state/terraform.tfstate"    
     }
-}
 
-provider "external" {
-    version = "~> 1.2"
-}
+    required_providers {
+        external = {
+            source  = "external"
+            version = "~> 1.2"
+        }
 
-provider "local" {
-    version = "~> 1.4"
-}
+        local = {
+            source  = "local"
+            version = "~> 1.4"
+        }
 
-provider "template" {
-    version = "~> 2.1"
+        template = {
+            source  = "template"
+            version = "~> 2.1"
+        }
+
+        cloudflare = {
+            source  = "cloudflare/cloudflare"
+            version = "~> 2.3"
+        }
+
+        github = {
+            source  = "github"
+            version = "~> 2.2"
+        }
+
+        google = {
+            # necessary for now for networking_mode
+            # TODO: remove google-beta from providers when networking_mode is out of beta
+            source  = "google-beta"
+            version = "~> 3.53.0"
+        }
+    }
 }
 
 provider "cloudflare" {
-    version = "~> 2.3"
-
     api_token = var.cloudflare_token
 }
-
 provider "github" {
-    version = "~> 2.2"
-
     token = var.github_token
     organization = var.github_org
 }
-
-provider "scaleway" {
-    version = "~> 1.14"
-
-    access_key      = var.scaleway_accesstoken
-    secret_key      = var.scaleway_secrettoken
-    organization_id = var.scaleway_org
-    zone            = var.scaleway_zone
-    region          = var.scaleway_region
+provider "google" {
+    project         = var.gcloud_project_id
+    region          = var.gcloud_region
 }

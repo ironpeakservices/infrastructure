@@ -1,25 +1,23 @@
-// --- scaleway variables -------------
+// --- gcloud variables -------------
 
-variable "scaleway_accesstoken" {}
+variable gcloud_project_id {}
 
-variable "scaleway_secrettoken" {}
+variable gcloud_client_config {}
 
-variable "scaleway_org" {}
+variable gcloud_gke_database_secret {}
 
-variable "scaleway_zone" {
-    default = "fr-par-1"
+variable k8s_cluster_name {}
+
+variable k8s_version {
+    default = ""
 }
 
-variable "scaleway_region" {
-    default = "fr-par"
-}
-
-variable "k8s_cluster_name" {
-    default = "ironpeakbe-main-cluster"
+variable gcloud_region {
+    default = "europe-west1-b"
 }
 
 // --- cloudflare variables -----------
-
+/*
 variable "cloudflare_token" {}
 
 variable "cloudflared_tunnel_token" {}
@@ -29,3 +27,4 @@ variable "cloudflared_tunnel_token" {}
 variable "github_token" {}
 
 variable "github_org" {}
+*/

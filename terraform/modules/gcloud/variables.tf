@@ -1,13 +1,15 @@
-variable cluster_name {
-    default = "default"
-}
+variable cluster_name {}
+
+variable region {}
+
+variable client_config {}
+
+variable project_id {}
+
+variable gke_database_secret {}
 
 variable k8s_version {
   default = ""   
-}
-
-variable node_type {
-    default = "DEV1-M"
 }
 
 variable node_default_count {

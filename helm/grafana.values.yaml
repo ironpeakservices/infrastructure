@@ -1,8 +1,0 @@
-persistence.enabled: true
-persistence.size: 10Gi
-persistence.type: pvc
-ingress.enabled: true
-ingress.hosts[0]: cluster.ironpeak.be
-ingress.path: /logs
-grafana.ini.server.server_url: https://cluster.ironpeak.be/logs/
-grafana.ini.auth.anonymous.enabled: true

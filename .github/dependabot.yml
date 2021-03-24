@@ -7,7 +7,7 @@ updates:
     time: '04:00'
   open-pull-requests-limit: 10
 - package-ecosystem: gomod
-  directory: "/terraform/modules/scaleway/.kubernetes"
+  directory: "/.github/kubernetes/"
   schedule:
     interval: weekly
     time: '04:00'
