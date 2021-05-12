@@ -79,7 +79,7 @@ jobs:
         TF_VAR_scaleway_accesstoken: ${{ secrets.TF_VAR_accesstoken }}
         TF_VAR_scaleway_secrettoken: ${{ secrets.TF_VAR_secrettoken }}  
 
-    - uses: stefanzweifel/git-auto-commit-action@v4.9.2
+    - uses: stefanzweifel/git-auto-commit-action@v4.11.0
       if: always()
       with:
         repository: terraform/state/
