@@ -90,7 +90,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_MERGE_TOKEN }}
     
     - name: kubectl - kubernetes
-      uses: steebchen/kubectl@1.0.1
+      uses: steebchen/kubectl@v2.0.0
       with:
         args: apply --recursive --filename kubernetes/ --kubeconfig=terraform/kubeconfig
       
