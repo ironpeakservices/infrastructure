@@ -81,7 +81,7 @@ jobs:
         echo "K8S version is ${{ env.k8s_version }}"
     - 
       name: Set up kind with K8s version ${{ env.k8s_version }}
-      uses: engineerd/setup-kind@v0.4.0
+      uses: engineerd/setup-kind@v0.5.0
       with:
           name: ironpeak-test-cluster
           image: kindest/node:${{ env.k8s_version }}
